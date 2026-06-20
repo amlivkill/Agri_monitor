@@ -4,557 +4,307 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#16a34a">
-  <title>Climate Actions — Agri Monitor | CHANGE TechLab</title>
-  <meta name="description" content="AWD, SOC, Biochar और Agroforestry — जलवायु-अनुकूल कृषि गतिविधियों की निगरानी और डेटा एंट्री।">
-
-  <!-- Google Fonts -->
+  <title>Climate Actions MRV — Agri Monitor | CHANGE TechLab</title>
+  <meta name="description" content="MRV Tool: AWD, SOC, Biochar और Agroforestry — जलवायु-अनुकूल कृषि गतिविधियों की Measurement, Reporting और Verification।">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
   <style>
-    /* ============================================================
-       CSS VARIABLES — mirrors Agri Monitor dark theme
-       ============================================================ */
     :root {
-      --bg-primary:     #0d1117;
-      --bg-secondary:   #161b22;
-      --bg-tertiary:    #1c2430;
-      --bg-card:        #1e2a3a;
-      --bg-hover:       #243040;
-      --border:         rgba(255,255,255,0.08);
-      --border-accent:  rgba(34,197,94,0.3);
-      --text-primary:   #e2e8f0;
-      --text-secondary: #94a3b8;
-      --text-muted:     #64748b;
-      --green:          #22c55e;
-      --green-dark:     #16a34a;
-      --green-light:    #4ade80;
-      --teal:           #14b8a6;
-      --blue:           #3b82f6;
-      --yellow:         #f59e0b;
-      --red:            #ef4444;
-      --purple:         #a855f7;
-      --orange:         #f97316;
-      --cyan:           #06b6d4;
-      --radius:         8px;
-      --radius-lg:      12px;
-      --shadow:         0 4px 24px rgba(0,0,0,0.4);
-      --transition:     0.2s ease;
-      --font-hindi:     'Noto Sans Devanagari', sans-serif;
-      --font-en:        'Inter', sans-serif;
+      --bg-primary:#0d1117;--bg-secondary:#161b22;--bg-tertiary:#1c2430;
+      --bg-card:#1e2a3a;--bg-hover:#243040;
+      --border:rgba(255,255,255,0.08);--border-accent:rgba(34,197,94,0.3);
+      --text-primary:#e2e8f0;--text-secondary:#94a3b8;--text-muted:#64748b;
+      --green:#22c55e;--green-dark:#16a34a;--green-light:#4ade80;
+      --teal:#14b8a6;--blue:#3b82f6;--yellow:#f59e0b;
+      --red:#ef4444;--purple:#a855f7;--orange:#f97316;--cyan:#06b6d4;
+      --radius:8px;--radius-lg:12px;--shadow:0 4px 24px rgba(0,0,0,0.4);
+      --transition:0.2s ease;
+      --font-hindi:'Noto Sans Devanagari',sans-serif;
+      --font-en:'Inter',sans-serif;
     }
-    [data-theme="light"] {
-      --bg-primary:   #f0fdf4;
-      --bg-secondary: #ffffff;
-      --bg-tertiary:  #f8fafc;
-      --bg-card:      #ffffff;
-      --bg-hover:     #f1f5f9;
-      --border:       rgba(0,0,0,0.08);
-      --text-primary: #0f172a;
-      --text-secondary:#475569;
-      --text-muted:   #94a3b8;
-      --shadow:       0 4px 24px rgba(0,0,0,0.1);
+    [data-theme="light"]{
+      --bg-primary:#f0fdf4;--bg-secondary:#fff;--bg-tertiary:#f8fafc;
+      --bg-card:#fff;--bg-hover:#f1f5f9;--border:rgba(0,0,0,0.08);
+      --text-primary:#0f172a;--text-secondary:#475569;--text-muted:#94a3b8;
+      --shadow:0 4px 24px rgba(0,0,0,0.1);
     }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html,body{min-height:100vh;font-family:var(--font-hindi),var(--font-en);background:var(--bg-primary);color:var(--text-primary);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+    button{cursor:pointer;border:none;background:none;font-family:inherit;}
+    input,select,textarea{font-family:var(--font-hindi),var(--font-en);font-size:14px;color:var(--text-primary);background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius);outline:none;transition:border-color var(--transition);}
+    input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(34,197,94,0.1);}
+    a{color:var(--green);text-decoration:none;}
 
-    /* ============================================================
-       RESET & BASE
-       ============================================================ */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
-      min-height: 100vh;
-      font-family: var(--font-hindi), var(--font-en);
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      font-size: 14px;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
-    button { cursor: pointer; border: none; background: none; font-family: inherit; }
-    input, select, textarea {
-      font-family: var(--font-hindi), var(--font-en);
-      font-size: 14px;
-      color: var(--text-primary);
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      outline: none;
-      transition: border-color var(--transition);
-    }
-    input:focus, select:focus, textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(34,197,94,0.1); }
-    a { color: var(--green); text-decoration: none; }
+    /* TOPBAR */
+    #topbar{height:52px;background:var(--bg-secondary);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:12px;position:sticky;top:0;z-index:100;}
+    .topbar-left{display:flex;align-items:center;gap:8px;}
+    .topbar-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+    .brand{display:flex;align-items:center;gap:6px;}
+    .brand-icon{font-size:20px;}
+    .brand-title{font-size:15px;font-weight:700;}
+    .brand-title span{color:var(--green);}
+    .brand-badge{font-size:9px;background:var(--green-dark);color:#fff;padding:1px 5px;border-radius:3px;font-weight:600;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);}
+    .breadcrumb a{color:var(--text-muted);}
+    .breadcrumb a:hover{color:var(--green);}
+    .breadcrumb-current{color:var(--text-primary);font-weight:600;}
+    .btn-back{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:500;color:var(--text-secondary);background:var(--bg-tertiary);border:1px solid var(--border);transition:all var(--transition);}
+    .btn-back:hover{border-color:var(--green);color:var(--green);}
+    .btn-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);background:transparent;transition:all var(--transition);font-size:16px;}
+    .btn-icon:hover{background:var(--bg-hover);color:var(--text-primary);}
 
-    /* ============================================================
-       TOPBAR
-       ============================================================ */
-    #topbar {
-      height: 52px;
-      background: var(--bg-secondary);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      padding: 0 16px;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .topbar-left { display: flex; align-items: center; gap: 8px; }
-    .topbar-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
-    .brand { display: flex; align-items: center; gap: 6px; }
-    .brand-icon { font-size: 20px; }
-    .brand-title { font-size: 15px; font-weight: 700; color: var(--text-primary); }
-    .brand-title span { color: var(--green); }
-    .brand-badge {
-      font-size: 9px; background: var(--green-dark); color: white;
-      padding: 1px 5px; border-radius: 3px; font-weight: 600;
-    }
-    .breadcrumb {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 12px; color: var(--text-muted);
-    }
-    .breadcrumb a { color: var(--text-muted); }
-    .breadcrumb a:hover { color: var(--green); }
-    .breadcrumb-sep { color: var(--border); }
-    .breadcrumb-current { color: var(--text-primary); font-weight: 600; }
-    .topbar-actions { display: flex; align-items: center; gap: 8px; }
-    .btn-back {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 6px 12px; border-radius: 6px; font-size: 12px;
-      font-weight: 500; color: var(--text-secondary);
-      background: var(--bg-tertiary); border: 1px solid var(--border);
-      transition: all var(--transition);
-    }
-    .btn-back:hover { border-color: var(--green); color: var(--green); }
-    .btn-theme-toggle {
-      width: 34px; height: 34px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-secondary); background: transparent;
-      transition: all var(--transition); font-size: 16px;
-    }
-    .btn-theme-toggle:hover { background: var(--bg-hover); color: var(--text-primary); }
+    /* MRV BADGE BAR */
+    #mrv-bar{background:linear-gradient(90deg,rgba(34,197,94,0.08),rgba(20,184,166,0.08));border-bottom:1px solid var(--border-accent);padding:8px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+    .mrv-title{font-size:11px;font-weight:700;color:var(--green);letter-spacing:0.5px;}
+    .mrv-layers{display:flex;gap:8px;flex-wrap:wrap;}
+    .mrv-layer{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:10px;font-size:10px;font-weight:600;}
+    .mrv-layer.field{background:rgba(59,130,246,0.12);color:var(--blue);border:1px solid rgba(59,130,246,0.2);}
+    .mrv-layer.evidence{background:rgba(245,158,11,0.12);color:var(--yellow);border:1px solid rgba(245,158,11,0.2);}
+    .mrv-layer.compute{background:rgba(34,197,94,0.12);color:var(--green);border:1px solid rgba(34,197,94,0.2);}
+    .mrv-desc{font-size:10px;color:var(--text-muted);margin-left:auto;}
 
-    /* ============================================================
-       DISTRICT/BLOCK FILTER BAR
-       ============================================================ */
-    #filter-bar {
-      background: var(--bg-secondary);
-      border-bottom: 1px solid var(--border);
-      padding: 8px 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .filter-bar-label {
-      font-size: 11px; color: var(--text-muted); font-weight: 500;
-      white-space: nowrap;
-    }
-    .filter-bar-selects { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .filter-bar-selects select {
-      padding: 5px 10px; font-size: 12px;
-      border-radius: 20px; background: var(--bg-tertiary);
-      border: 1px solid var(--border); cursor: pointer; max-width: 160px;
-    }
-    .filter-arrow { color: var(--text-muted); font-size: 12px; }
-    .filter-bar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-    .export-btn {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 5px 12px; border-radius: 6px; font-size: 11px;
-      font-weight: 500; color: var(--text-secondary);
-      background: var(--bg-tertiary); border: 1px solid var(--border);
-      transition: all var(--transition);
-    }
-    .export-btn:hover { border-color: var(--teal); color: var(--teal); }
+    /* FILTER BAR */
+    #filter-bar{background:var(--bg-secondary);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .filter-bar-label{font-size:11px;color:var(--text-muted);font-weight:500;white-space:nowrap;}
+    .filter-bar-selects{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+    .filter-bar-selects select{padding:5px 10px;font-size:12px;border-radius:20px;background:var(--bg-tertiary);border:1px solid var(--border);cursor:pointer;max-width:160px;}
+    .filter-arrow{color:var(--text-muted);font-size:12px;}
+    .filter-bar-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+    .export-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:6px;font-size:11px;font-weight:500;color:var(--text-secondary);background:var(--bg-tertiary);border:1px solid var(--border);transition:all var(--transition);}
+    .export-btn:hover{border-color:var(--teal);color:var(--teal);}
 
-    /* ============================================================
-       PAGE CONTAINER
-       ============================================================ */
-    #page-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px 16px 40px;
-    }
+    /* PAGE */
+    #page-container{max-width:1200px;margin:0 auto;padding:20px 16px 60px;}
 
-    /* ============================================================
-       PAGE HEADER
-       ============================================================ */
-    .page-header {
-      display: flex; align-items: flex-start; justify-content: space-between;
-      margin-bottom: 20px; gap: 12px; flex-wrap: wrap;
-    }
-    .page-header-left { display: flex; align-items: center; gap: 14px; }
-    .page-header-icon {
-      width: 48px; height: 48px; border-radius: 14px; flex-shrink: 0;
-      background: linear-gradient(135deg, rgba(20,184,166,0.2), rgba(34,197,94,0.2));
-      border: 1px solid rgba(34,197,94,0.3);
-      display: flex; align-items: center; justify-content: center; font-size: 24px;
-    }
-    .page-title { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 3px; }
-    .page-subtitle { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
-    .badge-module {
-      display: inline-flex; align-items: center; gap: 4px;
-      background: rgba(34,197,94,0.12); color: var(--green);
-      border: 1px solid rgba(34,197,94,0.3); border-radius: 20px;
-      padding: 3px 10px; font-size: 10px; font-weight: 600;
-      white-space: nowrap;
-    }
+    /* PAGE HEADER */
+    .page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap;}
+    .page-header-left{display:flex;align-items:center;gap:14px;}
+    .page-header-icon{width:52px;height:52px;border-radius:14px;flex-shrink:0;background:linear-gradient(135deg,rgba(20,184,166,0.2),rgba(34,197,94,0.2));border:1px solid rgba(34,197,94,0.3);display:flex;align-items:center;justify-content:center;font-size:26px;}
+    .page-title{font-size:20px;font-weight:700;margin-bottom:3px;}
+    .page-subtitle{font-size:12px;color:var(--text-muted);line-height:1.4;}
+    .badge-module{display:inline-flex;align-items:center;gap:4px;background:rgba(34,197,94,0.12);color:var(--green);border:1px solid rgba(34,197,94,0.3);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:600;white-space:nowrap;}
 
-    /* ============================================================
-       KPI SUMMARY CARDS
-       ============================================================ */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-    @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    /* KPI CARDS */
+    .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+    @media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+    .kpi-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;transition:transform var(--transition);}
+    .kpi-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--kpi-a),var(--kpi-b));opacity:0.04;pointer-events:none;}
+    .kpi-card:hover{transform:translateY(-2px);}
+    .kpi-card.green{--kpi-a:#22c55e;--kpi-b:#14b8a6;border-color:rgba(34,197,94,0.25);}
+    .kpi-card.teal{--kpi-a:#14b8a6;--kpi-b:#3b82f6;border-color:rgba(20,184,166,0.25);}
+    .kpi-card.blue{--kpi-a:#3b82f6;--kpi-b:#a855f7;border-color:rgba(59,130,246,0.25);}
+    .kpi-card.orange{--kpi-a:#f97316;--kpi-b:#f59e0b;border-color:rgba(249,115,22,0.25);}
+    .kpi-top{display:flex;align-items:center;justify-content:space-between;}
+    .kpi-icon{font-size:22px;}
+    .kpi-trend{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600;background:rgba(34,197,94,0.15);color:var(--green);}
+    .kpi-value{font-size:26px;font-weight:800;line-height:1;font-family:var(--font-en);}
+    .kpi-card.green .kpi-value{color:var(--green);}
+    .kpi-card.teal .kpi-value{color:var(--teal);}
+    .kpi-card.blue .kpi-value{color:var(--blue);}
+    .kpi-card.orange .kpi-value{color:var(--orange);}
+    .kpi-label{font-size:11px;color:var(--text-muted);}
+    .kpi-sublabel{font-size:10px;color:var(--text-muted);margin-top:-4px;}
+    .kpi-formula{font-size:9px;color:var(--text-muted);font-family:var(--font-en);background:var(--bg-tertiary);border-radius:4px;padding:2px 6px;margin-top:2px;display:inline-block;}
 
-    .kpi-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 16px;
-      display: flex; flex-direction: column; gap: 8px;
-      position: relative; overflow: hidden;
-      transition: transform var(--transition), border-color var(--transition);
-      cursor: default;
-    }
-    .kpi-card::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, var(--kpi-color-a) 0%, var(--kpi-color-b) 100%);
-      opacity: 0.04; pointer-events: none;
-    }
-    .kpi-card:hover { transform: translateY(-2px); }
-    .kpi-card.green  { --kpi-color-a: #22c55e; --kpi-color-b: #14b8a6; border-color: rgba(34,197,94,0.25); }
-    .kpi-card.teal   { --kpi-color-a: #14b8a6; --kpi-color-b: #3b82f6; border-color: rgba(20,184,166,0.25); }
-    .kpi-card.blue   { --kpi-color-a: #3b82f6; --kpi-color-b: #a855f7; border-color: rgba(59,130,246,0.25); }
-    .kpi-card.orange { --kpi-color-a: #f97316; --kpi-color-b: #f59e0b; border-color: rgba(249,115,22,0.25); }
+    /* ACTIVITY TABS */
+    .activity-tabs-wrapper{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:20px;}
+    .activity-tab-nav{display:flex;border-bottom:1px solid var(--border);background:var(--bg-tertiary);overflow-x:auto;scrollbar-width:none;}
+    .activity-tab-nav::-webkit-scrollbar{display:none;}
+    .act-tab-btn{display:flex;align-items:center;gap:7px;padding:12px 20px;font-size:13px;font-weight:600;color:var(--text-muted);white-space:nowrap;border-bottom:2px solid transparent;transition:all var(--transition);position:relative;}
+    .act-tab-btn:hover{color:var(--text-primary);background:var(--bg-hover);}
+    .act-tab-btn.active{color:var(--act-color);border-bottom-color:var(--act-color);background:rgba(255,255,255,0.03);}
+    .act-tab-btn[data-act="awd"]{--act-color:var(--blue);}
+    .act-tab-btn[data-act="soc"]{--act-color:var(--orange);}
+    .act-tab-btn[data-act="biochar"]{--act-color:var(--green);}
+    .act-tab-btn[data-act="agro"]{--act-color:var(--teal);}
+    .act-count{background:var(--bg-hover);color:var(--text-muted);font-size:10px;padding:1px 6px;border-radius:8px;font-weight:500;}
+    .act-tab-btn.active .act-count{background:rgba(255,255,255,0.1);color:inherit;}
+    .activity-tab-content{padding:20px;}
+    .act-panel{display:none;}
+    .act-panel.active{display:block;}
 
-    .kpi-top { display: flex; align-items: center; justify-content: space-between; }
-    .kpi-icon { font-size: 22px; }
-    .kpi-trend {
-      font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600;
-      background: rgba(34,197,94,0.15); color: var(--green);
-    }
-    .kpi-trend.down { background: rgba(239,68,68,0.15); color: var(--red); }
-    .kpi-value {
-      font-size: 26px; font-weight: 800; line-height: 1;
-      font-family: var(--font-en);
-    }
-    .kpi-card.green  .kpi-value { color: var(--green); }
-    .kpi-card.teal   .kpi-value { color: var(--teal); }
-    .kpi-card.blue   .kpi-value { color: var(--blue); }
-    .kpi-card.orange .kpi-value { color: var(--orange); }
-    .kpi-label { font-size: 11px; color: var(--text-muted); }
-    .kpi-sublabel { font-size: 10px; color: var(--text-muted); margin-top: -4px; }
+    /* INFO HEADER */
+    .act-info-header{display:flex;align-items:flex-start;gap:14px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:18px;}
+    .act-info-icon{font-size:32px;flex-shrink:0;}
+    .act-info-title{font-size:14px;font-weight:700;margin-bottom:4px;}
+    .act-info-desc{font-size:12px;color:var(--text-secondary);line-height:1.5;margin-bottom:8px;}
+    .act-info-tags{display:flex;gap:6px;flex-wrap:wrap;}
+    .act-tag{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500;white-space:nowrap;}
+    .act-tag.blue{background:rgba(59,130,246,0.15);color:var(--blue);}
+    .act-tag.green{background:rgba(34,197,94,0.15);color:var(--green);}
+    .act-tag.orange{background:rgba(249,115,22,0.15);color:var(--orange);}
+    .act-tag.teal{background:rgba(20,184,166,0.15);color:var(--teal);}
+    .act-tag.purple{background:rgba(168,85,247,0.15);color:var(--purple);}
 
-    /* ============================================================
-       ACTIVITY TABS
-       ============================================================ */
-    .activity-tabs-wrapper {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-    .activity-tab-nav {
-      display: flex; border-bottom: 1px solid var(--border);
-      background: var(--bg-tertiary); overflow-x: auto; scrollbar-width: none;
-    }
-    .activity-tab-nav::-webkit-scrollbar { display: none; }
-    .act-tab-btn {
-      display: flex; align-items: center; gap: 7px;
-      padding: 12px 20px; font-size: 13px; font-weight: 600;
-      color: var(--text-muted); white-space: nowrap;
-      border-bottom: 2px solid transparent;
-      transition: all var(--transition); position: relative;
-    }
-    .act-tab-btn:hover { color: var(--text-primary); background: var(--bg-hover); }
-    .act-tab-btn.active { color: var(--act-color); border-bottom-color: var(--act-color); background: rgba(255,255,255,0.03); }
-    .act-tab-btn[data-act="awd"]  { --act-color: var(--blue); }
-    .act-tab-btn[data-act="soc"]  { --act-color: var(--orange); }
-    .act-tab-btn[data-act="biochar"] { --act-color: var(--green); }
-    .act-tab-btn[data-act="agro"] { --act-color: var(--teal); }
-    .act-tab-btn .act-count {
-      background: var(--bg-hover); color: var(--text-muted);
-      font-size: 10px; padding: 1px 6px; border-radius: 8px; font-weight: 500;
-    }
-    .act-tab-btn.active .act-count { background: rgba(255,255,255,0.1); color: inherit; }
+    /* FORMULA CALLOUT */
+    .formula-callout{background:rgba(20,184,166,0.06);border:1px solid rgba(20,184,166,0.2);border-left:3px solid var(--teal);border-radius:var(--radius);padding:12px 14px;margin-bottom:16px;font-size:12px;}
+    .formula-callout-title{font-size:11px;font-weight:700;color:var(--teal);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+    .formula-block{font-family:var(--font-en);font-size:13px;font-weight:700;color:var(--text-primary);background:var(--bg-tertiary);border-radius:6px;padding:8px 12px;margin-bottom:4px;letter-spacing:0.3px;}
+    .formula-vars{font-size:11px;color:var(--text-muted);line-height:1.7;}
+    .formula-vars strong{color:var(--text-secondary);}
 
-    .activity-tab-content { padding: 20px; }
-    .act-panel { display: none; }
-    .act-panel.active { display: block; }
+    /* SECTION DIVIDER */
+    .form-section-title{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;}
+    .section-badge{font-size:9px;padding:1px 6px;border-radius:8px;font-weight:600;text-transform:uppercase;}
+    .section-badge.layer1{background:rgba(59,130,246,0.15);color:var(--blue);}
+    .section-badge.layer2{background:rgba(245,158,11,0.15);color:var(--yellow);}
+    .section-badge.layer3{background:rgba(34,197,94,0.15);color:var(--green);}
 
-    /* Activity info header */
-    .act-info-header {
-      display: flex; align-items: flex-start; gap: 14px;
-      background: var(--bg-tertiary); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 14px; margin-bottom: 18px;
-    }
-    .act-info-icon { font-size: 32px; flex-shrink: 0; }
-    .act-info-body { flex: 1; }
-    .act-info-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
-    .act-info-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 8px; }
-    .act-info-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-    .act-tag {
-      font-size: 10px; padding: 2px 8px; border-radius: 10px;
-      font-weight: 500; white-space: nowrap;
-    }
-    .act-tag.blue   { background: rgba(59,130,246,0.15); color: var(--blue); }
-    .act-tag.green  { background: rgba(34,197,94,0.15); color: var(--green); }
-    .act-tag.orange { background: rgba(249,115,22,0.15); color: var(--orange); }
-    .act-tag.teal   { background: rgba(20,184,166,0.15); color: var(--teal); }
-    .act-tag.purple { background: rgba(168,85,247,0.15); color: var(--purple); }
+    /* FORMS */
+    .form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px;}
+    @media(max-width:900px){.form-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:480px){.form-grid{grid-template-columns:1fr;}}
+    .form-grid.cols-2{grid-template-columns:repeat(2,1fr);}
+    .form-grid.cols-4{grid-template-columns:repeat(4,1fr);}
+    @media(max-width:900px){.form-grid.cols-4{grid-template-columns:repeat(2,1fr);}}
+    .form-group{display:flex;flex-direction:column;gap:5px;}
+    .form-group.span2{grid-column:span 2;}
+    .form-label{font-size:11px;font-weight:600;color:var(--text-secondary);}
+    .form-label .req{color:var(--red);}
+    .form-input,.form-select,.form-textarea{padding:9px 12px;width:100%;}
+    .form-textarea{resize:vertical;min-height:68px;}
+    .form-hint{font-size:10px;color:var(--text-muted);margin-top:2px;}
+    .form-hint.formula{color:var(--teal);font-family:var(--font-en);}
 
-    /* ============================================================
-       FORMS
-       ============================================================ */
-    .form-section-title {
-      font-size: 12px; font-weight: 700; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 0.5px;
-      margin-bottom: 12px; padding-bottom: 6px;
-      border-bottom: 1px solid var(--border);
-    }
-    .form-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 14px; margin-bottom: 16px;
-    }
-    @media (max-width: 900px) { .form-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .form-grid { grid-template-columns: 1fr; } }
-    .form-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
-    .form-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
-    @media (max-width: 900px) { .form-grid.cols-4 { grid-template-columns: repeat(2, 1fr); } }
+    /* SOC DEPTH ROWS */
+    .soc-depth-table{width:100%;border-collapse:collapse;margin-bottom:12px;background:var(--bg-tertiary);border-radius:var(--radius);overflow:hidden;}
+    .soc-depth-table th{padding:8px 10px;text-align:left;font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.3px;background:var(--bg-card);border-bottom:1px solid var(--border);}
+    .soc-depth-table td{padding:8px 10px;border-bottom:1px solid var(--border);}
+    .soc-depth-table tr:last-child td{border-bottom:none;}
+    .soc-depth-table input{padding:6px 8px;font-size:12px;width:100%;}
+    .depth-label{font-size:12px;font-weight:600;color:var(--text-secondary);}
 
-    .form-group { display: flex; flex-direction: column; gap: 5px; }
-    .form-group.span2 { grid-column: span 2; }
-    .form-label {
-      font-size: 11px; font-weight: 600; color: var(--text-secondary);
-    }
-    .form-label .req { color: var(--red); }
-    .form-input, .form-select, .form-textarea {
-      padding: 9px 12px; width: 100%;
-    }
-    .form-textarea { resize: vertical; min-height: 72px; }
-    .form-select { cursor: pointer; }
+    /* FORM ACTIONS */
+    .form-actions{display:flex;gap:10px;align-items:center;padding-top:16px;border-top:1px solid var(--border);flex-wrap:wrap;}
+    .btn-submit{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:var(--radius);font-size:13px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--green-dark),var(--teal));border:none;transition:all var(--transition);box-shadow:0 2px 12px rgba(20,184,166,0.25);}
+    .btn-submit:hover{transform:translateY(-1px);box-shadow:0 4px 18px rgba(20,184,166,0.35);}
+    .btn-reset{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--radius);font-size:12px;font-weight:500;color:var(--text-muted);background:var(--bg-tertiary);border:1px solid var(--border);transition:all var(--transition);}
+    .btn-reset:hover{color:var(--text-primary);border-color:var(--text-muted);}
+    .btn-gps{display:inline-flex;align-items:center;gap:5px;padding:8px 13px;border-radius:var(--radius);font-size:11px;font-weight:600;color:var(--teal);background:rgba(20,184,166,0.1);border:1px solid rgba(20,184,166,0.3);transition:all var(--transition);}
+    .btn-gps:hover{background:rgba(20,184,166,0.2);}
 
-    .form-hint { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+    /* MRV ESTIMATE PANEL */
+    .mrv-estimate-panel{background:var(--bg-secondary);border:1px solid var(--border-accent);border-radius:var(--radius-lg);overflow:hidden;margin-top:18px;}
+    .mrv-estimate-header{background:linear-gradient(90deg,rgba(34,197,94,0.1),rgba(20,184,166,0.1));padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+    .mrv-estimate-title{font-size:13px;font-weight:700;color:var(--green);display:flex;align-items:center;gap:8px;}
+    .badge-indicative{font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(245,158,11,0.15);color:var(--yellow);font-weight:600;border:1px solid rgba(245,158,11,0.2);}
+    .badge-formula{font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(20,184,166,0.12);color:var(--teal);font-weight:600;}
+    .mrv-estimate-body{padding:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;}
+    .est-kv{display:flex;flex-direction:column;gap:3px;}
+    .est-k{font-size:10px;color:var(--text-muted);}
+    .est-formula{font-size:9px;color:var(--teal);font-family:var(--font-en);margin-bottom:2px;}
+    .est-v{font-size:22px;font-weight:800;font-family:var(--font-en);color:var(--text-primary);}
+    .est-v .unit{font-size:11px;font-weight:400;color:var(--text-muted);margin-left:2px;}
+    .est-divider{width:1px;background:var(--border);}
 
-    .form-actions {
-      display: flex; gap: 10px; align-items: center;
-      padding-top: 16px; border-top: 1px solid var(--border);
-      flex-wrap: wrap;
-    }
-    .btn-submit {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 9px 20px; border-radius: var(--radius);
-      font-size: 13px; font-weight: 600; color: white;
-      background: linear-gradient(135deg, var(--green-dark), var(--teal));
-      border: none; transition: all var(--transition);
-      box-shadow: 0 2px 12px rgba(20,184,166,0.25);
-    }
-    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 4px 18px rgba(20,184,166,0.35); }
-    .btn-reset {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 9px 16px; border-radius: var(--radius);
-      font-size: 12px; font-weight: 500; color: var(--text-muted);
-      background: var(--bg-tertiary); border: 1px solid var(--border);
-      transition: all var(--transition);
-    }
-    .btn-reset:hover { color: var(--text-primary); border-color: var(--text-muted); }
-    .btn-gps {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 8px 13px; border-radius: var(--radius);
-      font-size: 11px; font-weight: 600; color: var(--teal);
-      background: rgba(20,184,166,0.1); border: 1px solid rgba(20,184,166,0.3);
-      transition: all var(--transition); margin-left: auto;
-    }
-    .btn-gps:hover { background: rgba(20,184,166,0.2); }
+    /* AWD TIMELINE */
+    .awd-timeline{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:14px;}
+    .awd-timeline-title{font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:8px;}
+    .awd-period-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);}
+    .awd-period-row:last-child{border-bottom:none;}
+    .awd-period-row input,.awd-period-row select{padding:6px 8px;font-size:11px;}
+    .btn-add-period{display:flex;align-items:center;gap:5px;margin-top:8px;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;color:var(--blue);background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);}
+    .btn-add-period:hover{background:rgba(59,130,246,0.2);}
+    .btn-remove-period{color:var(--red);font-size:16px;line-height:1;padding:2px 6px;border-radius:4px;}
+    .btn-remove-period:hover{background:rgba(239,68,68,0.1);}
 
-    /* ============================================================
-       ESTIMATE WIDGET
-       ============================================================ */
-    .estimate-box {
-      background: linear-gradient(135deg, rgba(34,197,94,0.05), rgba(20,184,166,0.05));
-      border: 1px solid rgba(34,197,94,0.2);
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      margin-top: 16px;
-      display: flex; align-items: flex-start; gap: 12px;
-    }
-    .estimate-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
-    .estimate-body { flex: 1; }
-    .estimate-title {
-      font-size: 12px; font-weight: 700; color: var(--green);
-      margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
-    }
-    .badge-indicative {
-      font-size: 9px; padding: 1px 7px; border-radius: 10px;
-      background: rgba(245,158,11,0.15); color: var(--yellow);
-      font-weight: 600; border: 1px solid rgba(245,158,11,0.2);
-    }
-    .estimate-values {
-      display: flex; gap: 20px; flex-wrap: wrap;
-    }
-    .estimate-kv { display: flex; flex-direction: column; gap: 2px; }
-    .estimate-k { font-size: 10px; color: var(--text-muted); }
-    .estimate-v { font-size: 18px; font-weight: 800; font-family: var(--font-en); color: var(--text-primary); }
-    .estimate-v span { font-size: 11px; font-weight: 400; color: var(--text-muted); margin-left: 2px; }
+    /* BIOCHAR CARBON FRACTION */
+    .fraction-toggle{display:flex;gap:8px;margin-bottom:12px;}
+    .fraction-opt{flex:1;padding:8px;border-radius:var(--radius);border:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text-muted);background:var(--bg-tertiary);text-align:center;cursor:pointer;transition:all var(--transition);}
+    .fraction-opt.active{border-color:var(--green);color:var(--green);background:rgba(34,197,94,0.08);}
 
-    /* ============================================================
-       RECORDS TABLE
-       ============================================================ */
-    .records-section {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-    .records-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 16px; border-bottom: 1px solid var(--border);
-      background: var(--bg-tertiary);
-    }
-    .records-header-left { display: flex; align-items: center; gap: 8px; }
-    .records-title { font-size: 13px; font-weight: 700; color: var(--text-primary); }
-    .records-count {
-      font-size: 10px; padding: 2px 8px; border-radius: 8px;
-      background: rgba(34,197,94,0.12); color: var(--green); font-weight: 600;
-    }
-    .records-filter {
-      display: flex; gap: 6px;
-    }
-    .records-filter select {
-      padding: 4px 8px; font-size: 11px; border-radius: 6px;
-    }
-    .table-scroll { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; }
-    thead th {
-      padding: 10px 14px; text-align: left;
-      font-size: 10px; font-weight: 700; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 0.5px;
-      background: var(--bg-tertiary); border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-    }
-    tbody tr { border-bottom: 1px solid var(--border); transition: background var(--transition); }
-    tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: var(--bg-hover); }
-    tbody td { padding: 10px 14px; font-size: 12px; color: var(--text-secondary); white-space: nowrap; }
-    .td-primary { color: var(--text-primary); font-weight: 600; }
-    .activity-pill {
-      display: inline-flex; align-items: center; gap: 4px;
-      padding: 2px 8px; border-radius: 8px; font-size: 10px; font-weight: 600;
-    }
-    .activity-pill.awd    { background: rgba(59,130,246,0.15); color: var(--blue); }
-    .activity-pill.soc    { background: rgba(249,115,22,0.15); color: var(--orange); }
-    .activity-pill.biochar { background: rgba(34,197,94,0.15); color: var(--green); }
-    .activity-pill.agro   { background: rgba(20,184,166,0.15); color: var(--teal); }
-    .status-pill {
-      display: inline-block; padding: 2px 8px; border-radius: 8px;
-      font-size: 10px; font-weight: 600;
-    }
-    .status-pill.verified { background: rgba(34,197,94,0.15); color: var(--green); }
-    .status-pill.pending  { background: rgba(245,158,11,0.15); color: var(--yellow); }
-    .status-pill.draft    { background: rgba(100,116,139,0.15); color: var(--text-muted); }
+    /* RECORDS TABLE */
+    .records-section{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:20px;}
+    .records-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg-tertiary);}
+    .records-header-left{display:flex;align-items:center;gap:8px;}
+    .records-title{font-size:13px;font-weight:700;}
+    .records-count{font-size:10px;padding:2px 8px;border-radius:8px;background:rgba(34,197,94,0.12);color:var(--green);font-weight:600;}
+    .records-filter select{padding:4px 8px;font-size:11px;border-radius:6px;}
+    .table-scroll{overflow-x:auto;}
+    table{width:100%;border-collapse:collapse;}
+    thead th{padding:10px 14px;text-align:left;font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;background:var(--bg-tertiary);border-bottom:1px solid var(--border);white-space:nowrap;}
+    tbody tr{border-bottom:1px solid var(--border);transition:background var(--transition);}
+    tbody tr:last-child{border-bottom:none;}
+    tbody tr:hover{background:var(--bg-hover);}
+    tbody td{padding:10px 14px;font-size:12px;color:var(--text-secondary);white-space:nowrap;}
+    .td-primary{color:var(--text-primary);font-weight:600;}
+    .td-formula{font-family:var(--font-en);font-size:11px;color:var(--teal);}
+    .activity-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:600;}
+    .activity-pill.awd{background:rgba(59,130,246,0.15);color:var(--blue);}
+    .activity-pill.soc{background:rgba(249,115,22,0.15);color:var(--orange);}
+    .activity-pill.biochar{background:rgba(34,197,94,0.15);color:var(--green);}
+    .activity-pill.agro{background:rgba(20,184,166,0.15);color:var(--teal);}
+    .status-pill{display:inline-block;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:600;}
+    .status-pill.verified{background:rgba(34,197,94,0.15);color:var(--green);}
+    .status-pill.pending{background:rgba(245,158,11,0.15);color:var(--yellow);}
 
-    /* Empty state */
-    .empty-state {
-      text-align: center; padding: 40px 20px; color: var(--text-muted);
-    }
-    .empty-state-icon { font-size: 36px; margin-bottom: 8px; }
-    .empty-state-text { font-size: 13px; }
+    /* EMPTY STATE */
+    .empty-state{text-align:center;padding:40px 20px;color:var(--text-muted);}
+    .empty-state-icon{font-size:36px;margin-bottom:8px;}
+    .empty-state-text{font-size:13px;}
 
-    /* ============================================================
-       DISCLAIMER
-       ============================================================ */
-    .disclaimer-box {
-      background: rgba(245,158,11,0.05);
-      border: 1px solid rgba(245,158,11,0.2);
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      display: flex; gap: 10px; align-items: flex-start;
-      margin-bottom: 20px;
-    }
-    .disclaimer-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-    .disclaimer-text { font-size: 11px; color: var(--text-muted); line-height: 1.6; }
-    .disclaimer-text strong { color: var(--yellow); }
+    /* DISCLAIMER */
+    .disclaimer-box{background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.2);border-radius:var(--radius);padding:14px 16px;display:flex;gap:10px;align-items:flex-start;margin-bottom:20px;}
+    .disclaimer-text{font-size:11px;color:var(--text-muted);line-height:1.7;}
+    .disclaimer-text strong{color:var(--yellow);}
 
-    /* ============================================================
-       TOAST / NOTIFICATION
-       ============================================================ */
-    #toast-container {
-      position: fixed; bottom: 24px; right: 24px; z-index: 9999;
-      display: flex; flex-direction: column; gap: 8px;
-    }
-    .toast {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 12px 16px;
-      box-shadow: var(--shadow); font-size: 13px;
-      display: flex; align-items: center; gap: 10px; min-width: 260px;
-      animation: slideIn 0.3s ease;
-    }
-    .toast.success { border-left: 3px solid var(--green); }
-    .toast.error   { border-left: 3px solid var(--red); }
-    @keyframes slideIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+    /* TOAST */
+    #toast-container{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;}
+    .toast{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;box-shadow:var(--shadow);font-size:13px;display:flex;align-items:center;gap:10px;min-width:260px;animation:slideIn 0.3s ease;}
+    .toast.success{border-left:3px solid var(--green);}
+    .toast.error{border-left:3px solid var(--red);}
+    @keyframes slideIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
 
-    /* ============================================================
-       SCROLLBAR
-       ============================================================ */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar{width:6px;height:6px;}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-    /* ============================================================
-       RESPONSIVE
-       ============================================================ */
-    @media (max-width: 600px) {
-      #page-container { padding: 12px 10px 32px; }
-      .page-title { font-size: 16px; }
-      .act-tab-btn { padding: 10px 14px; font-size: 12px; }
-      .activity-tab-content { padding: 14px; }
-      .act-info-header { flex-direction: column; }
-      .kpi-value { font-size: 20px; }
+    @media(max-width:600px){
+      #page-container{padding:12px 10px 40px;}
+      .page-title{font-size:16px;}
+      .act-tab-btn{padding:10px 14px;font-size:12px;}
+      .activity-tab-content{padding:14px;}
+      .mrv-estimate-body{grid-template-columns:1fr 1fr;}
     }
   </style>
 </head>
 <body>
 
-<!-- ============================================================
-     TOPBAR
-     ============================================================ -->
+<!-- TOPBAR -->
 <header id="topbar">
   <div class="topbar-left">
-    <a href="index.html" class="btn-back" title="मुख्य पेज पर वापस जाएं">
-      ← वापस
-    </a>
+    <a href="index.html" class="btn-back">← वापस</a>
     <div class="brand">
       <span class="brand-icon">🌾</span>
       <span class="brand-title">Agri <span>Monitor</span></span>
       <span class="brand-badge">CHANGE TechLab</span>
     </div>
   </div>
-
-  <nav class="breadcrumb" aria-label="breadcrumb">
+  <nav class="breadcrumb">
     <a href="index.html">डैशबोर्ड</a>
-    <span class="breadcrumb-sep">›</span>
-    <span class="breadcrumb-current">Climate Actions</span>
+    <span style="color:var(--border)">›</span>
+    <span class="breadcrumb-current">Climate Actions MRV</span>
   </nav>
-
   <div class="topbar-right">
-    <button class="btn-theme-toggle" id="btn-toggle-theme" title="Theme बदलें">☀️</button>
+    <button class="btn-icon" id="btn-toggle-theme" title="Theme बदलें">☀️</button>
   </div>
 </header>
 
-<!-- ============================================================
-     FILTER BAR (District / Block — same as main dashboard)
-     ============================================================ -->
+<!-- MRV LAYER BAR -->
+<div id="mrv-bar">
+  <span class="mrv-title">🔬 MRV FRAMEWORK</span>
+  <div class="mrv-layers">
+    <span class="mrv-layer field">📋 Layer 1 — Field Records</span>
+    <span class="mrv-layer evidence">🧪 Layer 2 — Evidence (GPS · Lab · Satellite)</span>
+    <span class="mrv-layer compute">📐 Layer 3 — Computation & Estimation</span>
+  </div>
+  <span class="mrv-desc">Auditable estimate — not laboratory-grade measurement</span>
+</div>
+
+<!-- FILTER BAR -->
 <div id="filter-bar">
   <span class="filter-bar-label">📍 फ़िल्टर:</span>
   <div class="filter-bar-selects">
-    <select id="ca-district" title="जिला चुनें">
+    <select id="ca-district">
       <option value="all">सभी जिले</option>
       <option value="rudraprayag" selected>रुद्रप्रयाग</option>
       <option value="chamoli">चमोली</option>
@@ -565,29 +315,25 @@
       <option value="pauri">पौड़ी</option>
     </select>
     <span class="filter-arrow">›</span>
-    <select id="ca-block" title="ब्लॉक चुनें">
+    <select id="ca-block">
       <option value="all">सभी ब्लॉक</option>
       <option value="Ukhimath">ऊखीमठ</option>
       <option value="Jakholi">जखोली</option>
       <option value="Augustyamuni">अगस्त्यमुनि</option>
     </select>
     <span class="filter-arrow">›</span>
-    <select id="ca-season" title="सीज़न">
+    <select id="ca-season">
       <option value="kharif2025">खरीफ 2025</option>
       <option value="rabi2025">रबी 2025-26</option>
       <option value="kharif2024">खरीफ 2024</option>
     </select>
   </div>
   <div class="filter-bar-right">
-    <button class="export-btn" id="btn-export" title="डेटा निर्यात करें">
-      📥 Export CSV
-    </button>
+    <button class="export-btn" id="btn-export">📥 Export CSV</button>
   </div>
 </div>
 
-<!-- ============================================================
-     MAIN PAGE
-     ============================================================ -->
+<!-- MAIN -->
 <main id="page-container">
 
   <!-- Page Header -->
@@ -595,311 +341,429 @@
     <div class="page-header-left">
       <div class="page-header-icon">🌿</div>
       <div>
-        <div class="page-title">Climate Actions Module</div>
-        <div class="page-subtitle">AWD · SOC · Biochar · Agroforestry — जलवायु-अनुकूल कृषि गतिविधियों की निगरानी</div>
+        <div class="page-title">Climate Actions — MRV Module</div>
+        <div class="page-subtitle">Measurement · Reporting · Verification — AWD · SOC · Biochar · Agroforestry</div>
       </div>
     </div>
-    <span class="badge-module">🌍 Phase 1 + 2 Live</span>
+    <span class="badge-module">🌍 MRV v2.0 Live</span>
   </div>
 
-  <!-- ============================================================
-       KPI SUMMARY CARDS
-       ============================================================ -->
+  <!-- KPI SUMMARY -->
   <div class="kpi-grid">
     <div class="kpi-card green">
-      <div class="kpi-top">
-        <span class="kpi-icon">📋</span>
-        <span class="kpi-trend" id="kpi-trend-records">↑ नया</span>
-      </div>
+      <div class="kpi-top"><span class="kpi-icon">📋</span><span class="kpi-trend" id="kpi-trend-records">—</span></div>
       <div class="kpi-value" id="kpi-total-records">0</div>
-      <div class="kpi-label">कुल Climate Records</div>
+      <div class="kpi-label">कुल MRV Records</div>
       <div class="kpi-sublabel">AWD + SOC + Biochar + Agro</div>
     </div>
     <div class="kpi-card teal">
-      <div class="kpi-top">
-        <span class="kpi-icon">🌱</span>
-        <span class="kpi-trend" id="kpi-trend-carbon">—</span>
-      </div>
+      <div class="kpi-top"><span class="kpi-icon">🌱</span><span class="kpi-trend" id="kpi-trend-carbon">—</span></div>
       <div class="kpi-value" id="kpi-carbon">0.0<span style="font-size:14px;font-weight:400"> t</span></div>
-      <div class="kpi-label">अनुमानित कार्बन संग्रह</div>
-      <div class="kpi-sublabel">Biochar (indicative)</div>
+      <div class="kpi-label">अनुमानित Carbon Stored</div>
+      <span class="kpi-formula">Biochar × carbon_fraction</span>
     </div>
     <div class="kpi-card blue">
-      <div class="kpi-top">
-        <span class="kpi-icon">💨</span>
-        <span class="kpi-trend" id="kpi-trend-methane">—</span>
-      </div>
+      <div class="kpi-top"><span class="kpi-icon">💨</span><span class="kpi-trend" id="kpi-trend-methane">—</span></div>
       <div class="kpi-value" id="kpi-methane">0.0<span style="font-size:14px;font-weight:400"> kg</span></div>
-      <div class="kpi-label">अनुमानित मीथेन कमी</div>
-      <div class="kpi-sublabel">AWD से (indicative)</div>
+      <div class="kpi-label">अनुमानित CH₄ कमी</div>
+      <span class="kpi-formula">AWD baseline vs actual</span>
     </div>
     <div class="kpi-card orange">
-      <div class="kpi-top">
-        <span class="kpi-icon">🌳</span>
-        <span class="kpi-trend" id="kpi-trend-trees">—</span>
-      </div>
+      <div class="kpi-top"><span class="kpi-icon">🌳</span><span class="kpi-trend" id="kpi-trend-trees">—</span></div>
       <div class="kpi-value" id="kpi-tree-survival">—<span style="font-size:14px;font-weight:400">%</span></div>
-      <div class="kpi-label">पेड़ Survival Rate</div>
-      <div class="kpi-sublabel">Agroforestry (लगाए vs जीवित)</div>
+      <div class="kpi-label">Agroforestry Survival Rate</div>
+      <span class="kpi-formula">surviving ÷ planted × 100</span>
     </div>
   </div>
 
-  <!-- ============================================================
-       ACTIVITY TABS
-       ============================================================ -->
+  <!-- ACTIVITY TABS -->
   <div class="activity-tabs-wrapper">
-    <nav class="activity-tab-nav" id="activity-tab-nav" role="tablist">
-      <button class="act-tab-btn active" data-act="awd" role="tab" aria-selected="true">
-        💧 AWD <span class="act-count" id="count-awd">0</span>
-      </button>
-      <button class="act-tab-btn" data-act="soc" role="tab">
-        🌾 SOC <span class="act-count" id="count-soc">0</span>
-      </button>
-      <button class="act-tab-btn" data-act="biochar" role="tab">
-        🔥 Biochar <span class="act-count" id="count-biochar">0</span>
-      </button>
-      <button class="act-tab-btn" data-act="agro" role="tab">
-        🌳 Agroforestry <span class="act-count" id="count-agro">0</span>
-      </button>
+    <nav class="activity-tab-nav" id="activity-tab-nav">
+      <button class="act-tab-btn active" data-act="awd">💧 AWD <span class="act-count" id="count-awd">0</span></button>
+      <button class="act-tab-btn" data-act="soc">🌾 SOC <span class="act-count" id="count-soc">0</span></button>
+      <button class="act-tab-btn" data-act="biochar">🔥 Biochar <span class="act-count" id="count-biochar">0</span></button>
+      <button class="act-tab-btn" data-act="agro">🌳 Agroforestry <span class="act-count" id="count-agro">0</span></button>
     </nav>
-
     <div class="activity-tab-content">
 
-      <!-- ===================== AWD ===================== -->
+      <!-- ======================== AWD ======================== -->
       <div class="act-panel active" id="panel-awd">
         <div class="act-info-header">
           <div class="act-info-icon">💧</div>
-          <div class="act-info-body">
-            <div class="act-info-title">Alternate Wetting and Drying (AWD) — वैकल्पिक सिंचाई</div>
+          <div>
+            <div class="act-info-title">Alternate Wetting & Drying (AWD) — वैकल्पिक सिंचाई</div>
             <div class="act-info-desc">
-              धान की खेती में पानी बचाने की वैज्ञानिक तकनीक। खेत को पूरी तरह सूखने नहीं दिया जाता, बल्कि एक निश्चित अंतराल पर सिंचाई की जाती है। इससे <strong>30–40% पानी की बचत</strong> होती है और मिट्टी से मीथेन (CH₄) उत्सर्जन कम होता है — जो एक शक्तिशाली ग्रीनहाउस गैस है।
+              इस module में tool <strong>directly methane gas measure नहीं करता</strong>। यह water regime + irrigation cycle data से <strong>methane reduction estimate</strong> करता है: Continuously Flooded baseline के विरुद्ध actual AWD practice को compare करके।
+              Season-level emission factor (IPCC Tier 1 / IRRI-based) से CH₄ reduction निकाला जाता है।
             </div>
             <div class="act-info-tags">
-              <span class="act-tag blue">💧 पानी बचत: ~35%</span>
-              <span class="act-tag green">🌍 मीथेन कमी: ~20-40%</span>
-              <span class="act-tag orange">🌾 धान की फसल</span>
-              <span class="act-tag purple">📡 IRRI प्रमाणित</span>
+              <span class="act-tag blue">💧 IPCC Tier 1 EF</span>
+              <span class="act-tag green">🌍 CH₄ Emission Reduction</span>
+              <span class="act-tag orange">🌾 Paddy / Rice</span>
+              <span class="act-tag purple">📡 Satellite Flood Tracking</span>
             </div>
           </div>
         </div>
 
-        <div class="form-section-title">📝 AWD डेटा एंट्री</div>
+        <!-- FORMULA BOX -->
+        <div class="formula-callout">
+          <div class="formula-callout-title">📐 MRV Calculation Framework — AWD</div>
+          <div class="formula-block">CH₄ Reduction = (EF_baseline − EF_awd) × Area × Season_days</div>
+          <div class="formula-vars">
+            <strong>EF_baseline</strong> = Continuously Flooded emission factor (~1.3 kg CH₄/ha/day) &nbsp;|&nbsp;
+            <strong>EF_awd</strong> = AWD emission factor (~0.6–0.9 kg CH₄/ha/day, cycle-dependent) &nbsp;|&nbsp;
+            <strong>Area</strong> = खेत का क्षेत्रफल (ha) &nbsp;|&nbsp;
+            <strong>Season_days</strong> = धान का मौसम (दिन में)
+          </div>
+        </div>
+
         <form id="form-awd" autocomplete="off">
-          <div class="form-grid">
+          <!-- Layer 1: Field Records -->
+          <div class="form-section-title">
+            📋 Layer 1 — Field Records
+            <span class="section-badge layer1">Field</span>
+          </div>
+          <div class="form-grid cols-4">
             <div class="form-group">
-              <label class="form-label" for="awd-field-id">Field ID / खेत नंबर <span class="req">*</span></label>
-              <input type="text" id="awd-field-id" class="form-input" placeholder="जैसे: RDP-UKM-001" required>
+              <label class="form-label" for="awd-field-id">Field ID <span class="req">*</span></label>
+              <input type="text" id="awd-field-id" class="form-input" placeholder="RDP-UKM-001" required>
             </div>
             <div class="form-group">
               <label class="form-label" for="awd-farmer">किसान का नाम <span class="req">*</span></label>
               <input type="text" id="awd-farmer" class="form-input" placeholder="किसान का नाम" required>
             </div>
             <div class="form-group">
-              <label class="form-label" for="awd-crop-stage">फसल अवस्था (Crop Stage)</label>
+              <label class="form-label" for="awd-variety">धान की किस्म</label>
+              <input type="text" id="awd-variety" class="form-input" placeholder="जैसे: MTU-7029">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="awd-transplant-date">Transplanting तारीख</label>
+              <input type="date" id="awd-transplant-date" class="form-input">
+            </div>
+          </div>
+          <div class="form-grid cols-4">
+            <div class="form-group">
+              <label class="form-label" for="awd-harvest-date">Harvest तारीख</label>
+              <input type="date" id="awd-harvest-date" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="awd-crop-stage">वर्तमान अवस्था</label>
               <select id="awd-crop-stage" class="form-select">
                 <option value="">— चुनें —</option>
-                <option value="tillering">कल्ले निकलना (Tillering)</option>
-                <option value="panicle">बाली निकलना (Panicle Initiation)</option>
-                <option value="heading">बाली निकलने के बाद (Heading)</option>
-                <option value="milking">दूधिया अवस्था (Milking)</option>
-                <option value="ripening">पकाव (Ripening)</option>
+                <option>Tillering</option>
+                <option>Panicle Initiation</option>
+                <option>Heading</option>
+                <option>Milking</option>
+                <option>Ripening</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label" for="awd-irrigation-cycle">सिंचाई चक्र (दिन में)</label>
-              <input type="number" id="awd-irrigation-cycle" class="form-input" placeholder="जैसे: 5" min="1" max="30">
-              <span class="form-hint">पिछली सिंचाई के कितने दिन बाद अगली सिंचाई</span>
+              <label class="form-label" for="awd-area-ha">खेत क्षेत्रफल (ha) <span class="req">*</span></label>
+              <input type="number" id="awd-area-ha" class="form-input" placeholder="जैसे: 0.5" min="0" step="0.01" required>
+              <span class="form-hint">1 Bigha ≈ 0.133 ha</span>
             </div>
             <div class="form-group">
-              <label class="form-label" for="awd-water-depth">पानी की गहराई (cm)</label>
-              <input type="number" id="awd-water-depth" class="form-input" placeholder="-15 to +5" min="-20" max="20" step="0.5">
-              <span class="form-hint">नकारात्मक = पानी सतह से नीचे</span>
+              <label class="form-label" for="awd-flood-status">Current Flood Status</label>
+              <select id="awd-flood-status" class="form-select">
+                <option value="">— चुनें —</option>
+                <option value="flooded">🌊 Flooded</option>
+                <option value="moist">💧 Moist (AWD Phase)</option>
+                <option value="dry">🌵 Dry (AWD Dry Phase)</option>
+              </select>
             </div>
-            <div class="form-group">
-              <label class="form-label" for="awd-last-date">पिछली सिंचाई की तारीख</label>
-              <input type="date" id="awd-last-date" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="awd-field-area">खेत का क्षेत्रफल (Bigha)</label>
-              <input type="number" id="awd-field-area" class="form-input" placeholder="जैसे: 2.5" min="0" step="0.1">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="awd-baseline-water">सामान्य सिंचाई (बिना AWD, mm)</label>
-              <input type="number" id="awd-baseline-water" class="form-input" placeholder="जैसे: 1200" min="0">
-              <span class="form-hint">पारंपरिक तरीके में इतना पानी लगता था</span>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="awd-actual-water">वास्तविक उपयोग (AWD के साथ, mm)</label>
-              <input type="number" id="awd-actual-water" class="form-input" placeholder="जैसे: 800" min="0">
-            </div>
-          </div>
-          <div class="form-group" style="margin-bottom:16px;">
-            <label class="form-label" for="awd-notes">अतिरिक्त टिप्पणी</label>
-            <textarea id="awd-notes" class="form-textarea" placeholder="कोई विशेष बात, मौसम की स्थिति, आदि..."></textarea>
           </div>
 
-          <!-- AWD Estimate Widget -->
-          <div class="estimate-box" id="awd-estimate-box">
-            <div class="estimate-icon">💨</div>
-            <div class="estimate-body">
-              <div class="estimate-title">
-                त्वरित अनुमान (Quick Estimate)
-                <span class="badge-indicative">⚠️ Indicative Only</span>
+          <!-- Layer 2: Evidence — Irrigation Log -->
+          <div class="form-section-title">
+            🧪 Layer 2 — Irrigation Log (Evidence)
+            <span class="section-badge layer2">Evidence</span>
+          </div>
+
+          <div class="awd-timeline">
+            <div class="awd-timeline-title">सिंचाई चक्र — प्रत्येक period के लिए status दर्ज करें:</div>
+            <div style="display:grid;grid-template-columns:110px 1fr 1fr 1fr auto;gap:8px;align-items:center;padding-bottom:6px;font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;">
+              <span>तारीख</span><span>पानी गहराई (cm)</span><span>Flood Status</span><span>टिप्पणी</span><span></span>
+            </div>
+            <div id="irrigation-log-rows">
+              <div class="awd-period-row">
+                <input type="date" class="log-date form-input" placeholder="तारीख">
+                <input type="number" class="log-depth form-input" placeholder="-5 to +10" step="0.5">
+                <select class="log-status form-select">
+                  <option value="flooded">Flooded</option>
+                  <option value="awd_moist">AWD Moist</option>
+                  <option value="awd_dry">AWD Dry</option>
+                </select>
+                <input type="text" class="log-note form-input" placeholder="टिप्पणी">
+                <button type="button" class="btn-remove-period" onclick="removeLogRow(this)">✕</button>
               </div>
-              <div class="estimate-values">
-                <div class="estimate-kv">
-                  <span class="estimate-k">पानी बचत अनुमान</span>
-                  <span class="estimate-v" id="awd-est-water">—<span> mm</span></span>
-                </div>
-                <div class="estimate-kv">
-                  <span class="estimate-k">मीथेन कमी अनुमान</span>
-                  <span class="estimate-v" id="awd-est-methane">—<span> kg CH₄</span></span>
-                </div>
-                <div class="estimate-kv">
-                  <span class="estimate-k">CO₂ समतुल्य (GWP×25)</span>
-                  <span class="estimate-v" id="awd-est-co2">—<span> kg</span></span>
-                </div>
+            </div>
+            <button type="button" class="btn-add-period" onclick="addLogRow()">+ सिंचाई लॉग जोड़ें</button>
+          </div>
+
+          <!-- Layer 3: Computation -->
+          <div class="form-section-title">
+            📐 Layer 3 — Computation Parameters
+            <span class="section-badge layer3">Compute</span>
+          </div>
+          <div class="form-grid cols-4">
+            <div class="form-group">
+              <label class="form-label" for="awd-season-days">Season Duration (दिन)</label>
+              <input type="number" id="awd-season-days" class="form-input" placeholder="120" min="1" max="250">
+              <span class="form-hint">Transplanting से Harvest तक</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="awd-flooded-days">Flooded दिन (अनुमानित)</label>
+              <input type="number" id="awd-flooded-days" class="form-input" placeholder="60" min="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="awd-awd-days">AWD Phase दिन</label>
+              <input type="number" id="awd-awd-days" class="form-input" placeholder="60" min="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="awd-ef-baseline">EF Baseline (kg CH₄/ha/day)</label>
+              <input type="number" id="awd-ef-baseline" class="form-input" value="1.30" step="0.01" min="0">
+              <span class="form-hint formula">IPCC default: 1.30</span>
+            </div>
+          </div>
+
+          <!-- MRV Estimate Widget -->
+          <div class="mrv-estimate-panel">
+            <div class="mrv-estimate-header">
+              <span class="mrv-estimate-title">📐 AWD Methane Reduction — MRV Estimate <span class="badge-indicative">⚠️ Indicative Only</span></span>
+              <span class="badge-formula">CH₄ = (EF_base − EF_awd) × Area × Days</span>
+            </div>
+            <div class="mrv-estimate-body">
+              <div class="est-kv">
+                <span class="est-k">Baseline CH₄ (full flood)</span>
+                <span class="est-formula">EF_baseline × Area × Season_days</span>
+                <span class="est-v" id="awd-est-baseline">—<span class="unit">kg CH₄</span></span>
+              </div>
+              <div class="est-kv">
+                <span class="est-k">AWD CH₄ Emission</span>
+                <span class="est-formula">EF_awd × Area × Season_days</span>
+                <span class="est-v" id="awd-est-actual">—<span class="unit">kg CH₄</span></span>
+              </div>
+              <div class="est-kv">
+                <span class="est-k">CH₄ Reduction</span>
+                <span class="est-formula">Baseline − AWD actual</span>
+                <span class="est-v" id="awd-est-reduction" style="color:var(--blue)">—<span class="unit">kg CH₄</span></span>
+              </div>
+              <div class="est-kv">
+                <span class="est-k">CO₂ Equivalent (GWP×25)</span>
+                <span class="est-formula">CH₄_reduction × 25</span>
+                <span class="est-v" id="awd-est-co2eq">—<span class="unit">kg CO₂e</span></span>
               </div>
             </div>
           </div>
 
           <div class="form-actions">
-            <button type="submit" class="btn-submit">💾 रिकॉर्ड सहेजें</button>
-            <button type="reset" class="btn-reset" onclick="resetAWDEstimate()">🔄 फॉर्म साफ करें</button>
+            <button type="submit" class="btn-submit">💾 AWD Record सहेजें</button>
+            <button type="reset" class="btn-reset" id="awd-reset-btn">🔄 फॉर्म साफ</button>
           </div>
         </form>
       </div>
 
-      <!-- ===================== SOC ===================== -->
+      <!-- ======================== SOC ======================== -->
       <div class="act-panel" id="panel-soc">
         <div class="act-info-header">
           <div class="act-info-icon">🌾</div>
-          <div class="act-info-body">
-            <div class="act-info-title">Soil Organic Carbon (SOC) — मिट्टी जैविक कार्बन प्रबंधन</div>
+          <div>
+            <div class="act-info-title">Soil Organic Carbon (SOC) — मिट्टी जैविक कार्बन स्टॉक</div>
             <div class="act-info-desc">
-              मिट्टी में कार्बनिक पदार्थ की मात्रा बढ़ाने से मिट्टी की उर्वरता, जल-धारण क्षमता और कार्बन भंडारण में सुधार होता है। खाद, कम्पोस्ट और फसल अवशेष के प्रयोग से SOC बढ़ाया जाता है। Lab परीक्षण + NDVI डेटा से SOC परिवर्तन ट्रैक किया जाएगा।
+              <strong>NDVI अकेले SOC measure करने के लिए पर्याप्त नहीं है।</strong> सही estimate के लिए: <strong>SOC concentration (lab test)</strong> + <strong>Bulk Density</strong> + <strong>Sampling Depth</strong> तीनों ज़रूरी हैं। 0–10, 10–20, 20–30 cm तीन layers में sample लें। Baseline vs repeat sampling (3–5 साल) से SOC change track होगा।
             </div>
             <div class="act-info-tags">
-              <span class="act-tag orange">🌱 मिट्टी स्वास्थ्य</span>
-              <span class="act-tag green">♻️ कार्बन भंडारण</span>
-              <span class="act-tag teal">📡 NDVI लिंक्ड</span>
-              <span class="act-tag blue">🧪 Lab Verified</span>
+              <span class="act-tag orange">🧪 Lab Required</span>
+              <span class="act-tag green">📏 Bulk Density</span>
+              <span class="act-tag blue">📐 3-Layer Sampling</span>
+              <span class="act-tag teal">📡 NDVI Support</span>
             </div>
           </div>
         </div>
 
-        <div class="form-section-title">🧪 SOC नमूना एंट्री</div>
+        <!-- SOC FORMULA BOX -->
+        <div class="formula-callout">
+          <div class="formula-callout-title">📐 SOC Stock Formula (per layer)</div>
+          <div class="formula-block">SOC Stock (t C/ha) = SOC_conc (%) × Bulk_Density (g/cm³) × Depth (m) × 10,000 ÷ 100</div>
+          <div class="formula-vars">
+            Simplified: <strong>SOC_conc × BD × depth_m × 100</strong> = t C/ha &nbsp;|&nbsp;
+            <strong>SOC_conc</strong> = Lab result (%) &nbsp;|&nbsp;
+            <strong>BD</strong> = Bulk Density (g/cm³, typical: 1.1–1.4) &nbsp;|&nbsp;
+            <strong>depth</strong> = layer thickness (m) &nbsp;|&nbsp;
+            Total = Σ all layers
+          </div>
+        </div>
+
         <form id="form-soc" autocomplete="off">
-          <div class="form-grid">
+          <!-- Layer 1: Field Records -->
+          <div class="form-section-title">📋 Layer 1 — Field Records <span class="section-badge layer1">Field</span></div>
+          <div class="form-grid cols-4">
             <div class="form-group">
               <label class="form-label" for="soc-sample-id">Sample ID <span class="req">*</span></label>
-              <input type="text" id="soc-sample-id" class="form-input" placeholder="जैसे: SOC-RDP-2025-01" required>
+              <input type="text" id="soc-sample-id" class="form-input" placeholder="SOC-RDP-2025-01" required>
             </div>
             <div class="form-group">
               <label class="form-label" for="soc-farmer">किसान का नाम <span class="req">*</span></label>
               <input type="text" id="soc-farmer" class="form-input" placeholder="किसान का नाम" required>
             </div>
             <div class="form-group">
-              <label class="form-label" for="soc-sample-date">नमूना लेने की तारीख</label>
+              <label class="form-label" for="soc-sample-date">नमूना तारीख</label>
               <input type="date" id="soc-sample-date" class="form-input">
             </div>
             <div class="form-group">
-              <label class="form-label" for="soc-depth">नमूना गहराई (Sampling Depth)</label>
-              <select id="soc-depth" class="form-select">
+              <label class="form-label" for="soc-sample-type">Sample Type</label>
+              <select id="soc-sample-type" class="form-select">
+                <option value="baseline">Baseline (पहली बार)</option>
+                <option value="repeat">Repeat (follow-up)</option>
+                <option value="endline">Endline</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grid cols-4">
+            <div class="form-group">
+              <label class="form-label" for="soc-field-area-ha">खेत क्षेत्रफल (ha)</label>
+              <input type="number" id="soc-field-area-ha" class="form-input" placeholder="0.5" min="0" step="0.01">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="soc-land-use">Land Use</label>
+              <select id="soc-land-use" class="form-select">
                 <option value="">— चुनें —</option>
-                <option value="0-15">0–15 cm (सतह परत)</option>
-                <option value="15-30">15–30 cm (मध्य परत)</option>
-                <option value="30-60">30–60 cm (गहरी परत)</option>
+                <option>Paddy / धान</option>
+                <option>Wheat / गेहूं</option>
+                <option>Vegetables</option>
+                <option>Agroforestry</option>
+                <option>Fallow</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label" for="soc-lab-result">Lab परिणाम (% SOC)</label>
-              <input type="number" id="soc-lab-result" class="form-input" placeholder="जैसे: 0.85" min="0" max="10" step="0.01">
-              <span class="form-hint">मिट्टी परीक्षण प्रयोगशाला का परिणाम</span>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="soc-baseline">Baseline SOC (%, पिछला)</label>
-              <input type="number" id="soc-baseline" class="form-input" placeholder="जैसे: 0.65" min="0" max="10" step="0.01">
-              <span class="form-hint">पिछले साल का या प्रोजेक्ट शुरू का मान</span>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="soc-compost">कम्पोस्ट/खाद प्रयोग (kg/bigha)</label>
-              <input type="number" id="soc-compost" class="form-input" placeholder="जैसे: 500" min="0">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="soc-manure-type">खाद का प्रकार</label>
+              <label class="form-label" for="soc-manure-type">हाल में डाली खाद</label>
               <select id="soc-manure-type" class="form-select">
-                <option value="">— चुनें —</option>
+                <option value="">— कोई नहीं —</option>
                 <option value="fym">गोबर खाद (FYM)</option>
                 <option value="compost">कम्पोस्ट</option>
                 <option value="vermicompost">वर्मीकम्पोस्ट</option>
                 <option value="green_manure">हरी खाद</option>
-                <option value="crop_residue">फसल अवशेष</option>
                 <option value="biochar">बायोचार</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label" for="soc-field-area">खेत का क्षेत्रफल (Bigha)</label>
-              <input type="number" id="soc-field-area" class="form-input" placeholder="जैसे: 3" min="0" step="0.1">
-            </div>
-          </div>
-          <div class="form-group" style="margin-bottom:16px;">
-            <label class="form-label" for="soc-notes">Lab नाम और अतिरिक्त जानकारी</label>
-            <textarea id="soc-notes" class="form-textarea" placeholder="प्रयोगशाला का नाम, नमूना कोड, अन्य टिप्पणी..."></textarea>
-          </div>
-
-          <!-- SOC Estimate Widget -->
-          <div class="estimate-box" id="soc-estimate-box">
-            <div class="estimate-icon">🌾</div>
-            <div class="estimate-body">
-              <div class="estimate-title">
-                SOC स्थिति
-                <span class="badge-indicative">⚠️ Indicative Only</span>
-              </div>
-              <div class="estimate-values">
-                <div class="estimate-kv">
-                  <span class="estimate-k">SOC बदलाव (Δ%)</span>
-                  <span class="estimate-v" id="soc-est-delta">—</span>
-                </div>
-                <div class="estimate-kv">
-                  <span class="estimate-k">स्थिति</span>
-                  <span class="estimate-v" id="soc-est-status" style="font-size:14px;">—</span>
-                </div>
-                <div class="estimate-kv">
-                  <span class="estimate-k">अतिरिक्त कार्बन (kg C/bigha)</span>
-                  <span class="estimate-v" id="soc-est-carbon">—</span>
-                </div>
-              </div>
+              <label class="form-label" for="soc-manure-kg">खाद मात्रा (kg/ha)</label>
+              <input type="number" id="soc-manure-kg" class="form-input" placeholder="जैसे: 3750" min="0">
             </div>
           </div>
 
+          <!-- Layer 2: Lab Evidence — Multi-depth -->
+          <div class="form-section-title">🧪 Layer 2 — Soil Lab Data (प्रति Layer) <span class="section-badge layer2">Evidence</span></div>
+          <table class="soc-depth-table">
+            <thead>
+              <tr>
+                <th>Depth Layer</th>
+                <th>SOC % (Lab)</th>
+                <th>Bulk Density (g/cm³)</th>
+                <th>Baseline SOC % (पिछला)</th>
+                <th>Lab Name / Reference</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="depth-label">0–10 cm</span></td>
+                <td><input type="number" class="soc-conc form-input" id="soc-conc-1" placeholder="जैसे: 1.20" step="0.01" min="0" max="20" data-depth="0.10" oninput="calcSOCEstimate()"></td>
+                <td><input type="number" class="soc-bd form-input" id="soc-bd-1" placeholder="1.20" step="0.01" min="0.5" max="2.0" data-depth="0.10" oninput="calcSOCEstimate()"></td>
+                <td><input type="number" class="soc-base form-input" id="soc-base-1" placeholder="0.85" step="0.01" min="0" max="20" oninput="calcSOCEstimate()"></td>
+                <td><input type="text" class="form-input" placeholder="Lab name / code"></td>
+              </tr>
+              <tr>
+                <td><span class="depth-label">10–20 cm</span></td>
+                <td><input type="number" class="soc-conc form-input" id="soc-conc-2" placeholder="जैसे: 0.90" step="0.01" min="0" max="20" data-depth="0.10" oninput="calcSOCEstimate()"></td>
+                <td><input type="number" class="soc-bd form-input" id="soc-bd-2" placeholder="1.30" step="0.01" min="0.5" max="2.0" data-depth="0.10" oninput="calcSOCEstimate()"></td>
+                <td><input type="number" class="soc-base form-input" id="soc-base-2" placeholder="0.65" step="0.01" min="0" max="20" oninput="calcSOCEstimate()"></td>
+                <td><input type="text" class="form-input" placeholder="Lab name / code"></td>
+              </tr>
+              <tr>
+                <td><span class="depth-label">20–30 cm</span></td>
+                <td><input type="number" class="soc-conc form-input" id="soc-conc-3" placeholder="जैसे: 0.60" step="0.01" min="0" max="20" data-depth="0.10" oninput="calcSOCEstimate()"></td>
+                <td><input type="number" class="soc-bd form-input" id="soc-bd-3" placeholder="1.40" step="0.01" min="0.5" max="2.0" data-depth="0.10" oninput="calcSOCEstimate()"></td>
+                <td><input type="number" class="soc-base form-input" id="soc-base-3" placeholder="0.45" step="0.01" min="0" max="20" oninput="calcSOCEstimate()"></td>
+                <td><input type="text" class="form-input" placeholder="Lab name / code"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- MRV Estimate -->
+          <div class="mrv-estimate-panel">
+            <div class="mrv-estimate-header">
+              <span class="mrv-estimate-title">📐 SOC Stock Calculation — MRV Estimate <span class="badge-indicative">⚠️ Indicative Only</span></span>
+              <span class="badge-formula">SOC = conc × BD × depth × 100</span>
+            </div>
+            <div class="mrv-estimate-body">
+              <div class="est-kv">
+                <span class="est-k">Current SOC Stock (0–30cm)</span>
+                <span class="est-formula">Σ (SOC_conc × BD × depth_m × 100)</span>
+                <span class="est-v" id="soc-est-current">—<span class="unit">t C/ha</span></span>
+              </div>
+              <div class="est-kv">
+                <span class="est-k">Baseline SOC Stock</span>
+                <span class="est-formula">पिछले नमूने से</span>
+                <span class="est-v" id="soc-est-baseline">—<span class="unit">t C/ha</span></span>
+              </div>
+              <div class="est-kv">
+                <span class="est-k">SOC Change (Δ)</span>
+                <span class="est-formula">Current − Baseline</span>
+                <span class="est-v" id="soc-est-delta">—<span class="unit">t C/ha</span></span>
+              </div>
+              <div class="est-kv">
+                <span class="est-k">SOC स्थिति</span>
+                <span class="est-formula">per खेत क्षेत्रफल</span>
+                <span class="est-v" id="soc-est-status" style="font-size:16px">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top:14px;">
+            <label class="form-label" for="soc-notes">Lab report संख्या / अतिरिक्त टिप्पणी</label>
+            <textarea id="soc-notes" class="form-textarea" placeholder="Lab report no., testing methodology, अन्य observations..."></textarea>
+          </div>
           <div class="form-actions">
-            <button type="submit" class="btn-submit">💾 नमूना सहेजें</button>
-            <button type="reset" class="btn-reset">🔄 फॉर्म साफ करें</button>
+            <button type="submit" class="btn-submit">💾 SOC Record सहेजें</button>
+            <button type="reset" class="btn-reset">🔄 फॉर्म साफ</button>
           </div>
         </form>
       </div>
 
-      <!-- ===================== BIOCHAR ===================== -->
+      <!-- ======================== BIOCHAR ======================== -->
       <div class="act-panel" id="panel-biochar">
         <div class="act-info-header">
           <div class="act-info-icon">🔥</div>
-          <div class="act-info-body">
-            <div class="act-info-title">Biochar Monitoring — बायोचार निगरानी</div>
+          <div>
+            <div class="act-info-title">Biochar Monitoring — Carbon Sequestration via Pyrolysis</div>
             <div class="act-info-desc">
-              बायोचार एक प्रकार का कोयला है जो पराली/बायोमास को ऑक्सीजन की सीमित मात्रा में जलाने (Pyrolysis) से बनता है। खेत में डालने पर यह सैकड़ों वर्षों तक कार्बन को मिट्टी में बंद रखता है। अनुमान: <strong>1 kg Biochar ≈ 0.50 kg Carbon Stored</strong>।
+              Biochar (पायरोलिसिस से बना कोयला) खेत में डालने पर कार्बन को सदियों तक बंद रखता है।
+              <strong>Formula: Carbon Stored = Biochar Output (kg) × Carbon Fraction</strong>।
+              Default carbon fraction = <strong>0.50</strong> (conservative estimate), लेकिन अगर Lab-tested carbon content उपलब्ध है तो उसे use करें — इससे estimate और सटीक होता है।
             </div>
             <div class="act-info-tags">
-              <span class="act-tag green">🌱 Carbon Storage: ×0.50</span>
-              <span class="act-tag orange">🔥 Pyrolysis प्रक्रिया</span>
-              <span class="act-tag teal">📍 GPS Tracked</span>
-              <span class="act-tag purple">♻️ पराली उपयोग</span>
+              <span class="act-tag green">🌱 C_stored = weight × fraction</span>
+              <span class="act-tag orange">🔥 Pyrolysis Verified</span>
+              <span class="act-tag teal">📍 GPS Application Map</span>
+              <span class="act-tag purple">🧪 Lab fraction optional</span>
             </div>
           </div>
         </div>
 
-        <div class="form-section-title">🔥 Biochar उत्पादन और प्रयोग</div>
+        <!-- BIOCHAR FORMULA BOX -->
+        <div class="formula-callout">
+          <div class="formula-callout-title">📐 Biochar Carbon Sequestration Formula</div>
+          <div class="formula-block">Carbon_stored (kg C) = Biochar_applied (kg) × Carbon_fraction</div>
+          <div class="formula-vars">
+            <strong>Carbon_fraction</strong> = 0.50 (default/conservative) या Lab-tested stable C content &nbsp;|&nbsp;
+            <strong>CO₂ Equivalent</strong> = C_stored × (44/12) = C_stored × 3.67 &nbsp;|&nbsp;
+            Final project mein fixed 0.50 ki jagah <strong>lab-tested value</strong> use karein for MRV accuracy
+          </div>
+        </div>
+
         <form id="form-biochar" autocomplete="off">
+          <!-- Layer 1 -->
+          <div class="form-section-title">📋 Layer 1 — Production Record <span class="section-badge layer1">Field</span></div>
           <div class="form-grid cols-4">
             <div class="form-group">
               <label class="form-label" for="bc-record-id">Record ID <span class="req">*</span></label>
@@ -910,113 +774,175 @@
               <input type="text" id="bc-farmer" class="form-input" placeholder="किसान का नाम" required>
             </div>
             <div class="form-group">
-              <label class="form-label" for="bc-date">तारीख</label>
+              <label class="form-label" for="bc-date">Production तारीख</label>
               <input type="date" id="bc-date" class="form-input">
             </div>
             <div class="form-group">
-              <label class="form-label" for="bc-feedstock">Feedstock प्रकार <span class="req">*</span></label>
+              <label class="form-label" for="bc-feedstock">Feedstock (Biomass) प्रकार <span class="req">*</span></label>
               <select id="bc-feedstock" class="form-select" required>
                 <option value="">— चुनें —</option>
-                <option value="parali">पराली (Rice Straw)</option>
-                <option value="wheat_straw">गेहूं का भूसा</option>
-                <option value="wood">लकड़ी/टहनियाँ</option>
-                <option value="sugarcane">गन्ने का बगास</option>
-                <option value="bamboo">बाँस</option>
-                <option value="other">अन्य बायोमास</option>
+                <option value="parali">🌾 पराली (Rice Straw)</option>
+                <option value="wheat_straw">🌿 गेहूं भूसा</option>
+                <option value="wood">🪵 लकड़ी/टहनियाँ</option>
+                <option value="sugarcane">🍬 गन्ने का बगास</option>
+                <option value="bamboo">🎋 बाँस</option>
+                <option value="other">📦 अन्य बायोमास</option>
               </select>
             </div>
           </div>
-
-          <div class="form-section-title" style="margin-top:4px;">📦 उत्पादन विवरण (Production)</div>
           <div class="form-grid">
             <div class="form-group">
-              <label class="form-label" for="bc-biomass-weight">बायोमास इनपुट वजन (kg) <span class="req">*</span></label>
-              <input type="number" id="bc-biomass-weight" class="form-input" placeholder="जैसे: 500" min="0" step="0.1" required>
+              <label class="form-label" for="bc-biomass-weight">Biomass Input Weight (kg) <span class="req">*</span></label>
+              <input type="number" id="bc-biomass-weight" class="form-input" placeholder="जैसे: 500" min="0" step="0.1" required oninput="calcBiocharEstimate()">
             </div>
             <div class="form-group">
-              <label class="form-label" for="bc-moisture">नमी (Moisture %)</label>
-              <input type="number" id="bc-moisture" class="form-input" placeholder="जैसे: 15" min="0" max="100" step="0.1">
-              <span class="form-hint">0–100% (सूखे बायोमास में कम)</span>
+              <label class="form-label" for="bc-moisture">Biomass Moisture Content (%)</label>
+              <input type="number" id="bc-moisture" class="form-input" placeholder="15" min="0" max="100" step="0.1">
+              <span class="form-hint">0–100% (सूखे में कम)</span>
             </div>
             <div class="form-group">
-              <label class="form-label" for="bc-output-weight">Biochar आउटपुट वजन (kg)</label>
-              <input type="number" id="bc-output-weight" class="form-input" placeholder="जैसे: 150" min="0" step="0.1">
-              <span class="form-hint">उत्पादित बायोचार का वजन</span>
+              <label class="form-label" for="bc-output-weight">Biochar Output Weight (kg) <span class="req">*</span></label>
+              <input type="number" id="bc-output-weight" class="form-input" placeholder="जैसे: 150" min="0" step="0.1" required oninput="calcBiocharEstimate()">
+              <span class="form-hint">Yield = output ÷ input × 100</span>
             </div>
           </div>
 
-          <div class="form-section-title">🌍 खेत में प्रयोग (Application)</div>
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label" for="bc-application-weight">प्रयोग किया गया बायोचार (kg) <span class="req">*</span></label>
-              <input type="number" id="bc-application-weight" class="form-input" placeholder="जैसे: 120" min="0" step="0.1" required>
+          <!-- Layer 2: Evidence -->
+          <div class="form-section-title">🧪 Layer 2 — Carbon Fraction (Evidence) <span class="section-badge layer2">Evidence</span></div>
+          <div class="fraction-toggle">
+            <div class="fraction-opt active" id="frac-default-btn" onclick="setFractionMode('default')">
+              📊 Default (0.50 conservative)<br><small style="font-weight:400;color:var(--text-muted)">IPCC / standard</small>
             </div>
-            <div class="form-group">
-              <label class="form-label" for="bc-field-area">खेत क्षेत्रफल (Bigha)</label>
-              <input type="number" id="bc-field-area" class="form-input" placeholder="जैसे: 2" min="0" step="0.1">
+            <div class="fraction-opt" id="frac-lab-btn" onclick="setFractionMode('lab')">
+              🧪 Lab-Tested Stable C (%)<br><small style="font-weight:400;color:var(--text-muted)">More accurate MRV</small>
             </div>
-            <div class="form-group">
-              <label class="form-label" for="bc-gps">GPS (Lat, Long)</label>
-              <div style="display:flex;gap:6px;align-items:center;">
-                <input type="text" id="bc-gps" class="form-input" placeholder="30.1234, 78.9876" style="flex:1;">
-                <button type="button" class="btn-gps" onclick="captureGPS('bc-gps')">📍 Auto</button>
+          </div>
+          <div id="frac-default-section">
+            <div class="formula-callout" style="border-left-color:var(--green);">
+              <div style="font-size:11px;color:var(--text-muted);">Default carbon fraction = <strong style="color:var(--green);">0.50</strong> — conservative estimate, broadly accepted for indicative MRV. Final carbon credit ke liye lab-tested value recommended hai.</div>
+            </div>
+          </div>
+          <div id="frac-lab-section" style="display:none;">
+            <div class="form-grid cols-4">
+              <div class="form-group">
+                <label class="form-label" for="bc-lab-c-content">Lab C Content (% of biochar) <span class="req">*</span></label>
+                <input type="number" id="bc-lab-c-content" class="form-input" placeholder="जैसे: 65.5" min="0" max="100" step="0.1" oninput="calcBiocharEstimate()">
+                <span class="form-hint formula">fraction = lab_value ÷ 100</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="bc-lab-name">Lab Name</label>
+                <input type="text" id="bc-lab-name" class="form-input" placeholder="Laboratory का नाम">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="bc-lab-report">Report Number</label>
+                <input type="text" id="bc-lab-report" class="form-input" placeholder="Report / Certificate No.">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="bc-lab-date">Lab Test तारीख</label>
+                <input type="date" id="bc-lab-date" class="form-input">
               </div>
             </div>
           </div>
 
-          <!-- Biochar Estimate Widget -->
-          <div class="estimate-box" id="biochar-estimate-box">
-            <div class="estimate-icon">🌱</div>
-            <div class="estimate-body">
-              <div class="estimate-title">
-                Carbon Sequestration अनुमान
-                <span class="badge-indicative">⚠️ Indicative Only</span>
+          <!-- Application -->
+          <div class="form-section-title">🌍 Soil Application — Field Evidence <span class="section-badge layer2">Evidence</span></div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="bc-application-weight">Applied Biochar (kg) <span class="req">*</span></label>
+              <input type="number" id="bc-application-weight" class="form-input" placeholder="जैसे: 120" min="0" step="0.1" required oninput="calcBiocharEstimate()">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bc-field-area-ha">Application Area (ha)</label>
+              <input type="number" id="bc-field-area-ha" class="form-input" placeholder="0.267" min="0" step="0.001">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bc-application-date">Application तारीख</label>
+              <input type="date" id="bc-application-date" class="form-input">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:14px;">
+            <label class="form-label" for="bc-gps">GPS Location (Lat, Long)</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <input type="text" id="bc-gps" class="form-input" placeholder="30.1234, 78.9876" style="flex:1;">
+              <button type="button" class="btn-gps" onclick="captureGPS('bc-gps')">📍 Auto GPS</button>
+            </div>
+            <span class="form-hint">खेत की GPS लोकेशन — Application map के लिए ज़रूरी</span>
+          </div>
+
+          <!-- MRV Estimate -->
+          <div class="mrv-estimate-panel">
+            <div class="mrv-estimate-header">
+              <span class="mrv-estimate-title">📐 Carbon Sequestration — MRV Estimate <span class="badge-indicative">⚠️ Indicative Only</span></span>
+              <span class="badge-formula" id="bc-formula-badge">C = applied × 0.50</span>
+            </div>
+            <div class="mrv-estimate-body">
+              <div class="est-kv">
+                <span class="est-k">Carbon Fraction Used</span>
+                <span class="est-formula">Default 0.50 / Lab value</span>
+                <span class="est-v" id="bc-est-fraction">0.50</span>
               </div>
-              <div class="estimate-values">
-                <div class="estimate-kv">
-                  <span class="estimate-k">Carbon Stored</span>
-                  <span class="estimate-v" id="bc-est-carbon">—<span> kg C</span></span>
-                </div>
-                <div class="estimate-kv">
-                  <span class="estimate-k">CO₂ समतुल्य</span>
-                  <span class="estimate-v" id="bc-est-co2eq">—<span> kg CO₂e</span></span>
-                </div>
-                <div class="estimate-kv">
-                  <span class="estimate-k">Conversion Yield</span>
-                  <span class="estimate-v" id="bc-est-yield">—<span> %</span></span>
-                </div>
+              <div class="est-kv">
+                <span class="est-k">Carbon Stored (kg C)</span>
+                <span class="est-formula">applied_biochar × fraction</span>
+                <span class="est-v" id="bc-est-carbon" style="color:var(--green)">—<span class="unit">kg C</span></span>
+              </div>
+              <div class="est-kv">
+                <span class="est-k">CO₂ Equivalent</span>
+                <span class="est-formula">C × 3.67 (44/12)</span>
+                <span class="est-v" id="bc-est-co2eq">—<span class="unit">kg CO₂e</span></span>
+              </div>
+              <div class="est-kv">
+                <span class="est-k">Biochar Yield</span>
+                <span class="est-formula">output ÷ input × 100</span>
+                <span class="est-v" id="bc-est-yield">—<span class="unit">%</span></span>
               </div>
             </div>
           </div>
 
           <div class="form-actions">
-            <button type="submit" class="btn-submit">💾 Biochar रिकॉर्ड सहेजें</button>
-            <button type="reset" class="btn-reset" onclick="resetBiocharEstimate()">🔄 फॉर्म साफ करें</button>
+            <button type="submit" class="btn-submit">💾 Biochar Record सहेजें</button>
+            <button type="reset" class="btn-reset" onclick="resetBiocharEstimate()">🔄 फॉर्म साफ</button>
           </div>
         </form>
       </div>
 
-      <!-- ===================== AGROFORESTRY ===================== -->
+      <!-- ======================== AGROFORESTRY ======================== -->
       <div class="act-panel" id="panel-agro">
         <div class="act-info-header">
           <div class="act-info-icon">🌳</div>
-          <div class="act-info-body">
-            <div class="act-info-title">Agroforestry — कृषिवानिकी</div>
+          <div>
+            <div class="act-info-title">Agroforestry — Biomass-based Carbon Estimate</div>
             <div class="act-info-desc">
-              खेतों की मेड़ पर या खेत के अंदर पेड़ लगाना। यह छाया, फल, चारा, लकड़ी देता है और साथ ही वायुमंडलीय CO₂ को अवशोषित करता है। पहाड़ी क्षेत्रों में भूमि संरक्षण में भी मदद मिलती है। Survival Rate = जीवित पेड़ ÷ लगाए गए पेड़ × 100।
+              Carbon estimate <strong>पेड़ों की संख्या से शुरू होता है</strong>, लेकिन stronger estimate के लिए: <strong>species + survival rate + DBH (trunk diameter) + height</strong> data ज़रूरी है।
+              Field-based <strong>allometric equations</strong> से Above-ground Biomass (AGB) निकाला जाता है, फिर carbon = AGB × 0.47।
+              Remote sensing (satellite) इन estimates को scale करने में मदद करता है।
             </div>
             <div class="act-info-tags">
-              <span class="act-tag teal">🌳 Carbon Sequestration</span>
-              <span class="act-tag green">🍎 Multicropping</span>
-              <span class="act-tag blue">⛰️ Soil Conservation</span>
+              <span class="act-tag teal">🌳 Allometric Equations</span>
+              <span class="act-tag green">📐 AGB → Carbon</span>
               <span class="act-tag orange">📍 Geo-tagged</span>
+              <span class="act-tag blue">📡 Remote Sensing Support</span>
             </div>
           </div>
         </div>
 
-        <div class="form-section-title">🌱 पेड़ रोपण एंट्री</div>
+        <!-- AGRO FORMULA BOX -->
+        <div class="formula-callout">
+          <div class="formula-callout-title">📐 Agroforestry Carbon Estimation Framework</div>
+          <div class="formula-block">AGB (kg/tree) = a × DBH^b &nbsp;&nbsp;|&nbsp;&nbsp; Carbon = AGB × 0.47</div>
+          <div class="formula-vars">
+            <strong>AGB</strong> = Above-Ground Biomass (species-specific allometric equation) &nbsp;|&nbsp;
+            <strong>DBH</strong> = Diameter at Breast Height (1.3m पर) in cm &nbsp;|&nbsp;
+            <strong>a, b</strong> = species coefficients (ICFRE/FSI tables से) &nbsp;|&nbsp;
+            <strong>Carbon Fraction</strong> = 0.47 (IPCC default) &nbsp;|&nbsp;
+            Phase 1 mein: simple count-based estimate, Phase 2 mein: DBH-based allometric
+          </div>
+        </div>
+
         <form id="form-agro" autocomplete="off">
-          <div class="form-grid">
+          <!-- Layer 1 -->
+          <div class="form-section-title">📋 Layer 1 — Plantation Record <span class="section-badge layer1">Field</span></div>
+          <div class="form-grid cols-4">
             <div class="form-group">
               <label class="form-label" for="agro-record-id">Record ID <span class="req">*</span></label>
               <input type="text" id="agro-record-id" class="form-input" placeholder="AGR-RDP-2025-01" required>
@@ -1030,90 +956,127 @@
               <input type="date" id="agro-planting-date" class="form-input">
             </div>
             <div class="form-group">
-              <label class="form-label" for="agro-species">पेड़ की प्रजाति <span class="req">*</span></label>
-              <select id="agro-species" class="form-select" required>
+              <label class="form-label" for="agro-species">पेड़ प्रजाति <span class="req">*</span></label>
+              <select id="agro-species" class="form-select" required onchange="updateAlloCoeffs()">
                 <option value="">— चुनें —</option>
-                <optgroup label="फलदार पेड़">
+                <optgroup label="🍎 फलदार">
                   <option value="walnut">अखरोट (Walnut)</option>
                   <option value="apple">सेब (Apple)</option>
                   <option value="apricot">खुबानी (Apricot)</option>
                   <option value="plum">आलूबुखारा (Plum)</option>
-                  <option value="mango">आम (Mango)</option>
                   <option value="amla">आंवला</option>
+                  <option value="mango">आम (Mango)</option>
                 </optgroup>
-                <optgroup label="चारा/छाया पेड़">
+                <optgroup label="🌿 चारा/छाया">
                   <option value="mulberry">शहतूत (Mulberry)</option>
                   <option value="bamboo">बाँस (Bamboo)</option>
                   <option value="poplar">पॉपलर</option>
-                  <option value="eucalyptus">नीलगिरी</option>
                 </optgroup>
-                <optgroup label="औषधीय">
+                <optgroup label="💊 औषधीय">
                   <option value="neem">नीम</option>
                   <option value="tej_patta">तेजपत्ता</option>
                   <option value="other">अन्य</option>
                 </optgroup>
               </select>
             </div>
+          </div>
+          <div class="form-grid cols-4">
             <div class="form-group">
-              <label class="form-label" for="agro-planted">लगाए गए पेड़ (संख्या) <span class="req">*</span></label>
-              <input type="number" id="agro-planted" class="form-input" placeholder="जैसे: 50" min="0" required>
+              <label class="form-label" for="agro-planted">लगाए गए पेड़ <span class="req">*</span></label>
+              <input type="number" id="agro-planted" class="form-input" placeholder="50" min="0" required oninput="calcAgroEstimate()">
             </div>
             <div class="form-group">
-              <label class="form-label" for="agro-surviving">जीवित पेड़ (Survival Count)</label>
-              <input type="number" id="agro-surviving" class="form-input" placeholder="जैसे: 45" min="0">
-              <span class="form-hint">अगर ताज़ा रोपण है तो लगाए = जीवित</span>
+              <label class="form-label" for="agro-surviving">जीवित पेड़ (Survival)</label>
+              <input type="number" id="agro-surviving" class="form-input" placeholder="45" min="0" oninput="calcAgroEstimate()">
             </div>
             <div class="form-group">
-              <label class="form-label" for="agro-area">खेत/मेड़ क्षेत्रफल (Bigha)</label>
-              <input type="number" id="agro-area" class="form-input" placeholder="जैसे: 5" min="0" step="0.1">
+              <label class="form-label" for="agro-area-ha">खेत/मेड़ (ha)</label>
+              <input type="number" id="agro-area-ha" class="form-input" placeholder="0.5" min="0" step="0.01">
             </div>
             <div class="form-group">
               <label class="form-label" for="agro-placement">रोपण स्थान</label>
               <select id="agro-placement" class="form-select">
                 <option value="">— चुनें —</option>
-                <option value="bund">मेड़ पर (Field Bund)</option>
+                <option value="bund">मेड़ (Field Bund)</option>
                 <option value="intercrop">खेत के बीच</option>
-                <option value="border">सीमा पर (Border)</option>
+                <option value="border">सीमा (Border)</option>
                 <option value="terrace">सीढ़ीदार खेत</option>
               </select>
+            </div>
+          </div>
+
+          <!-- Layer 2: DBH/Height Evidence -->
+          <div class="form-section-title">🧪 Layer 2 — Tree Measurement (Evidence) <span class="section-badge layer2">Evidence</span></div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;padding:8px 12px;background:var(--bg-tertiary);border-radius:var(--radius);">
+            💡 Phase 1 में tree count से estimate शुरू करें। DBH और height बाद में measure करें (पेड़ बड़े होने पर) — इससे allometric carbon estimate और accurate होगा।
+          </div>
+          <div class="form-grid cols-4">
+            <div class="form-group">
+              <label class="form-label" for="agro-avg-dbh">औसत DBH (cm)</label>
+              <input type="number" id="agro-avg-dbh" class="form-input" placeholder="जैसे: 5.0" min="0" step="0.1" oninput="calcAgroEstimate()">
+              <span class="form-hint">Diameter at 1.3m height (Breast Height)</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="agro-avg-height">औसत ऊँचाई (m)</label>
+              <input type="number" id="agro-avg-height" class="form-input" placeholder="जैसे: 2.5" min="0" step="0.1" oninput="calcAgroEstimate()">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="agro-tree-age">पेड़ की उम्र (महीने)</label>
+              <input type="number" id="agro-tree-age" class="form-input" placeholder="जैसे: 12" min="0">
             </div>
             <div class="form-group">
               <label class="form-label" for="agro-geotag">Geotag (Lat, Long)</label>
               <div style="display:flex;gap:6px;align-items:center;">
                 <input type="text" id="agro-geotag" class="form-input" placeholder="30.1234, 78.9876" style="flex:1;">
-                <button type="button" class="btn-gps" onclick="captureGPS('agro-geotag')">📍 Auto</button>
+                <button type="button" class="btn-gps" onclick="captureGPS('agro-geotag')">📍</button>
               </div>
             </div>
           </div>
 
-          <!-- Agroforestry Estimate Widget -->
-          <div class="estimate-box" id="agro-estimate-box">
-            <div class="estimate-icon">🌳</div>
-            <div class="estimate-body">
-              <div class="estimate-title">
-                पेड़ Survival & Carbon अनुमान
-                <span class="badge-indicative">⚠️ Indicative Only</span>
+          <!-- Allometric coefficients reference -->
+          <div id="allo-info" style="display:none;background:rgba(20,184,166,0.06);border:1px solid rgba(20,184,166,0.2);border-radius:var(--radius);padding:10px 12px;margin-bottom:12px;font-size:11px;color:var(--text-secondary);">
+            <strong style="color:var(--teal);">📐 Allometric Reference:</strong> <span id="allo-species-label">—</span> &nbsp;|&nbsp;
+            AGB = <span id="allo-coeff-a">—</span> × DBH^<span id="allo-coeff-b">—</span> &nbsp;|&nbsp;
+            Source: ICFRE / FSI India
+          </div>
+
+          <!-- MRV Estimate -->
+          <div class="mrv-estimate-panel">
+            <div class="mrv-estimate-header">
+              <span class="mrv-estimate-title">📐 Agroforestry Carbon — MRV Estimate <span class="badge-indicative">⚠️ Indicative Only</span></span>
+              <span class="badge-formula">C = AGB × 0.47 (IPCC)</span>
+            </div>
+            <div class="mrv-estimate-body">
+              <div class="est-kv">
+                <span class="est-k">Survival Rate</span>
+                <span class="est-formula">surviving ÷ planted × 100</span>
+                <span class="est-v" id="agro-est-survival">—<span class="unit">%</span></span>
               </div>
-              <div class="estimate-values">
-                <div class="estimate-kv">
-                  <span class="estimate-k">Survival Rate</span>
-                  <span class="estimate-v" id="agro-est-survival">—<span> %</span></span>
-                </div>
-                <div class="estimate-kv">
-                  <span class="estimate-k">मृत पेड़ (Gap Fill ज़रूरी)</span>
-                  <span class="estimate-v" id="agro-est-dead">—<span> पेड़</span></span>
-                </div>
-                <div class="estimate-kv">
-                  <span class="estimate-k">अनुमानित Carbon (10yr)</span>
-                  <span class="estimate-v" id="agro-est-carbon">—<span> kg CO₂/yr</span></span>
-                </div>
+              <div class="est-kv">
+                <span class="est-k">Gap Fill ज़रूरी</span>
+                <span class="est-formula">planted − surviving</span>
+                <span class="est-v" id="agro-est-dead">—<span class="unit">पेड़</span></span>
+              </div>
+              <div class="est-kv">
+                <span class="est-k">Est. AGB / tree</span>
+                <span class="est-formula" id="agro-est-method-label">count-based</span>
+                <span class="est-v" id="agro-est-agb">—<span class="unit">kg</span></span>
+              </div>
+              <div class="est-kv">
+                <span class="est-k">Carbon / year (all trees)</span>
+                <span class="est-formula">AGB × 0.47 × trees</span>
+                <span class="est-v" id="agro-est-carbon">—<span class="unit">kg CO₂/yr</span></span>
               </div>
             </div>
           </div>
 
+          <div class="form-group" style="margin-top:14px;">
+            <label class="form-label" for="agro-notes">अतिरिक्त टिप्पणी</label>
+            <textarea id="agro-notes" class="form-textarea" placeholder="साथी फसलें, भूमि स्वामित्व, अन्य observation..."></textarea>
+          </div>
           <div class="form-actions">
-            <button type="submit" class="btn-submit">💾 रोपण रिकॉर्ड सहेजें</button>
-            <button type="reset" class="btn-reset" onclick="resetAgroEstimate()">🔄 फॉर्म साफ करें</button>
+            <button type="submit" class="btn-submit">💾 Plantation Record सहेजें</button>
+            <button type="reset" class="btn-reset" onclick="resetAgroEstimate()">🔄 फॉर्म साफ</button>
           </div>
         </form>
       </div>
@@ -1121,17 +1084,15 @@
     </div><!-- /activity-tab-content -->
   </div><!-- /activity-tabs-wrapper -->
 
-  <!-- ============================================================
-       RECENT RECORDS TABLE
-       ============================================================ -->
+  <!-- RECORDS TABLE -->
   <div class="records-section">
     <div class="records-header">
       <div class="records-header-left">
-        <span class="records-title">📋 हाल के रिकॉर्ड</span>
+        <span class="records-title">📋 MRV Records (हाल के)</span>
         <span class="records-count" id="records-total-count">0 records</span>
       </div>
       <div class="records-filter">
-        <select id="records-filter-activity" title="गतिविधि फ़िल्टर">
+        <select id="records-filter-activity">
           <option value="all">सभी</option>
           <option value="awd">AWD</option>
           <option value="soc">SOC</option>
@@ -1145,489 +1106,458 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>गतिविधि</th>
+            <th>Activity</th>
             <th>किसान</th>
-            <th>ID / नाम</th>
-            <th>मुख्य मूल्य</th>
-            <th>अनुमान (Indicative)</th>
+            <th>Record ID</th>
+            <th>Key Evidence</th>
+            <th>MRV Estimate</th>
+            <th>Formula Used</th>
             <th>तारीख</th>
-            <th>स्थिति</th>
+            <th>Status</th>
           </tr>
         </thead>
-        <tbody id="records-tbody">
-          <!-- populated by JS -->
-        </tbody>
+        <tbody id="records-tbody"></tbody>
       </table>
     </div>
     <div id="records-empty" class="empty-state">
       <div class="empty-state-icon">📭</div>
-      <div class="empty-state-text">अभी कोई रिकॉर्ड नहीं। ऊपर फॉर्म भरकर पहला रिकॉर्ड जोड़ें।</div>
+      <div class="empty-state-text">अभी कोई MRV record नहीं। ऊपर form भरकर पहला record जोड़ें।</div>
     </div>
   </div>
 
-  <!-- ============================================================
-       DISCLAIMER
-       ============================================================ -->
+  <!-- DISCLAIMER -->
   <div class="disclaimer-box">
-    <div class="disclaimer-icon">⚠️</div>
+    <div style="font-size:20px;flex-shrink:0;">⚠️</div>
     <div class="disclaimer-text">
-      <strong>महत्वपूर्ण सूचना:</strong> इस पेज पर दिए गए सभी अनुमान (Carbon Stored, Methane Reduction, Survival Rate) केवल <strong>Indicative / सांकेतिक</strong> हैं और प्रारंभिक क्षेत्र-डेटा पर आधारित हैं।
-      ये मान किसी भी <strong>Carbon Credit</strong> या आधिकारिक रिपोर्ट के लिए उपयोग नहीं किए जाने चाहिए।
-      आधिकारिक मूल्यांकन के लिए एक स्वतंत्र सत्यापन परत (Verification Layer) आवश्यक है।
-      वर्तमान प्रणाली में NDVI औसत भी एक Blank/Demo State में है — Climate Logic को धीरे-धीरे और सावधानीपूर्वक जोड़ा जाएगा।
+      <strong>MRV Disclaimer:</strong> यह tool एक <strong>Measurement, Reporting & Verification Support System</strong> है — direct laboratory-grade measurement नहीं।
+      सभी carbon और emission estimates <strong>indicative / सांकेतिक</strong> हैं और field data + standard formulas पर आधारित हैं।
+      किसी भी <strong>Carbon Credit issuance, official reporting, या financial transaction</strong> के लिए इन values का उपयोग <strong>independent third-party verification के बिना नहीं</strong> किया जाना चाहिए।
+      &nbsp;|&nbsp; <strong>SOC:</strong> Lab-tested SOC%, Bulk Density, depth required. &nbsp;|&nbsp;
+      <strong>AWD:</strong> IPCC Tier 1 EF values (country-specific adjustment recommended). &nbsp;|&nbsp;
+      <strong>Biochar:</strong> Default C fraction 0.50; lab-tested value preferred. &nbsp;|&nbsp;
+      <strong>Agroforestry:</strong> Allometric equations (ICFRE/FSI) — DBH measurement required for strong estimates.
     </div>
   </div>
 
 </main>
-
-<!-- Toast Container -->
 <div id="toast-container"></div>
 
-<!-- ============================================================
-     JS
-     ============================================================ -->
 <script>
-/* ============================================================
-   THEME TOGGLE
-   ============================================================ */
+/* ---- THEME ---- */
 const themeBtn = document.getElementById('btn-toggle-theme');
-const savedTheme = localStorage.getItem('agriTheme') || 'dark';
-document.documentElement.setAttribute('data-theme', savedTheme);
-themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-
-themeBtn.addEventListener('click', () => {
-  const cur = document.documentElement.getAttribute('data-theme');
-  const next = cur === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('agriTheme', next);
-  themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+const saved = localStorage.getItem('agriTheme')||'dark';
+document.documentElement.setAttribute('data-theme', saved);
+themeBtn.textContent = saved==='dark'?'☀️':'🌙';
+themeBtn.addEventListener('click',()=>{
+  const c=document.documentElement.getAttribute('data-theme');
+  const n=c==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',n);
+  localStorage.setItem('agriTheme',n);
+  themeBtn.textContent=n==='dark'?'☀️':'🌙';
 });
 
-/* ============================================================
-   ACTIVITY TABS
-   ============================================================ */
-const actTabBtns = document.querySelectorAll('.act-tab-btn');
-const actPanels  = document.querySelectorAll('.act-panel');
-
-actTabBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const act = btn.dataset.act;
-    actTabBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-    actPanels.forEach(p => p.classList.remove('active'));
+/* ---- TABS ---- */
+document.querySelectorAll('.act-tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.act-tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.act-panel').forEach(p=>p.classList.remove('active'));
     btn.classList.add('active');
-    btn.setAttribute('aria-selected','true');
-    document.getElementById('panel-' + act).classList.add('active');
+    document.getElementById('panel-'+btn.dataset.act).classList.add('active');
   });
 });
 
-/* ============================================================
-   DATA STORE (LocalStorage)
-   ============================================================ */
-const STORE_KEY = 'climate_records_v1';
+/* ---- STORE ---- */
+const STORE = 'mrv_records_v2';
+const load = ()=>{ try{ return JSON.parse(localStorage.getItem(STORE))||[]; }catch(e){ return []; }};
+const save = r=>localStorage.setItem(STORE,JSON.stringify(r));
 
-function loadRecords() {
-  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
-  catch(e) { return []; }
-}
-function saveRecords(recs) {
-  localStorage.setItem(STORE_KEY, JSON.stringify(recs));
-}
-
-/* ============================================================
-   TOAST
-   ============================================================ */
-function showToast(msg, type='success') {
-  const tc = document.getElementById('toast-container');
-  const t = document.createElement('div');
-  t.className = 'toast ' + type;
-  t.innerHTML = (type==='success' ? '✅ ' : '❌ ') + msg;
+/* ---- TOAST ---- */
+function toast(msg,type='success'){
+  const tc=document.getElementById('toast-container');
+  const t=document.createElement('div');
+  t.className='toast '+type;
+  t.innerHTML=(type==='success'?'✅ ':'❌ ')+msg;
   tc.appendChild(t);
-  setTimeout(() => t.remove(), 3500);
+  setTimeout(()=>t.remove(),3800);
 }
 
-/* ============================================================
-   GPS CAPTURE
-   ============================================================ */
-function captureGPS(fieldId) {
-  if (!navigator.geolocation) {
-    showToast('Geolocation इस ब्राउज़र में उपलब्ध नहीं है।', 'error'); return;
-  }
-  showToast('📍 GPS लोकेशन ढूंढी जा रही है...');
-  navigator.geolocation.getCurrentPosition(pos => {
-    const { latitude: lat, longitude: lng } = pos.coords;
-    document.getElementById(fieldId).value = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-    showToast(`📍 GPS: ${lat.toFixed(4)}, ${lng.toFixed(4)} — सफलतापूर्वक प्राप्त`);
-  }, err => {
-    showToast('GPS एक्सेस नहीं हो सकी। कृपया मैन्युअल दर्ज करें।', 'error');
-  });
+/* ---- GPS ---- */
+function captureGPS(fieldId){
+  if(!navigator.geolocation){ toast('Geolocation उपलब्ध नहीं','error'); return; }
+  toast('📍 GPS ढूंढा जा रहा है...');
+  navigator.geolocation.getCurrentPosition(p=>{
+    document.getElementById(fieldId).value=`${p.coords.latitude.toFixed(6)}, ${p.coords.longitude.toFixed(6)}`;
+    toast(`📍 ${p.coords.latitude.toFixed(4)}, ${p.coords.longitude.toFixed(4)} — GPS captured`);
+  },()=>toast('GPS access नहीं हो सकी।','error'));
 }
 
-/* ============================================================
-   KPI UPDATER
-   ============================================================ */
-function updateKPIs() {
-  const recs = loadRecords();
-  document.getElementById('kpi-total-records').textContent = recs.length;
-  document.getElementById('records-total-count').textContent = recs.length + ' records';
-
-  // Update tab counts
-  ['awd','soc','biochar','agro'].forEach(a => {
-    const c = recs.filter(r => r.activity === a).length;
-    document.getElementById('count-' + a).textContent = c;
-  });
-
-  // Carbon from Biochar
-  const totalCarbon = recs
-    .filter(r => r.activity === 'biochar' && r.est_carbon)
-    .reduce((s, r) => s + parseFloat(r.est_carbon || 0), 0);
-  document.getElementById('kpi-carbon').innerHTML =
-    (totalCarbon/1000).toFixed(2) + '<span style="font-size:14px;font-weight:400"> t</span>';
-  if (totalCarbon > 0) document.getElementById('kpi-trend-carbon').textContent = '↑ +' + totalCarbon.toFixed(0) + ' kg';
-
-  // Methane from AWD
-  const totalMethane = recs
-    .filter(r => r.activity === 'awd' && r.est_methane)
-    .reduce((s, r) => s + parseFloat(r.est_methane || 0), 0);
-  document.getElementById('kpi-methane').innerHTML =
-    totalMethane.toFixed(1) + '<span style="font-size:14px;font-weight:400"> kg</span>';
-  if (totalMethane > 0) document.getElementById('kpi-trend-methane').textContent = '↓ Reduced';
-
-  // Tree survival
-  const agroRecs = recs.filter(r => r.activity === 'agro' && r.planted && r.surviving);
-  if (agroRecs.length) {
-    const totPlanted  = agroRecs.reduce((s,r) => s + parseInt(r.planted||0), 0);
-    const totSurviving = agroRecs.reduce((s,r) => s + parseInt(r.surviving||0), 0);
-    const rate = totPlanted > 0 ? Math.round(totSurviving/totPlanted*100) : 0;
-    document.getElementById('kpi-tree-survival').innerHTML =
-      rate + '<span style="font-size:14px;font-weight:400">%</span>';
-    document.getElementById('kpi-trend-trees').textContent = totSurviving + '/' + totPlanted;
-  }
+/* ---- AWD IRRIGATION LOG ---- */
+function addLogRow(){
+  const cont=document.getElementById('irrigation-log-rows');
+  const row=document.createElement('div');
+  row.className='awd-period-row';
+  row.innerHTML=`<input type="date" class="log-date form-input"><input type="number" class="log-depth form-input" placeholder="-5 to +10" step="0.5"><select class="log-status form-select"><option value="flooded">Flooded</option><option value="awd_moist">AWD Moist</option><option value="awd_dry">AWD Dry</option></select><input type="text" class="log-note form-input" placeholder="टिप्पणी"><button type="button" class="btn-remove-period" onclick="removeLogRow(this)">✕</button>`;
+  cont.appendChild(row);
+}
+function removeLogRow(btn){
+  if(document.querySelectorAll('.awd-period-row').length>1) btn.closest('.awd-period-row').remove();
 }
 
-/* ============================================================
-   RECORDS TABLE RENDERER
-   ============================================================ */
-function renderTable(filterActivity = 'all') {
-  const recs = loadRecords().filter(r => filterActivity === 'all' || r.activity === filterActivity);
-  const tbody = document.getElementById('records-tbody');
-  const empty = document.getElementById('records-empty');
-  tbody.innerHTML = '';
+/* ---- AWD ESTIMATE ---- */
+function calcAWDEstimate(){
+  const area=parseFloat(document.getElementById('awd-area-ha').value)||0;
+  const seaDays=parseFloat(document.getElementById('awd-season-days').value)||0;
+  const awdDays=parseFloat(document.getElementById('awd-awd-days').value)||0;
+  const floodDays=parseFloat(document.getElementById('awd-flooded-days').value)||0;
+  const efBase=parseFloat(document.getElementById('awd-ef-baseline').value)||1.30;
 
-  if (recs.length === 0) {
-    empty.style.display = 'block';
-    return;
-  }
-  empty.style.display = 'none';
+  if(area>0 && seaDays>0){
+    // EF for AWD phase estimated at 50–65% of baseline (literature range)
+    const efAWD = efBase * 0.60;
+    const baseEmission   = efBase  * area * seaDays;
+    const actualEmission = (efBase * area * floodDays) + (efAWD * area * awdDays);
+    const reduction      = baseEmission - actualEmission;
+    const co2eq          = reduction * 25; // GWP of CH4 = 25
 
-  const actLabels = { awd:'AWD', soc:'SOC', biochar:'Biochar', agro:'Agroforestry' };
-  const actIcons  = { awd:'💧', soc:'🌾', biochar:'🔥', agro:'🌳' };
-
-  recs.slice().reverse().forEach((r, i) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="td-primary">${recs.length - i}</td>
-      <td><span class="activity-pill ${r.activity}">${actIcons[r.activity]} ${actLabels[r.activity]}</span></td>
-      <td class="td-primary">${r.farmer || '—'}</td>
-      <td>${r.id || '—'}</td>
-      <td>${r.main_value || '—'}</td>
-      <td style="color:var(--teal);font-family:var(--font-en)">${r.estimate || '—'}</td>
-      <td>${r.date || '—'}</td>
-      <td><span class="status-pill pending">⏳ Pending</span></td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-document.getElementById('records-filter-activity').addEventListener('change', e => {
-  renderTable(e.target.value);
-});
-
-/* ============================================================
-   AWD FORM — Estimate & Submit
-   ============================================================ */
-function calcAWDEstimate() {
-  const baseline = parseFloat(document.getElementById('awd-baseline-water').value) || 0;
-  const actual   = parseFloat(document.getElementById('awd-actual-water').value) || 0;
-  const area     = parseFloat(document.getElementById('awd-field-area').value) || 1;
-
-  if (baseline > 0 && actual > 0) {
-    const waterSaved = baseline - actual;
-    // Methane reduction proxy: ~30% reduction per 20% water saving
-    const savePct = waterSaved / baseline;
-    const methaneBase = area * 200; // ~200 kg CH4/bigha baseline (rough estimate)
-    const methaneReduced = methaneBase * savePct * 0.75;
-    const co2eq = methaneReduced * 25;
-
-    document.getElementById('awd-est-water').innerHTML   = waterSaved.toFixed(0) + '<span> mm</span>';
-    document.getElementById('awd-est-methane').innerHTML = methaneReduced.toFixed(1) + '<span> kg CH₄</span>';
-    document.getElementById('awd-est-co2').innerHTML     = co2eq.toFixed(0) + '<span> kg</span>';
+    set('awd-est-baseline', baseEmission.toFixed(1), 'kg CH₄');
+    set('awd-est-actual',   actualEmission.toFixed(1), 'kg CH₄');
+    set('awd-est-reduction',reduction>0?reduction.toFixed(1):'0.0', 'kg CH₄');
+    set('awd-est-co2eq',    co2eq>0?co2eq.toFixed(0):'0', 'kg CO₂e');
   } else {
-    document.getElementById('awd-est-water').innerHTML   = '—';
-    document.getElementById('awd-est-methane').innerHTML = '—';
-    document.getElementById('awd-est-co2').innerHTML     = '—';
+    ['awd-est-baseline','awd-est-actual','awd-est-reduction','awd-est-co2eq'].forEach(id=>setDash(id));
   }
 }
-function resetAWDEstimate() {
-  ['awd-est-water','awd-est-methane','awd-est-co2'].forEach(id => {
-    document.getElementById(id).innerHTML = '—';
-  });
-}
-
-['awd-baseline-water','awd-actual-water','awd-field-area'].forEach(id => {
+['awd-area-ha','awd-season-days','awd-flooded-days','awd-awd-days','awd-ef-baseline'].forEach(id=>{
   document.getElementById(id).addEventListener('input', calcAWDEstimate);
 });
 
-document.getElementById('form-awd').addEventListener('submit', e => {
-  e.preventDefault();
-  const baseline = parseFloat(document.getElementById('awd-baseline-water').value) || 0;
-  const actual   = parseFloat(document.getElementById('awd-actual-water').value) || 0;
-  const savePct  = baseline > 0 ? ((baseline-actual)/baseline) : 0;
-  const area     = parseFloat(document.getElementById('awd-field-area').value) || 1;
-  const methaneReduced = area * 200 * savePct * 0.75;
-  const date     = document.getElementById('awd-last-date').value || new Date().toISOString().slice(0,10);
-
-  const rec = {
-    activity: 'awd',
-    id: document.getElementById('awd-field-id').value,
-    farmer: document.getElementById('awd-farmer').value,
-    main_value: `Cycle: ${document.getElementById('awd-irrigation-cycle').value || '—'} दिन`,
-    estimate: methaneReduced > 0 ? `↓${methaneReduced.toFixed(1)} kg CH₄` : '—',
-    est_methane: methaneReduced,
-    date: date,
-    stage: document.getElementById('awd-crop-stage').value,
-    saved_at: new Date().toISOString()
-  };
-
-  const recs = loadRecords();
-  recs.push(rec);
-  saveRecords(recs);
-  updateKPIs();
-  renderTable(document.getElementById('records-filter-activity').value);
-  showToast('AWD रिकॉर्ड सफलतापूर्वक सहेजा गया!');
-  e.target.reset();
-  resetAWDEstimate();
+document.getElementById('awd-reset-btn').addEventListener('click',()=>{
+  setTimeout(()=>{ calcAWDEstimate(); },10);
 });
 
-/* ============================================================
-   SOC FORM — Estimate & Submit
-   ============================================================ */
-function calcSOCEstimate() {
-  const lab      = parseFloat(document.getElementById('soc-lab-result').value);
-  const baseline = parseFloat(document.getElementById('soc-baseline').value);
-  const area     = parseFloat(document.getElementById('soc-field-area').value) || 1;
+document.getElementById('form-awd').addEventListener('submit',e=>{
+  e.preventDefault();
+  const area=parseFloat(document.getElementById('awd-area-ha').value)||0;
+  const seaDays=parseFloat(document.getElementById('awd-season-days').value)||0;
+  const awdDays=parseFloat(document.getElementById('awd-awd-days').value)||0;
+  const floodDays=parseFloat(document.getElementById('awd-flooded-days').value)||0;
+  const efBase=parseFloat(document.getElementById('awd-ef-baseline').value)||1.30;
+  const efAWD=efBase*0.60;
+  const baseEmission=(efBase*area*seaDays);
+  const actualEmission=(efBase*area*floodDays)+(efAWD*area*awdDays);
+  const reduction=Math.max(0,baseEmission-actualEmission);
+  const co2eq=reduction*25;
+  const date=document.getElementById('awd-transplant-date').value||today();
+  const rec={
+    activity:'awd',id:document.getElementById('awd-field-id').value,
+    farmer:document.getElementById('awd-farmer').value,
+    main_value:`Area: ${area}ha | Season: ${seaDays}d | AWD: ${awdDays}d`,
+    estimate:`↓${reduction.toFixed(1)} kg CH₄ (${co2eq.toFixed(0)} kg CO₂e)`,
+    formula:'(EF_base−EF_awd) × Area × Days',
+    est_methane:reduction,est_co2eq:co2eq,date,saved_at:new Date().toISOString()
+  };
+  const recs=load(); recs.push(rec); save(recs);
+  updateKPIs(); renderTable('all');
+  toast('AWD MRV Record सहेजा गया!');
+  e.target.reset();
+});
 
-  if (!isNaN(lab) && !isNaN(baseline)) {
-    const delta = lab - baseline;
-    // SOC delta to carbon: area factor, bulk density ~1.3 g/cm3, depth 15cm → per bigha (0.133 ha)
-    const carbonKg = delta * 1.3 * 1500 * 0.133 * area * 10; // very rough estimate
-    const status = delta > 0.1 ? '✅ सुधार' : delta < -0.1 ? '⚠️ गिरावट' : '➡️ स्थिर';
-    document.getElementById('soc-est-delta').innerHTML = (delta >= 0 ? '+' : '') + delta.toFixed(2) + '<span>%</span>';
-    document.getElementById('soc-est-status').textContent = status;
-    document.getElementById('soc-est-carbon').innerHTML = Math.abs(carbonKg).toFixed(0) + '<span> kg C</span>';
+/* ---- SOC ESTIMATE ---- */
+function calcSOCEstimate(){
+  const concEls=[...document.querySelectorAll('.soc-conc')];
+  const bdEls  =[...document.querySelectorAll('.soc-bd')];
+  const baseEls=[...document.querySelectorAll('.soc-base')];
+  const depths=[0.10,0.10,0.10];
+  let currentStock=0, baselineStock=0;
+  let anyData=false;
+  concEls.forEach((el,i)=>{
+    const c=parseFloat(el.value);
+    const bd=parseFloat(bdEls[i].value)||1.25;
+    const b=parseFloat(baseEls[i].value);
+    if(!isNaN(c)){
+      currentStock+=c*bd*depths[i]*100;
+      anyData=true;
+    }
+    if(!isNaN(b)){ baselineStock+=b*bd*depths[i]*100; }
+  });
+  if(anyData){
+    const delta=currentStock-baselineStock;
+    const status=delta>0.5?'✅ SOC बढ़ा (Sequestration)':delta<-0.5?'⚠️ SOC घटा (Loss)':'➡️ स्थिर';
+    set('soc-est-current', currentStock.toFixed(2), 't C/ha');
+    set('soc-est-baseline', baselineStock>0?baselineStock.toFixed(2):'—', 't C/ha');
+    document.getElementById('soc-est-delta').innerHTML=
+      `<span style="color:${delta>0?'var(--green)':delta<0?'var(--red)':'var(--text-muted)'}">${delta>=0?'+':''}${delta.toFixed(2)}</span><span class="unit"> t C/ha</span>`;
+    document.getElementById('soc-est-status').textContent=status;
   } else {
-    document.getElementById('soc-est-delta').innerHTML  = '—';
-    document.getElementById('soc-est-status').textContent = '—';
-    document.getElementById('soc-est-carbon').innerHTML = '—';
+    ['soc-est-current','soc-est-baseline','soc-est-delta','soc-est-status'].forEach(id=>setDash(id));
   }
 }
 
-['soc-lab-result','soc-baseline','soc-field-area'].forEach(id => {
-  document.getElementById(id).addEventListener('input', calcSOCEstimate);
-});
-
-document.getElementById('form-soc').addEventListener('submit', e => {
+document.getElementById('form-soc').addEventListener('submit',e=>{
   e.preventDefault();
-  const lab  = parseFloat(document.getElementById('soc-lab-result').value) || 0;
-  const base = parseFloat(document.getElementById('soc-baseline').value) || 0;
-  const delta = lab - base;
-  const date = document.getElementById('soc-sample-date').value || new Date().toISOString().slice(0,10);
-
-  const rec = {
-    activity: 'soc',
-    id: document.getElementById('soc-sample-id').value,
-    farmer: document.getElementById('soc-farmer').value,
-    main_value: `SOC: ${lab.toFixed(2)}% (Δ ${delta >= 0 ? '+':''}${delta.toFixed(2)}%)`,
-    estimate: delta !== 0 ? `${delta >= 0 ? '↑' : '↓'} SOC ${Math.abs(delta).toFixed(2)}%` : 'स्थिर',
-    date: date,
-    manure_type: document.getElementById('soc-manure-type').value,
-    saved_at: new Date().toISOString()
+  const conc1=parseFloat(document.getElementById('soc-conc-1').value)||0;
+  const bd1  =parseFloat(document.getElementById('soc-bd-1').value)||1.25;
+  const stockApprox=(conc1*bd1*0.10*100).toFixed(2);
+  const date=document.getElementById('soc-sample-date').value||today();
+  const rec={
+    activity:'soc',id:document.getElementById('soc-sample-id').value,
+    farmer:document.getElementById('soc-farmer').value,
+    main_value:`SOC: ${conc1}% @ 0–10cm | BD: ${bd1} g/cm³`,
+    estimate:`Stock ≈ ${stockApprox} t C/ha (0–10cm layer)`,
+    formula:'SOC × BD × depth × 100',
+    date,saved_at:new Date().toISOString()
   };
-
-  const recs = loadRecords();
-  recs.push(rec);
-  saveRecords(recs);
-  updateKPIs();
-  renderTable(document.getElementById('records-filter-activity').value);
-  showToast('SOC नमूना रिकॉर्ड सहेजा गया!');
+  const recs=load(); recs.push(rec); save(recs);
+  updateKPIs(); renderTable('all');
+  toast('SOC MRV Record सहेजा गया!');
   e.target.reset();
   calcSOCEstimate();
 });
 
-/* ============================================================
-   BIOCHAR FORM — Estimate & Submit
-   ============================================================ */
-function calcBiocharEstimate() {
-  const appWeight  = parseFloat(document.getElementById('bc-application-weight').value);
-  const outWeight  = parseFloat(document.getElementById('bc-output-weight').value) || 0;
-  const inWeight   = parseFloat(document.getElementById('bc-biomass-weight').value) || 0;
+/* ---- BIOCHAR FRACTION MODE ---- */
+let fractionMode='default';
+function setFractionMode(mode){
+  fractionMode=mode;
+  document.getElementById('frac-default-btn').classList.toggle('active',mode==='default');
+  document.getElementById('frac-lab-btn').classList.toggle('active',mode==='lab');
+  document.getElementById('frac-default-section').style.display=mode==='default'?'block':'none';
+  document.getElementById('frac-lab-section').style.display=mode==='lab'?'block':'none';
+  calcBiocharEstimate();
+}
 
-  if (!isNaN(appWeight) && appWeight > 0) {
-    const carbonKg = appWeight * 0.50;  // Main formula: Biochar × 0.50
-    const co2eq    = carbonKg * (44/12); // C to CO2 conversion
-    const yield_   = (inWeight > 0 && outWeight > 0) ? (outWeight/inWeight*100) : null;
+function getBiocharFraction(){
+  if(fractionMode==='lab'){
+    const v=parseFloat(document.getElementById('bc-lab-c-content').value);
+    return !isNaN(v)?v/100:null;
+  }
+  return 0.50;
+}
 
-    document.getElementById('bc-est-carbon').innerHTML = carbonKg.toFixed(1) + '<span> kg C</span>';
-    document.getElementById('bc-est-co2eq').innerHTML  = co2eq.toFixed(1) + '<span> kg CO₂e</span>';
-    document.getElementById('bc-est-yield').innerHTML  = yield_ !== null ? yield_.toFixed(1) + '<span> %</span>' : '—';
+function calcBiocharEstimate(){
+  const applied=parseFloat(document.getElementById('bc-application-weight').value)||0;
+  const output =parseFloat(document.getElementById('bc-output-weight').value)||0;
+  const input  =parseFloat(document.getElementById('bc-biomass-weight').value)||0;
+  const frac   =getBiocharFraction();
+
+  document.getElementById('bc-est-fraction').textContent=frac!==null?frac.toFixed(2):'—';
+  document.getElementById('bc-formula-badge').textContent=`C = applied × ${frac!==null?frac.toFixed(2):'fraction'}`;
+
+  if(applied>0 && frac!==null){
+    const cStored=applied*frac;
+    const co2eq  =cStored*3.67;
+    const yield_ =input>0&&output>0?(output/input*100):null;
+    set('bc-est-carbon', cStored.toFixed(1), 'kg C');
+    set('bc-est-co2eq',  co2eq.toFixed(1),   'kg CO₂e');
+    set('bc-est-yield',  yield_!==null?yield_.toFixed(1):'—', '%');
   } else {
     resetBiocharEstimate();
   }
 }
-function resetBiocharEstimate() {
-  ['bc-est-carbon','bc-est-co2eq','bc-est-yield'].forEach(id => {
-    document.getElementById(id).innerHTML = '—';
-  });
+function resetBiocharEstimate(){
+  ['bc-est-carbon','bc-est-co2eq','bc-est-yield'].forEach(id=>setDash(id));
+}
+['bc-application-weight','bc-output-weight','bc-biomass-weight','bc-lab-c-content'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input', calcBiocharEstimate);
+});
+
+document.getElementById('form-biochar').addEventListener('submit',e=>{
+  e.preventDefault();
+  const applied=parseFloat(document.getElementById('bc-application-weight').value)||0;
+  const frac=getBiocharFraction()||0.50;
+  const cStored=applied*frac;
+  const co2eq=cStored*3.67;
+  const date=document.getElementById('bc-date').value||today();
+  const feedEl=document.getElementById('bc-feedstock');
+  const rec={
+    activity:'biochar',id:document.getElementById('bc-record-id').value,
+    farmer:document.getElementById('bc-farmer').value,
+    main_value:`${applied}kg Biochar | ${feedEl.options[feedEl.selectedIndex]?.text||'—'} | C_frac: ${frac.toFixed(2)}`,
+    estimate:`${cStored.toFixed(1)} kg C (${co2eq.toFixed(1)} kg CO₂e)`,
+    formula:`C = ${applied} × ${frac.toFixed(2)}`,
+    est_carbon:cStored,est_co2eq:co2eq,gps:document.getElementById('bc-gps').value,
+    date,saved_at:new Date().toISOString()
+  };
+  const recs=load(); recs.push(rec); save(recs);
+  updateKPIs(); renderTable('all');
+  toast('Biochar MRV Record सहेजा गया!');
+  e.target.reset(); setFractionMode('default'); resetBiocharEstimate();
+});
+
+/* ---- AGROFORESTRY ALLOMETRIC ---- */
+const ALLO_COEFFS={
+  walnut:{a:0.099,b:2.56,label:'Juglans regia'},
+  apple:{a:0.076,b:2.42,label:'Malus domestica'},
+  apricot:{a:0.082,b:2.38,label:'Prunus armeniaca'},
+  plum:{a:0.079,b:2.35,label:'Prunus domestica'},
+  amla:{a:0.065,b:2.30,label:'Phyllanthus emblica'},
+  mango:{a:0.110,b:2.60,label:'Mangifera indica'},
+  mulberry:{a:0.071,b:2.25,label:'Morus alba'},
+  bamboo:{a:0.13, b:2.00,label:'Bambusa spp. (clump)'},
+  poplar:{a:0.125,b:2.65,label:'Populus deltoides'},
+  neem:{a:0.095,b:2.45,label:'Azadirachta indica'},
+  tej_patta:{a:0.060,b:2.20,label:'Cinnamomum tamala'},
+  other:{a:0.080,b:2.40,label:'Generic (mixed species)'},
+};
+
+function updateAlloCoeffs(){
+  const sp=document.getElementById('agro-species').value;
+  const co=ALLO_COEFFS[sp];
+  const box=document.getElementById('allo-info');
+  if(co&&sp){
+    box.style.display='block';
+    document.getElementById('allo-species-label').textContent=co.label;
+    document.getElementById('allo-coeff-a').textContent=co.a;
+    document.getElementById('allo-coeff-b').textContent=co.b;
+  } else {
+    box.style.display='none';
+  }
+  calcAgroEstimate();
 }
 
-['bc-application-weight','bc-output-weight','bc-biomass-weight'].forEach(id => {
-  document.getElementById(id).addEventListener('input', calcBiocharEstimate);
-});
+function calcAgroEstimate(){
+  const planted  =parseInt(document.getElementById('agro-planted').value)||0;
+  const surviving=parseInt(document.getElementById('agro-surviving').value)||planted;
+  const dbh      =parseFloat(document.getElementById('agro-avg-dbh').value)||0;
+  const sp       =document.getElementById('agro-species').value;
+  const co       =ALLO_COEFFS[sp];
 
-document.getElementById('form-biochar').addEventListener('submit', e => {
-  e.preventDefault();
-  const appWeight = parseFloat(document.getElementById('bc-application-weight').value) || 0;
-  const carbonKg  = appWeight * 0.50;
-  const co2eq     = carbonKg * (44/12);
-  const date      = document.getElementById('bc-date').value || new Date().toISOString().slice(0,10);
-
-  const rec = {
-    activity: 'biochar',
-    id: document.getElementById('bc-record-id').value,
-    farmer: document.getElementById('bc-farmer').value,
-    main_value: `${appWeight} kg Biochar (${document.getElementById('bc-feedstock').options[document.getElementById('bc-feedstock').selectedIndex]?.text || '—'})`,
-    estimate: `≈ ${carbonKg.toFixed(1)} kg C stored`,
-    est_carbon: carbonKg,
-    est_co2eq: co2eq,
-    gps: document.getElementById('bc-gps').value,
-    date: date,
-    feedstock: document.getElementById('bc-feedstock').value,
-    saved_at: new Date().toISOString()
-  };
-
-  const recs = loadRecords();
-  recs.push(rec);
-  saveRecords(recs);
-  updateKPIs();
-  renderTable(document.getElementById('records-filter-activity').value);
-  showToast('Biochar रिकॉर्ड सफलतापूर्वक सहेजा गया!');
-  e.target.reset();
-  resetBiocharEstimate();
-});
-
-/* ============================================================
-   AGROFORESTRY FORM — Estimate & Submit
-   ============================================================ */
-function calcAgroEstimate() {
-  const planted   = parseInt(document.getElementById('agro-planted').value);
-  const surviving = parseInt(document.getElementById('agro-surviving').value);
-
-  if (!isNaN(planted) && planted > 0) {
-    const surv = isNaN(surviving) ? planted : surviving;
-    const rate  = Math.round(surv / planted * 100);
-    const dead  = planted - surv;
-    // Rough carbon estimate: avg ~20 kg CO2/tree/year for Himalayan species
-    const carbonPerYr = surv * 20;
-
-    document.getElementById('agro-est-survival').innerHTML = rate + '<span> %</span>';
-    document.getElementById('agro-est-dead').innerHTML = dead + '<span> पेड़</span>';
-    document.getElementById('agro-est-carbon').innerHTML = carbonPerYr + '<span> kg CO₂/yr</span>';
+  if(planted>0){
+    const rate=Math.round(surviving/planted*100);
+    const dead=planted-surviving;
+    let agbPerTree=20; // kg default (young tree)
+    let methodLabel='count-based (default 20kg/tree)';
+    if(dbh>0 && co){
+      agbPerTree=co.a*Math.pow(dbh,co.b);
+      methodLabel=`a(${co.a})×DBH(${dbh})^b(${co.b})`;
+    }
+    const totalCarbon=agbPerTree*0.47*surviving;
+    set('agro-est-survival',rate,'%');
+    set('agro-est-dead',dead,'पेड़');
+    set('agro-est-agb',agbPerTree.toFixed(1),'kg');
+    set('agro-est-carbon',totalCarbon.toFixed(0),'kg CO₂/yr');
+    document.getElementById('agro-est-method-label').textContent=methodLabel;
   } else {
-    resetAgroEstimate();
+    ['agro-est-survival','agro-est-dead','agro-est-agb','agro-est-carbon'].forEach(id=>setDash(id));
   }
 }
-function resetAgroEstimate() {
-  ['agro-est-survival','agro-est-dead','agro-est-carbon'].forEach(id => {
-    document.getElementById(id).innerHTML = '—';
+function resetAgroEstimate(){
+  setTimeout(()=>calcAgroEstimate(),10);
+}
+['agro-planted','agro-surviving','agro-avg-dbh'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',calcAgroEstimate);
+});
+
+document.getElementById('form-agro').addEventListener('submit',e=>{
+  e.preventDefault();
+  const planted  =parseInt(document.getElementById('agro-planted').value)||0;
+  const surviving=parseInt(document.getElementById('agro-surviving').value)||planted;
+  const dbh      =parseFloat(document.getElementById('agro-avg-dbh').value)||0;
+  const sp       =document.getElementById('agro-species').value;
+  const co       =ALLO_COEFFS[sp];
+  let agbPerTree=20;
+  if(dbh>0&&co) agbPerTree=co.a*Math.pow(dbh,co.b);
+  const totalCarbon=(agbPerTree*0.47*surviving).toFixed(0);
+  const rate=planted>0?Math.round(surviving/planted*100):0;
+  const spEl=document.getElementById('agro-species');
+  const date=document.getElementById('agro-planting-date').value||today();
+  const rec={
+    activity:'agro',id:document.getElementById('agro-record-id').value,
+    farmer:document.getElementById('agro-farmer').value,
+    main_value:`${planted} trees | ${spEl.options[spEl.selectedIndex]?.text||'—'} | DBH: ${dbh||'—'}cm`,
+    estimate:`Survival: ${rate}% | ~${totalCarbon} kg CO₂/yr`,
+    formula:dbh>0&&co?`AGB=${co.a}×DBH^${co.b}×0.47`:'count-based × 0.47',
+    planted,surviving,date,saved_at:new Date().toISOString()
+  };
+  const recs=load(); recs.push(rec); save(recs);
+  updateKPIs(); renderTable('all');
+  toast('Agroforestry MRV Record सहेजा गया!');
+  e.target.reset(); resetAgroEstimate();
+});
+
+/* ---- KPI UPDATER ---- */
+function updateKPIs(){
+  const recs=load();
+  document.getElementById('kpi-total-records').textContent=recs.length;
+  document.getElementById('records-total-count').textContent=recs.length+' records';
+  ['awd','soc','biochar','agro'].forEach(a=>{
+    document.getElementById('count-'+a).textContent=recs.filter(r=>r.activity===a).length;
   });
+  const totalC=recs.filter(r=>r.est_carbon).reduce((s,r)=>s+parseFloat(r.est_carbon||0),0);
+  document.getElementById('kpi-carbon').innerHTML=(totalC/1000).toFixed(2)+'<span style="font-size:14px;font-weight:400"> t</span>';
+  if(totalC>0) document.getElementById('kpi-trend-carbon').textContent='↑ '+totalC.toFixed(0)+' kg C';
+  const totalM=recs.filter(r=>r.est_methane).reduce((s,r)=>s+parseFloat(r.est_methane||0),0);
+  document.getElementById('kpi-methane').innerHTML=totalM.toFixed(1)+'<span style="font-size:14px;font-weight:400"> kg</span>';
+  if(totalM>0) document.getElementById('kpi-trend-methane').textContent='↓ Reduced';
+  const agroR=recs.filter(r=>r.activity==='agro'&&r.planted&&r.surviving);
+  if(agroR.length){
+    const tp=agroR.reduce((s,r)=>s+parseInt(r.planted||0),0);
+    const ts=agroR.reduce((s,r)=>s+parseInt(r.surviving||0),0);
+    const rate=tp>0?Math.round(ts/tp*100):0;
+    document.getElementById('kpi-tree-survival').innerHTML=rate+'<span style="font-size:14px;font-weight:400">%</span>';
+    document.getElementById('kpi-trend-trees').textContent=ts+'/'+tp;
+  }
+  if(recs.length>0) document.getElementById('kpi-trend-records').textContent='+'+recs.length;
 }
 
-['agro-planted','agro-surviving'].forEach(id => {
-  document.getElementById(id).addEventListener('input', calcAgroEstimate);
+/* ---- RECORDS TABLE ---- */
+function renderTable(filterAct){
+  const recs=load().filter(r=>filterAct==='all'||r.activity===filterAct);
+  const tbody=document.getElementById('records-tbody');
+  const empty=document.getElementById('records-empty');
+  tbody.innerHTML='';
+  if(!recs.length){ empty.style.display='block'; return; }
+  empty.style.display='none';
+  const lbl={awd:'AWD',soc:'SOC',biochar:'Biochar',agro:'Agroforestry'};
+  const ico={awd:'💧',soc:'🌾',biochar:'🔥',agro:'🌳'};
+  recs.slice().reverse().forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td class="td-primary">${recs.length-i}</td>
+      <td><span class="activity-pill ${r.activity}">${ico[r.activity]} ${lbl[r.activity]}</span></td>
+      <td class="td-primary">${r.farmer||'—'}</td>
+      <td>${r.id||'—'}</td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">${r.main_value||'—'}</td>
+      <td style="color:var(--teal);font-family:var(--font-en);font-size:11px;">${r.estimate||'—'}</td>
+      <td class="td-formula">${r.formula||'—'}</td>
+      <td>${r.date||'—'}</td>
+      <td><span class="status-pill pending">⏳ Pending</span></td>`;
+    tbody.appendChild(tr);
+  });
+}
+document.getElementById('records-filter-activity').addEventListener('change',e=>renderTable(e.target.value));
+
+/* ---- EXPORT CSV ---- */
+document.getElementById('btn-export').addEventListener('click',()=>{
+  const recs=load();
+  if(!recs.length){ toast('Export के लिए कोई record नहीं।','error'); return; }
+  const headers=['#','Activity','Farmer','Record ID','Key Evidence','MRV Estimate','Formula','Date','Saved At'];
+  const rows=recs.map((r,i)=>[i+1,r.activity,r.farmer||'',r.id||'',(r.main_value||'').replace(/,/g,' '),(r.estimate||'').replace(/,/g,' '),r.formula||'',r.date||'',r.saved_at||'']);
+  const csv=[headers,...rows].map(r=>r.join(',')).join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=`mrv-records-${today()}.csv`; a.click();
+  URL.revokeObjectURL(url); toast('CSV export हो रहा है...');
 });
 
-document.getElementById('form-agro').addEventListener('submit', e => {
-  e.preventDefault();
-  const planted   = parseInt(document.getElementById('agro-planted').value) || 0;
-  const surviving = parseInt(document.getElementById('agro-surviving').value) || planted;
-  const rate      = planted > 0 ? Math.round(surviving/planted*100) : 0;
-  const species   = document.getElementById('agro-species');
-  const date      = document.getElementById('agro-planting-date').value || new Date().toISOString().slice(0,10);
+/* ---- HELPERS ---- */
+function set(id,val,unit){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.innerHTML=`${val}<span class="unit"> ${unit}</span>`;
+}
+function setDash(id){ const el=document.getElementById(id); if(el) el.innerHTML='—'; }
+function today(){ return new Date().toISOString().slice(0,10); }
 
-  const rec = {
-    activity: 'agro',
-    id: document.getElementById('agro-record-id').value,
-    farmer: document.getElementById('agro-farmer').value,
-    planted: planted,
-    surviving: surviving,
-    main_value: `${planted} पेड़ लगाए — ${species.options[species.selectedIndex]?.text || '—'}`,
-    estimate: `Survival: ${rate}% (${surviving}/${planted})`,
-    geotag: document.getElementById('agro-geotag').value,
-    date: date,
-    species: document.getElementById('agro-species').value,
-    saved_at: new Date().toISOString()
-  };
-
-  const recs = loadRecords();
-  recs.push(rec);
-  saveRecords(recs);
-  updateKPIs();
-  renderTable(document.getElementById('records-filter-activity').value);
-  showToast('Agroforestry रोपण रिकॉर्ड सहेजा गया!');
-  e.target.reset();
-  resetAgroEstimate();
-});
-
-/* ============================================================
-   EXPORT CSV
-   ============================================================ */
-document.getElementById('btn-export').addEventListener('click', () => {
-  const recs = loadRecords();
-  if (!recs.length) { showToast('Export के लिए कोई रिकॉर्ड नहीं है।', 'error'); return; }
-
-  const headers = ['#','Activity','Farmer','ID','Main Value','Estimate','Date','Saved At'];
-  const rows = recs.map((r, i) => [
-    i+1, r.activity, r.farmer||'', r.id||'',
-    (r.main_value||'').replace(/,/g,' '),
-    (r.estimate||'').replace(/,/g,' '),
-    r.date||'', r.saved_at||''
-  ]);
-
-  const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = `climate-actions-${new Date().toISOString().slice(0,10)}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('CSV Export हो रहा है...');
-});
-
-/* ============================================================
-   INIT
-   ============================================================ */
-document.addEventListener('DOMContentLoaded', () => {
-  updateKPIs();
-  renderTable('all');
-
-  // Set today's date as default for date fields
-  const today = new Date().toISOString().slice(0,10);
-  ['awd-last-date','soc-sample-date','bc-date','agro-planting-date'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el && !el.value) el.value = today;
+/* ---- INIT ---- */
+document.addEventListener('DOMContentLoaded',()=>{
+  updateKPIs(); renderTable('all');
+  const t=today();
+  ['awd-transplant-date','awd-harvest-date','soc-sample-date','bc-date','bc-application-date','agro-planting-date'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&!el.value) el.value=t;
   });
 });
 </script>
-
 </body>
 </html>
