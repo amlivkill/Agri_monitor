@@ -4,7 +4,7 @@
  * Handles asset caching, background sync, and API caching
  */
 
-const CACHE_VERSION = 'agri-monitor-v1.0.0';
+const CACHE_VERSION = 'agri-monitor-v1.1.0';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 
@@ -39,7 +39,13 @@ const STATIC_ASSETS = [
   '/js/vendor/chart.min.js',
   '/js/vendor/supabase-js.min.js',
   '/js/vendor/jspdf.umd.min.js',
-  '/public/fonts/noto-sans-devanagari.woff2'
+  '/public/fonts/noto-sans-devanagari.woff2',
+  '/carbon_calculator.html',
+  '/climate-activities.html',
+  '/css/carbon-calc.css',
+  '/css/climate.css',
+  '/js/modules/carbon-calc.js',
+  '/js/modules/climate.js'
 ];
 
 // Tile hosts — use cache-then-network for map tiles
