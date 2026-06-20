@@ -1,264 +1,87 @@
-# 🌾 Agri Monitor — CHANGE TechLab
+# 🌾 Agri Monitor
 
-> **Satellite + Field Data + Local Intelligence for Mountain Farming**
+**Agri Monitor** is a comprehensive Rural Intelligence & GIS Solutions web application developed by **CHANGE TechLab**, Uttarakhand. It is designed to track agricultural data, monitor climate-smart agriculture practices, and estimate carbon credits for farmers and Community Level Federations (CLFs).
 
-A Hindi-first, mobile-optimized agriculture intelligence platform for farmers, CLFs, SHGs, NGOs, and district monitoring teams in Uttarakhand, India.
-
----
-
-## ✨ Features
-
-| Feature | Status | Notes |
-|---------|--------|-------|
-| 📊 Hindi Dashboard | ✅ Done | Stats, charts, analytics |
-| 🛰️ Sentinel-2 Imagery | ✅ Done | Real EOX tile layer |
-| 🟢 NDVI Integration | ✅ Done | Date selection, opacity, comparison |
-| 👨‍🌾 Farmer CRUD | ✅ Done | Add, search, view, map |
-| 🗺️ Field Polygon Drawing | ✅ Done | Leaflet.Draw, area calculation |
-| 📷 Photo Upload | ✅ Done | Camera, GPS, compression |
-| 🔔 Alert Engine | ✅ Done | Rule-based NDVI + inactive checks |
-| 👥 CLF Dashboard | ✅ Done | Analytics, CSV export |
-| 📄 PDF Reports | ✅ Done | Farmer profile, CLF summary |
-| 📲 PWA (Android) | ✅ Done | Installable, offline support |
-| 💾 Offline Sync | ✅ Done | IndexedDB queue |
-| 🔐 Auth (OTP) | ✅ Done | Phone + Email, demo mode |
+The project focuses on building a **Measurement, Reporting, and Verification (MRV)** support system for climate actions, aligning with India's **Carbon Credit Trading Scheme (CCTS)** and voluntary carbon markets.
 
 ---
 
-## 🚀 Quick Start (No Build Required)
+## 🚀 Features
 
-This is a **static HTML app** — no Node.js, no build step needed.
+### 1. 📊 Main Dashboard
+- High-level KPIs (Total Farmers, Active CLFs, Total Villages).
+- District and Block-wise filtering (Uttarakhand focus).
+- Quick navigation to different modules (Satellite, CLF, Alerts, Reports, etc.).
 
-### Option 1: Open directly in browser
-```
-Double-click index.html
-```
-> Works immediately in demo mode with sample Uttarakhand data.
+### 2. 🌍 Climate Actions MRV Module
+A dedicated module to track and verify climate-friendly agricultural practices.
+- **💧 AWD (Alternate Wetting and Drying):** Estimates methane (CH₄) reduction in paddy fields using IPCC Tier 1 Emission Factors.
+- **🌾 SOC (Soil Organic Carbon):** Calculates soil carbon stock using 3-layer soil sampling (0-10cm, 10-20cm, 20-30cm), Bulk Density, and lab-tested SOC concentration.
+- **🔥 Biochar:** Estimates carbon sequestration through biomass pyrolysis using default (0.50) or lab-tested carbon fractions.
+- **🌳 Agroforestry:** Estimates above-ground biomass (AGB) and carbon storage using species-specific allometric equations (e.g., Walnut, Apple, Bamboo, etc.) based on ICFRE/FSI references.
+- **Data Persistence:** LocalStorage based auto-saving with fully functional data tables and CSV export.
 
-### Option 2: Local server (recommended for PWA features)
-```bash
-# Python 3
-python -m http.server 8080
+### 3. 🌱 Carbon Credit Calculator
+A robust tool to calculate potential carbon credits and income for farmers.
+- Area conversion tool (Nali, Bigha, Acre, Hectare, Muthi).
+- Computes Soil Carbon, Tree Carbon, and bonuses for Organic Farming / Drip Irrigation.
+- **Credit Standards Comparison:** Provides indicative income estimates across:
+  - 🌿 **Verra VCS** (Voluntary Market)
+  - 🇮🇳 **India CCTS** (Domestic Market)
+  - ⭐ **Gold Standard** (Premium Market with SDG co-benefits)
+  - 🇯🇵 **JCM** (Japan-India Joint Crediting Mechanism - Coming Soon)
 
-# Node.js
-npx serve .
-
-# PHP
-php -S localhost:8080
-```
-Then open: `http://localhost:8080`
-
----
-
-## 🗄️ Supabase Setup (for real data)
-
-### 1. Create Supabase project
-- Go to [supabase.com](https://supabase.com)
-- Create new project (free tier available)
-- Note your **Project URL** and **anon public key**
-
-### 2. Run the database schema
-```sql
--- In Supabase SQL Editor, run:
--- supabase/schema.sql
-```
-
-### 3. Create storage bucket
-```sql
--- In Supabase SQL Editor:
-INSERT INTO storage.buckets (id, name, public) 
-VALUES ('field-images', 'field-images', true);
-```
-
-### 4. Enable phone auth (for OTP login)
-- Go to Supabase Dashboard → Authentication → Providers
-- Enable **Phone** provider
-- Configure Twilio or other SMS provider
-
-### 5. Configure the app
-Edit `js/config.js`:
-```javascript
-window.AgriConfig = {
-  SUPABASE_URL: 'https://your-project-ref.supabase.co',
-  SUPABASE_ANON_KEY: 'your-anon-key',
-  USE_SUPABASE: true,  // ← Set to true
-  ...
-};
-```
+### 4. 📋 India CCTS Guide
+An educational module explaining the carbon market to farmers and project developers.
+- Breaks down **Compliance vs. Voluntary** segments.
+- Explains the **Farmer Pathway** (6 steps from practice to income).
+- Illustrates the **Aggregation Model** (Farmer → CLF → Project Developer → Registry).
+- Provides estimated income potential per practice and a roadmap for the Indian Carbon Market.
 
 ---
 
-## 🛰️ NDVI Satellite Setup
+## 💻 Technology Stack
 
-### Option A: EOX Sentinel-2 Cloudless (Free, already working)
-No setup needed — shows real Sentinel-2 satellite imagery.
+This is a frontend-heavy, mobile-first web application designed to work offline/locally or via a simple static host.
 
-### Option B: Real-time NDVI via Google Earth Engine
-1. Sign up at [code.earthengine.google.com](https://code.earthengine.google.com)
-2. Create a service account
-3. Deploy this GEE script to get a tile URL:
-```javascript
-// GEE Script
-var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
-  .filterDate('2024-01-01', '2024-05-01')
-  .filterBounds(ee.Geometry.Point([79.05, 30.38]))
-  .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
-  .median();
-
-var ndvi = s2.normalizedDifference(['B8', 'B4']).rename('NDVI');
-var ndviParams = { min: -0.2, max: 0.8, palette: ['red','yellow','green'] };
-
-Map.addLayer(ndvi, ndviParams, 'NDVI');
-```
-4. Get the tile URL and set `GEE_TILE_URL` in `js/config.js`
-
-### Option C: TiTiler (Self-hosted)
-```bash
-# Deploy TiTiler on Railway/Render (free):
-docker pull ghcr.io/developmentseed/titiler:latest
-docker run -p 8000:8000 ghcr.io/developmentseed/titiler:latest
-```
-Set `NDVI_TILE_URL` in `js/config.js`
+- **Frontend:** HTML5, CSS3 (Custom variables, Dark/Light Theme), Vanilla JavaScript.
+- **Storage:** Browser `localStorage` (MVP phase) for data persistence.
+- **Design System:** Custom CSS reflecting a modern, GIS-inspired dark theme (Glassmorphism, custom KPI cards, micro-animations).
+- **Fonts:** Google Fonts (Noto Sans Devanagari for Hindi, Inter for English).
 
 ---
 
-## 🚀 Deployment to Vercel
+## 🛠️ Installation & Usage
 
-```bash
-# Install Vercel CLI
-npm i -g vercel
+Since the project uses Vanilla HTML/JS and `localStorage`, no complex server setup is required.
 
-# Deploy from project folder
-cd c:\Users\admin\OneDrive\Desktop\Agri_monitor
-vercel
-
-# Or connect GitHub repo at vercel.com
-```
-
-The `vercel.json` config is already set up for static deployment.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/amlivkill/Agri_monitor.git
+   ```
+2. **Open the application:**
+   Simply double-click `index.html` to open it in any modern web browser.
+3. **Demo Data:**
+   The MRV module (`climate-activities.html`) comes pre-seeded with 12 demo farmer records to showcase the functionality immediately. You can clear or reload this data from the UI.
 
 ---
 
-## 📱 PWA Installation (Android)
+## 📁 Key Files
 
-1. Open the app in Chrome on Android
-2. Tap the **"📲 Install"** button in the top bar
-3. Or: Chrome menu → "Add to Home Screen"
-4. App installs with offline support
-
----
-
-## 🗃️ Database Tables
-
-| Table | Purpose |
-|-------|---------|
-| `farmers` | Farmer profiles with crop and land data |
-| `fields` | Field polygons with GeoJSON + health status |
-| `field_images` | Photos with GPS coordinates and issue type |
-| `crop_records` | Season-wise production records |
-| `clf_clusters` | CLF/SHG/FPO cluster data |
-| `alerts` | Rule-based and manual alerts |
-| `villages` | Village reference data |
-| `satellite_cache` | NDVI values per field per date |
+- `index.html`: Main dashboard and entry point.
+- `climate-activities.html`: The core MRV tracking module for AWD, SOC, Biochar, and Agroforestry.
+- `carbon_calculator.html`: Farmer-centric carbon credit and income estimator.
+- `ccts-guide.html`: Educational guide on the India Carbon Credit Trading Scheme.
+- `css/style.css`: Core stylesheet defining the design system and themes.
 
 ---
 
-## 📁 Project Structure
+## 🤝 About CHANGE TechLab
 
-```
-Agri_monitor/
-├── index.html              ← Main app (single page)
-├── manifest.json           ← PWA manifest
-├── sw.js                   ← Service worker (offline)
-├── vercel.json             ← Deployment config
-├── .env.example            ← Environment variables
-├── css/
-│   └── style.css           ← Complete dark GIS theme
-├── js/
-│   ├── config.js           ← App configuration ← EDIT THIS
-│   ├── app.js              ← Main orchestrator
-│   ├── map.js              ← Leaflet map + GPS
-│   ├── layers.js           ← 10 map layers
-│   ├── ndvi.js             ← NDVI + Sentinel-2 tiles
-│   ├── farmers.js          ← Farmer CRUD + polygon drawing
-│   ├── upload.js           ← Camera + GPS + compression
-│   ├── alerts.js           ← Rule-based alert engine
-│   ├── clf.js              ← CLF cluster analytics
-│   ├── charts.js           ← Chart.js visualizations
-│   ├── report.js           ← PDF + CSV export
-│   ├── auth.js             ← Supabase auth (OTP)
-│   ├── offline.js          ← IndexedDB offline queue
-│   └── dummyData.js        ← Demo data (Rudraprayag)
-└── supabase/
-    └── schema.sql          ← Database schema (run in Supabase)
-```
+**CHANGE TechLab** is a Rural Intelligence, GIS, and Business Planning Company based in Uttarakhand.
+*From Rural Data to Business Decisions.*
+
+- **Email:** changetechlab@outlook.com
 
 ---
-
-## 🔧 Configuration Reference
-
-Key settings in `js/config.js`:
-
-```javascript
-USE_SUPABASE: false,          // Set true when Supabase is ready
-MAP_CENTER: [30.3985, 79.0561], // Rudraprayag center
-NDVI_STRESS_THRESHOLD: 0.25,  // Below this = stress alert
-INACTIVE_FIELD_DAYS: 15,      // Days without update = alert
-IMAGE_MAX_SIZE_KB: 400,       // Image compression target (2G-friendly)
-IMAGE_QUALITY: 0.75,          // JPEG quality
-```
-
----
-
-## 👥 User Roles
-
-| Role | Capabilities |
-|------|-------------|
-| **Guest** | View demo data, explore map |
-| **Farmer** | Login via OTP, add own fields, upload photos |
-| **CLF** | View all farmers in cluster, generate reports |
-| **Admin** | Full access, all reports, delete records |
-
----
-
-## 📡 Offline Capabilities
-
-- ✅ App shell cached by service worker
-- ✅ Map tiles cached (stale-while-revalidate)
-- ✅ Pending farmer records stored in IndexedDB
-- ✅ Pending photos stored as blobs in IndexedDB
-- ✅ Auto-sync when internet returns
-- ✅ Background sync via Service Worker SyncManager
-
----
-
-## 🔮 Phase 2 Roadmap
-
-- [ ] Real-time GEE NDVI tile integration
-- [ ] Weather alerts (OpenWeatherMap)
-- [ ] Pest risk prediction layer
-- [ ] Voice note support (Hindi)
-- [ ] Offline PDF generation
-- [ ] WhatsApp alert integration
-- [ ] District admin dashboard
-- [ ] Carbon footprint tracking
-
----
-
-## 🙏 Credits
-
-**Built by CHANGE TechLab**
-
-*"पहाड़ के लोग, पहाड़ की बोली, पहाड़ का नक्शा"*
-
-Product Owner: Anupam Rayal  
-Focus: Mountain Agriculture + Rural Intelligence + Geospatial Monitoring
-
----
-
-## 📞 Support
-
-For setup help, open an issue or contact CHANGE TechLab.
-
-Pilot area: Rudraprayag District, Uttarakhand  
-Blocks: Ukhimath · Jakholi · Augustyamuni
+*Note: The carbon estimations provided by this tool are indicative and serve as an MRV support system. Official carbon credit issuance requires independent third-party verification by accredited VVBs.*
