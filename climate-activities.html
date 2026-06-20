@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#16a34a">
+  <title>Climate Actions — Agri Monitor | CHANGE TechLab</title>
+  <meta name="description" content="AWD, SOC, Biochar और Agroforestry — जलवायु-अनुकूल कृषि गतिविधियों की निगरानी और डेटा एंट्री।">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       CSS VARIABLES — mirrors Agri Monitor dark theme
+       ============================================================ */
+    :root {
+      --bg-primary:     #0d1117;
+      --bg-secondary:   #161b22;
+      --bg-tertiary:    #1c2430;
+      --bg-card:        #1e2a3a;
+      --bg-hover:       #243040;
+      --border:         rgba(255,255,255,0.08);
+      --border-accent:  rgba(34,197,94,0.3);
+      --text-primary:   #e2e8f0;
+      --text-secondary: #94a3b8;
+      --text-muted:     #64748b;
+      --green:          #22c55e;
+      --green-dark:     #16a34a;
+      --green-light:    #4ade80;
+      --teal:           #14b8a6;
+      --blue:           #3b82f6;
+      --yellow:         #f59e0b;
+      --red:            #ef4444;
+      --purple:         #a855f7;
+      --orange:         #f97316;
+      --cyan:           #06b6d4;
+      --radius:         8px;
+      --radius-lg:      12px;
+      --shadow:         0 4px 24px rgba(0,0,0,0.4);
+      --transition:     0.2s ease;
+      --font-hindi:     'Noto Sans Devanagari', sans-serif;
+      --font-en:        'Inter', sans-serif;
+    }
+    [data-theme="light"] {
+      --bg-primary:   #f0fdf4;
+      --bg-secondary: #ffffff;
+      --bg-tertiary:  #f8fafc;
+      --bg-card:      #ffffff;
+      --bg-hover:     #f1f5f9;
+      --border:       rgba(0,0,0,0.08);
+      --text-primary: #0f172a;
+      --text-secondary:#475569;
+      --text-muted:   #94a3b8;
+      --shadow:       0 4px 24px rgba(0,0,0,0.1);
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      min-height: 100vh;
+      font-family: var(--font-hindi), var(--font-en);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+    input, select, textarea {
+      font-family: var(--font-hindi), var(--font-en);
+      font-size: 14px;
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(34,197,94,0.1); }
+    a { color: var(--green); text-decoration: none; }
+
+    /* ============================================================
+       TOPBAR
+       ============================================================ */
+    #topbar {
+      height: 52px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 8px; }
+    .topbar-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+    .brand { display: flex; align-items: center; gap: 6px; }
+    .brand-icon { font-size: 20px; }
+    .brand-title { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+    .brand-title span { color: var(--green); }
+    .brand-badge {
+      font-size: 9px; background: var(--green-dark); color: white;
+      padding: 1px 5px; border-radius: 3px; font-weight: 600;
+    }
+    .breadcrumb {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--text-muted);
+    }
+    .breadcrumb a { color: var(--text-muted); }
+    .breadcrumb a:hover { color: var(--green); }
+    .breadcrumb-sep { color: var(--border); }
+    .breadcrumb-current { color: var(--text-primary); font-weight: 600; }
+    .topbar-actions { display: flex; align-items: center; gap: 8px; }
+    .btn-back {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 6px 12px; border-radius: 6px; font-size: 12px;
+      font-weight: 500; color: var(--text-secondary);
+      background: var(--bg-tertiary); border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+    .btn-back:hover { border-color: var(--green); color: var(--green); }
+    .btn-theme-toggle {
+      width: 34px; height: 34px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary); background: transparent;
+      transition: all var(--transition); font-size: 16px;
+    }
+    .btn-theme-toggle:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+    /* ============================================================
+       DISTRICT/BLOCK FILTER BAR
+       ============================================================ */
+    #filter-bar {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .filter-bar-label {
+      font-size: 11px; color: var(--text-muted); font-weight: 500;
+      white-space: nowrap;
+    }
+    .filter-bar-selects { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .filter-bar-selects select {
+      padding: 5px 10px; font-size: 12px;
+      border-radius: 20px; background: var(--bg-tertiary);
+      border: 1px solid var(--border); cursor: pointer; max-width: 160px;
+    }
+    .filter-arrow { color: var(--text-muted); font-size: 12px; }
+    .filter-bar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .export-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 12px; border-radius: 6px; font-size: 11px;
+      font-weight: 500; color: var(--text-secondary);
+      background: var(--bg-tertiary); border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+    .export-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* ============================================================
+       PAGE CONTAINER
+       ============================================================ */
+    #page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    /* ============================================================
+       PAGE HEADER
+       ============================================================ */
+    .page-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 20px; gap: 12px; flex-wrap: wrap;
+    }
+    .page-header-left { display: flex; align-items: center; gap: 14px; }
+    .page-header-icon {
+      width: 48px; height: 48px; border-radius: 14px; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(20,184,166,0.2), rgba(34,197,94,0.2));
+      border: 1px solid rgba(34,197,94,0.3);
+      display: flex; align-items: center; justify-content: center; font-size: 24px;
+    }
+    .page-title { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 3px; }
+    .page-subtitle { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+    .badge-module {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: rgba(34,197,94,0.12); color: var(--green);
+      border: 1px solid rgba(34,197,94,0.3); border-radius: 20px;
+      padding: 3px 10px; font-size: 10px; font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       KPI SUMMARY CARDS
+       ============================================================ */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 8px;
+      position: relative; overflow: hidden;
+      transition: transform var(--transition), border-color var(--transition);
+      cursor: default;
+    }
+    .kpi-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--kpi-color-a) 0%, var(--kpi-color-b) 100%);
+      opacity: 0.04; pointer-events: none;
+    }
+    .kpi-card:hover { transform: translateY(-2px); }
+    .kpi-card.green  { --kpi-color-a: #22c55e; --kpi-color-b: #14b8a6; border-color: rgba(34,197,94,0.25); }
+    .kpi-card.teal   { --kpi-color-a: #14b8a6; --kpi-color-b: #3b82f6; border-color: rgba(20,184,166,0.25); }
+    .kpi-card.blue   { --kpi-color-a: #3b82f6; --kpi-color-b: #a855f7; border-color: rgba(59,130,246,0.25); }
+    .kpi-card.orange { --kpi-color-a: #f97316; --kpi-color-b: #f59e0b; border-color: rgba(249,115,22,0.25); }
+
+    .kpi-top { display: flex; align-items: center; justify-content: space-between; }
+    .kpi-icon { font-size: 22px; }
+    .kpi-trend {
+      font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600;
+      background: rgba(34,197,94,0.15); color: var(--green);
+    }
+    .kpi-trend.down { background: rgba(239,68,68,0.15); color: var(--red); }
+    .kpi-value {
+      font-size: 26px; font-weight: 800; line-height: 1;
+      font-family: var(--font-en);
+    }
+    .kpi-card.green  .kpi-value { color: var(--green); }
+    .kpi-card.teal   .kpi-value { color: var(--teal); }
+    .kpi-card.blue   .kpi-value { color: var(--blue); }
+    .kpi-card.orange .kpi-value { color: var(--orange); }
+    .kpi-label { font-size: 11px; color: var(--text-muted); }
+    .kpi-sublabel { font-size: 10px; color: var(--text-muted); margin-top: -4px; }
+
+    /* ============================================================
+       ACTIVITY TABS
+       ============================================================ */
+    .activity-tabs-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .activity-tab-nav {
+      display: flex; border-bottom: 1px solid var(--border);
+      background: var(--bg-tertiary); overflow-x: auto; scrollbar-width: none;
+    }
+    .activity-tab-nav::-webkit-scrollbar { display: none; }
+    .act-tab-btn {
+      display: flex; align-items: center; gap: 7px;
+      padding: 12px 20px; font-size: 13px; font-weight: 600;
+      color: var(--text-muted); white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: all var(--transition); position: relative;
+    }
+    .act-tab-btn:hover { color: var(--text-primary); background: var(--bg-hover); }
+    .act-tab-btn.active { color: var(--act-color); border-bottom-color: var(--act-color); background: rgba(255,255,255,0.03); }
+    .act-tab-btn[data-act="awd"]  { --act-color: var(--blue); }
+    .act-tab-btn[data-act="soc"]  { --act-color: var(--orange); }
+    .act-tab-btn[data-act="biochar"] { --act-color: var(--green); }
+    .act-tab-btn[data-act="agro"] { --act-color: var(--teal); }
+    .act-tab-btn .act-count {
+      background: var(--bg-hover); color: var(--text-muted);
+      font-size: 10px; padding: 1px 6px; border-radius: 8px; font-weight: 500;
+    }
+    .act-tab-btn.active .act-count { background: rgba(255,255,255,0.1); color: inherit; }
+
+    .activity-tab-content { padding: 20px; }
+    .act-panel { display: none; }
+    .act-panel.active { display: block; }
+
+    /* Activity info header */
+    .act-info-header {
+      display: flex; align-items: flex-start; gap: 14px;
+      background: var(--bg-tertiary); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px; margin-bottom: 18px;
+    }
+    .act-info-icon { font-size: 32px; flex-shrink: 0; }
+    .act-info-body { flex: 1; }
+    .act-info-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+    .act-info-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 8px; }
+    .act-info-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .act-tag {
+      font-size: 10px; padding: 2px 8px; border-radius: 10px;
+      font-weight: 500; white-space: nowrap;
+    }
+    .act-tag.blue   { background: rgba(59,130,246,0.15); color: var(--blue); }
+    .act-tag.green  { background: rgba(34,197,94,0.15); color: var(--green); }
+    .act-tag.orange { background: rgba(249,115,22,0.15); color: var(--orange); }
+    .act-tag.teal   { background: rgba(20,184,166,0.15); color: var(--teal); }
+    .act-tag.purple { background: rgba(168,85,247,0.15); color: var(--purple); }
+
+    /* ============================================================
+       FORMS
+       ============================================================ */
+    .form-section-title {
+      font-size: 12px; font-weight: 700; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 12px; padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .form-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 14px; margin-bottom: 16px;
+    }
+    @media (max-width: 900px) { .form-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .form-grid { grid-template-columns: 1fr; } }
+    .form-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .form-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 900px) { .form-grid.cols-4 { grid-template-columns: repeat(2, 1fr); } }
+
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group.span2 { grid-column: span 2; }
+    .form-label {
+      font-size: 11px; font-weight: 600; color: var(--text-secondary);
+    }
+    .form-label .req { color: var(--red); }
+    .form-input, .form-select, .form-textarea {
+      padding: 9px 12px; width: 100%;
+    }
+    .form-textarea { resize: vertical; min-height: 72px; }
+    .form-select { cursor: pointer; }
+
+    .form-hint { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+    .form-actions {
+      display: flex; gap: 10px; align-items: center;
+      padding-top: 16px; border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .btn-submit {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 20px; border-radius: var(--radius);
+      font-size: 13px; font-weight: 600; color: white;
+      background: linear-gradient(135deg, var(--green-dark), var(--teal));
+      border: none; transition: all var(--transition);
+      box-shadow: 0 2px 12px rgba(20,184,166,0.25);
+    }
+    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 4px 18px rgba(20,184,166,0.35); }
+    .btn-reset {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 16px; border-radius: var(--radius);
+      font-size: 12px; font-weight: 500; color: var(--text-muted);
+      background: var(--bg-tertiary); border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+    .btn-reset:hover { color: var(--text-primary); border-color: var(--text-muted); }
+    .btn-gps {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 8px 13px; border-radius: var(--radius);
+      font-size: 11px; font-weight: 600; color: var(--teal);
+      background: rgba(20,184,166,0.1); border: 1px solid rgba(20,184,166,0.3);
+      transition: all var(--transition); margin-left: auto;
+    }
+    .btn-gps:hover { background: rgba(20,184,166,0.2); }
+
+    /* ============================================================
+       ESTIMATE WIDGET
+       ============================================================ */
+    .estimate-box {
+      background: linear-gradient(135deg, rgba(34,197,94,0.05), rgba(20,184,166,0.05));
+      border: 1px solid rgba(34,197,94,0.2);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-top: 16px;
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .estimate-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+    .estimate-body { flex: 1; }
+    .estimate-title {
+      font-size: 12px; font-weight: 700; color: var(--green);
+      margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+    }
+    .badge-indicative {
+      font-size: 9px; padding: 1px 7px; border-radius: 10px;
+      background: rgba(245,158,11,0.15); color: var(--yellow);
+      font-weight: 600; border: 1px solid rgba(245,158,11,0.2);
+    }
+    .estimate-values {
+      display: flex; gap: 20px; flex-wrap: wrap;
+    }
+    .estimate-kv { display: flex; flex-direction: column; gap: 2px; }
+    .estimate-k { font-size: 10px; color: var(--text-muted); }
+    .estimate-v { font-size: 18px; font-weight: 800; font-family: var(--font-en); color: var(--text-primary); }
+    .estimate-v span { font-size: 11px; font-weight: 400; color: var(--text-muted); margin-left: 2px; }
+
+    /* ============================================================
+       RECORDS TABLE
+       ============================================================ */
+    .records-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .records-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px; border-bottom: 1px solid var(--border);
+      background: var(--bg-tertiary);
+    }
+    .records-header-left { display: flex; align-items: center; gap: 8px; }
+    .records-title { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+    .records-count {
+      font-size: 10px; padding: 2px 8px; border-radius: 8px;
+      background: rgba(34,197,94,0.12); color: var(--green); font-weight: 600;
+    }
+    .records-filter {
+      display: flex; gap: 6px;
+    }
+    .records-filter select {
+      padding: 4px 8px; font-size: 11px; border-radius: 6px;
+    }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      padding: 10px 14px; text-align: left;
+      font-size: 10px; font-weight: 700; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      background: var(--bg-tertiary); border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background var(--transition); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--bg-hover); }
+    tbody td { padding: 10px 14px; font-size: 12px; color: var(--text-secondary); white-space: nowrap; }
+    .td-primary { color: var(--text-primary); font-weight: 600; }
+    .activity-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px; border-radius: 8px; font-size: 10px; font-weight: 600;
+    }
+    .activity-pill.awd    { background: rgba(59,130,246,0.15); color: var(--blue); }
+    .activity-pill.soc    { background: rgba(249,115,22,0.15); color: var(--orange); }
+    .activity-pill.biochar { background: rgba(34,197,94,0.15); color: var(--green); }
+    .activity-pill.agro   { background: rgba(20,184,166,0.15); color: var(--teal); }
+    .status-pill {
+      display: inline-block; padding: 2px 8px; border-radius: 8px;
+      font-size: 10px; font-weight: 600;
+    }
+    .status-pill.verified { background: rgba(34,197,94,0.15); color: var(--green); }
+    .status-pill.pending  { background: rgba(245,158,11,0.15); color: var(--yellow); }
+    .status-pill.draft    { background: rgba(100,116,139,0.15); color: var(--text-muted); }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center; padding: 40px 20px; color: var(--text-muted);
+    }
+    .empty-state-icon { font-size: 36px; margin-bottom: 8px; }
+    .empty-state-text { font-size: 13px; }
+
+    /* ============================================================
+       DISCLAIMER
+       ============================================================ */
+    .disclaimer-box {
+      background: rgba(245,158,11,0.05);
+      border: 1px solid rgba(245,158,11,0.2);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      display: flex; gap: 10px; align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .disclaimer-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .disclaimer-text { font-size: 11px; color: var(--text-muted); line-height: 1.6; }
+    .disclaimer-text strong { color: var(--yellow); }
+
+    /* ============================================================
+       TOAST / NOTIFICATION
+       ============================================================ */
+    #toast-container {
+      position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .toast {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 12px 16px;
+      box-shadow: var(--shadow); font-size: 13px;
+      display: flex; align-items: center; gap: 10px; min-width: 260px;
+      animation: slideIn 0.3s ease;
+    }
+    .toast.success { border-left: 3px solid var(--green); }
+    .toast.error   { border-left: 3px solid var(--red); }
+    @keyframes slideIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+
+    /* ============================================================
+       SCROLLBAR
+       ============================================================ */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 600px) {
+      #page-container { padding: 12px 10px 32px; }
+      .page-title { font-size: 16px; }
+      .act-tab-btn { padding: 10px 14px; font-size: 12px; }
+      .activity-tab-content { padding: 14px; }
+      .act-info-header { flex-direction: column; }
+      .kpi-value { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOPBAR
+     ============================================================ -->
+<header id="topbar">
+  <div class="topbar-left">
+    <a href="index.html" class="btn-back" title="मुख्य पेज पर वापस जाएं">
+      ← वापस
+    </a>
+    <div class="brand">
+      <span class="brand-icon">🌾</span>
+      <span class="brand-title">Agri <span>Monitor</span></span>
+      <span class="brand-badge">CHANGE TechLab</span>
+    </div>
+  </div>
+
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="index.html">डैशबोर्ड</a>
+    <span class="breadcrumb-sep">›</span>
+    <span class="breadcrumb-current">Climate Actions</span>
+  </nav>
+
+  <div class="topbar-right">
+    <button class="btn-theme-toggle" id="btn-toggle-theme" title="Theme बदलें">☀️</button>
+  </div>
+</header>
+
+<!-- ============================================================
+     FILTER BAR (District / Block — same as main dashboard)
+     ============================================================ -->
+<div id="filter-bar">
+  <span class="filter-bar-label">📍 फ़िल्टर:</span>
+  <div class="filter-bar-selects">
+    <select id="ca-district" title="जिला चुनें">
+      <option value="all">सभी जिले</option>
+      <option value="rudraprayag" selected>रुद्रप्रयाग</option>
+      <option value="chamoli">चमोली</option>
+      <option value="tehri">टिहरी</option>
+      <option value="uttarkashi">उत्तरकाशी</option>
+      <option value="almora">अल्मोड़ा</option>
+      <option value="pithoragarh">पिथौरागढ़</option>
+      <option value="pauri">पौड़ी</option>
+    </select>
+    <span class="filter-arrow">›</span>
+    <select id="ca-block" title="ब्लॉक चुनें">
+      <option value="all">सभी ब्लॉक</option>
+      <option value="Ukhimath">ऊखीमठ</option>
+      <option value="Jakholi">जखोली</option>
+      <option value="Augustyamuni">अगस्त्यमुनि</option>
+    </select>
+    <span class="filter-arrow">›</span>
+    <select id="ca-season" title="सीज़न">
+      <option value="kharif2025">खरीफ 2025</option>
+      <option value="rabi2025">रबी 2025-26</option>
+      <option value="kharif2024">खरीफ 2024</option>
+    </select>
+  </div>
+  <div class="filter-bar-right">
+    <button class="export-btn" id="btn-export" title="डेटा निर्यात करें">
+      📥 Export CSV
+    </button>
+  </div>
+</div>
+
+<!-- ============================================================
+     MAIN PAGE
+     ============================================================ -->
+<main id="page-container">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <div class="page-header-icon">🌿</div>
+      <div>
+        <div class="page-title">Climate Actions Module</div>
+        <div class="page-subtitle">AWD · SOC · Biochar · Agroforestry — जलवायु-अनुकूल कृषि गतिविधियों की निगरानी</div>
+      </div>
+    </div>
+    <span class="badge-module">🌍 Phase 1 + 2 Live</span>
+  </div>
+
+  <!-- ============================================================
+       KPI SUMMARY CARDS
+       ============================================================ -->
+  <div class="kpi-grid">
+    <div class="kpi-card green">
+      <div class="kpi-top">
+        <span class="kpi-icon">📋</span>
+        <span class="kpi-trend" id="kpi-trend-records">↑ नया</span>
+      </div>
+      <div class="kpi-value" id="kpi-total-records">0</div>
+      <div class="kpi-label">कुल Climate Records</div>
+      <div class="kpi-sublabel">AWD + SOC + Biochar + Agro</div>
+    </div>
+    <div class="kpi-card teal">
+      <div class="kpi-top">
+        <span class="kpi-icon">🌱</span>
+        <span class="kpi-trend" id="kpi-trend-carbon">—</span>
+      </div>
+      <div class="kpi-value" id="kpi-carbon">0.0<span style="font-size:14px;font-weight:400"> t</span></div>
+      <div class="kpi-label">अनुमानित कार्बन संग्रह</div>
+      <div class="kpi-sublabel">Biochar (indicative)</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-top">
+        <span class="kpi-icon">💨</span>
+        <span class="kpi-trend" id="kpi-trend-methane">—</span>
+      </div>
+      <div class="kpi-value" id="kpi-methane">0.0<span style="font-size:14px;font-weight:400"> kg</span></div>
+      <div class="kpi-label">अनुमानित मीथेन कमी</div>
+      <div class="kpi-sublabel">AWD से (indicative)</div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-top">
+        <span class="kpi-icon">🌳</span>
+        <span class="kpi-trend" id="kpi-trend-trees">—</span>
+      </div>
+      <div class="kpi-value" id="kpi-tree-survival">—<span style="font-size:14px;font-weight:400">%</span></div>
+      <div class="kpi-label">पेड़ Survival Rate</div>
+      <div class="kpi-sublabel">Agroforestry (लगाए vs जीवित)</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ACTIVITY TABS
+       ============================================================ -->
+  <div class="activity-tabs-wrapper">
+    <nav class="activity-tab-nav" id="activity-tab-nav" role="tablist">
+      <button class="act-tab-btn active" data-act="awd" role="tab" aria-selected="true">
+        💧 AWD <span class="act-count" id="count-awd">0</span>
+      </button>
+      <button class="act-tab-btn" data-act="soc" role="tab">
+        🌾 SOC <span class="act-count" id="count-soc">0</span>
+      </button>
+      <button class="act-tab-btn" data-act="biochar" role="tab">
+        🔥 Biochar <span class="act-count" id="count-biochar">0</span>
+      </button>
+      <button class="act-tab-btn" data-act="agro" role="tab">
+        🌳 Agroforestry <span class="act-count" id="count-agro">0</span>
+      </button>
+    </nav>
+
+    <div class="activity-tab-content">
+
+      <!-- ===================== AWD ===================== -->
+      <div class="act-panel active" id="panel-awd">
+        <div class="act-info-header">
+          <div class="act-info-icon">💧</div>
+          <div class="act-info-body">
+            <div class="act-info-title">Alternate Wetting and Drying (AWD) — वैकल्पिक सिंचाई</div>
+            <div class="act-info-desc">
+              धान की खेती में पानी बचाने की वैज्ञानिक तकनीक। खेत को पूरी तरह सूखने नहीं दिया जाता, बल्कि एक निश्चित अंतराल पर सिंचाई की जाती है। इससे <strong>30–40% पानी की बचत</strong> होती है और मिट्टी से मीथेन (CH₄) उत्सर्जन कम होता है — जो एक शक्तिशाली ग्रीनहाउस गैस है।
+            </div>
+            <div class="act-info-tags">
+              <span class="act-tag blue">💧 पानी बचत: ~35%</span>
+              <span class="act-tag green">🌍 मीथेन कमी: ~20-40%</span>
+              <span class="act-tag orange">🌾 धान की फसल</span>
+              <span class="act-tag purple">📡 IRRI प्रमाणित</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section-title">📝 AWD डेटा एंट्री</div>
+        <form id="form-awd" autocomplete="off">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="awd-field-id">Field ID / खेत नंबर <span class="req">*</span></label>
+              <input type="text" id="awd-field-id" class="form-input" placeholder="जैसे: RDP-UKM-001" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="awd-farmer">किसान का नाम <span class="req">*</span></label>
+              <input type="text" id="awd-farmer" class="form-input" placeholder="किसान का नाम" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="awd-crop-stage">फसल अवस्था (Crop Stage)</label>
+              <select id="awd-crop-stage" class="form-select">
+                <option value="">— चुनें —</option>
+                <option value="tillering">कल्ले निकलना (Tillering)</option>
+                <option value="panicle">बाली निकलना (Panicle Initiation)</option>
+                <option value="heading">बाली निकलने के बाद (Heading)</option>
+                <option value="milking">दूधिया अवस्था (Milking)</option>
+                <option value="ripening">पकाव (Ripening)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="awd-irrigation-cycle">सिंचाई चक्र (दिन में)</label>
+              <input type="number" id="awd-irrigation-cycle" class="form-input" placeholder="जैसे: 5" min="1" max="30">
+              <span class="form-hint">पिछली सिंचाई के कितने दिन बाद अगली सिंचाई</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="awd-water-depth">पानी की गहराई (cm)</label>
+              <input type="number" id="awd-water-depth" class="form-input" placeholder="-15 to +5" min="-20" max="20" step="0.5">
+              <span class="form-hint">नकारात्मक = पानी सतह से नीचे</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="awd-last-date">पिछली सिंचाई की तारीख</label>
+              <input type="date" id="awd-last-date" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="awd-field-area">खेत का क्षेत्रफल (Bigha)</label>
+              <input type="number" id="awd-field-area" class="form-input" placeholder="जैसे: 2.5" min="0" step="0.1">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="awd-baseline-water">सामान्य सिंचाई (बिना AWD, mm)</label>
+              <input type="number" id="awd-baseline-water" class="form-input" placeholder="जैसे: 1200" min="0">
+              <span class="form-hint">पारंपरिक तरीके में इतना पानी लगता था</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="awd-actual-water">वास्तविक उपयोग (AWD के साथ, mm)</label>
+              <input type="number" id="awd-actual-water" class="form-input" placeholder="जैसे: 800" min="0">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:16px;">
+            <label class="form-label" for="awd-notes">अतिरिक्त टिप्पणी</label>
+            <textarea id="awd-notes" class="form-textarea" placeholder="कोई विशेष बात, मौसम की स्थिति, आदि..."></textarea>
+          </div>
+
+          <!-- AWD Estimate Widget -->
+          <div class="estimate-box" id="awd-estimate-box">
+            <div class="estimate-icon">💨</div>
+            <div class="estimate-body">
+              <div class="estimate-title">
+                त्वरित अनुमान (Quick Estimate)
+                <span class="badge-indicative">⚠️ Indicative Only</span>
+              </div>
+              <div class="estimate-values">
+                <div class="estimate-kv">
+                  <span class="estimate-k">पानी बचत अनुमान</span>
+                  <span class="estimate-v" id="awd-est-water">—<span> mm</span></span>
+                </div>
+                <div class="estimate-kv">
+                  <span class="estimate-k">मीथेन कमी अनुमान</span>
+                  <span class="estimate-v" id="awd-est-methane">—<span> kg CH₄</span></span>
+                </div>
+                <div class="estimate-kv">
+                  <span class="estimate-k">CO₂ समतुल्य (GWP×25)</span>
+                  <span class="estimate-v" id="awd-est-co2">—<span> kg</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">💾 रिकॉर्ड सहेजें</button>
+            <button type="reset" class="btn-reset" onclick="resetAWDEstimate()">🔄 फॉर्म साफ करें</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ===================== SOC ===================== -->
+      <div class="act-panel" id="panel-soc">
+        <div class="act-info-header">
+          <div class="act-info-icon">🌾</div>
+          <div class="act-info-body">
+            <div class="act-info-title">Soil Organic Carbon (SOC) — मिट्टी जैविक कार्बन प्रबंधन</div>
+            <div class="act-info-desc">
+              मिट्टी में कार्बनिक पदार्थ की मात्रा बढ़ाने से मिट्टी की उर्वरता, जल-धारण क्षमता और कार्बन भंडारण में सुधार होता है। खाद, कम्पोस्ट और फसल अवशेष के प्रयोग से SOC बढ़ाया जाता है। Lab परीक्षण + NDVI डेटा से SOC परिवर्तन ट्रैक किया जाएगा।
+            </div>
+            <div class="act-info-tags">
+              <span class="act-tag orange">🌱 मिट्टी स्वास्थ्य</span>
+              <span class="act-tag green">♻️ कार्बन भंडारण</span>
+              <span class="act-tag teal">📡 NDVI लिंक्ड</span>
+              <span class="act-tag blue">🧪 Lab Verified</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section-title">🧪 SOC नमूना एंट्री</div>
+        <form id="form-soc" autocomplete="off">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="soc-sample-id">Sample ID <span class="req">*</span></label>
+              <input type="text" id="soc-sample-id" class="form-input" placeholder="जैसे: SOC-RDP-2025-01" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="soc-farmer">किसान का नाम <span class="req">*</span></label>
+              <input type="text" id="soc-farmer" class="form-input" placeholder="किसान का नाम" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="soc-sample-date">नमूना लेने की तारीख</label>
+              <input type="date" id="soc-sample-date" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="soc-depth">नमूना गहराई (Sampling Depth)</label>
+              <select id="soc-depth" class="form-select">
+                <option value="">— चुनें —</option>
+                <option value="0-15">0–15 cm (सतह परत)</option>
+                <option value="15-30">15–30 cm (मध्य परत)</option>
+                <option value="30-60">30–60 cm (गहरी परत)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="soc-lab-result">Lab परिणाम (% SOC)</label>
+              <input type="number" id="soc-lab-result" class="form-input" placeholder="जैसे: 0.85" min="0" max="10" step="0.01">
+              <span class="form-hint">मिट्टी परीक्षण प्रयोगशाला का परिणाम</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="soc-baseline">Baseline SOC (%, पिछला)</label>
+              <input type="number" id="soc-baseline" class="form-input" placeholder="जैसे: 0.65" min="0" max="10" step="0.01">
+              <span class="form-hint">पिछले साल का या प्रोजेक्ट शुरू का मान</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="soc-compost">कम्पोस्ट/खाद प्रयोग (kg/bigha)</label>
+              <input type="number" id="soc-compost" class="form-input" placeholder="जैसे: 500" min="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="soc-manure-type">खाद का प्रकार</label>
+              <select id="soc-manure-type" class="form-select">
+                <option value="">— चुनें —</option>
+                <option value="fym">गोबर खाद (FYM)</option>
+                <option value="compost">कम्पोस्ट</option>
+                <option value="vermicompost">वर्मीकम्पोस्ट</option>
+                <option value="green_manure">हरी खाद</option>
+                <option value="crop_residue">फसल अवशेष</option>
+                <option value="biochar">बायोचार</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="soc-field-area">खेत का क्षेत्रफल (Bigha)</label>
+              <input type="number" id="soc-field-area" class="form-input" placeholder="जैसे: 3" min="0" step="0.1">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:16px;">
+            <label class="form-label" for="soc-notes">Lab नाम और अतिरिक्त जानकारी</label>
+            <textarea id="soc-notes" class="form-textarea" placeholder="प्रयोगशाला का नाम, नमूना कोड, अन्य टिप्पणी..."></textarea>
+          </div>
+
+          <!-- SOC Estimate Widget -->
+          <div class="estimate-box" id="soc-estimate-box">
+            <div class="estimate-icon">🌾</div>
+            <div class="estimate-body">
+              <div class="estimate-title">
+                SOC स्थिति
+                <span class="badge-indicative">⚠️ Indicative Only</span>
+              </div>
+              <div class="estimate-values">
+                <div class="estimate-kv">
+                  <span class="estimate-k">SOC बदलाव (Δ%)</span>
+                  <span class="estimate-v" id="soc-est-delta">—</span>
+                </div>
+                <div class="estimate-kv">
+                  <span class="estimate-k">स्थिति</span>
+                  <span class="estimate-v" id="soc-est-status" style="font-size:14px;">—</span>
+                </div>
+                <div class="estimate-kv">
+                  <span class="estimate-k">अतिरिक्त कार्बन (kg C/bigha)</span>
+                  <span class="estimate-v" id="soc-est-carbon">—</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">💾 नमूना सहेजें</button>
+            <button type="reset" class="btn-reset">🔄 फॉर्म साफ करें</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ===================== BIOCHAR ===================== -->
+      <div class="act-panel" id="panel-biochar">
+        <div class="act-info-header">
+          <div class="act-info-icon">🔥</div>
+          <div class="act-info-body">
+            <div class="act-info-title">Biochar Monitoring — बायोचार निगरानी</div>
+            <div class="act-info-desc">
+              बायोचार एक प्रकार का कोयला है जो पराली/बायोमास को ऑक्सीजन की सीमित मात्रा में जलाने (Pyrolysis) से बनता है। खेत में डालने पर यह सैकड़ों वर्षों तक कार्बन को मिट्टी में बंद रखता है। अनुमान: <strong>1 kg Biochar ≈ 0.50 kg Carbon Stored</strong>।
+            </div>
+            <div class="act-info-tags">
+              <span class="act-tag green">🌱 Carbon Storage: ×0.50</span>
+              <span class="act-tag orange">🔥 Pyrolysis प्रक्रिया</span>
+              <span class="act-tag teal">📍 GPS Tracked</span>
+              <span class="act-tag purple">♻️ पराली उपयोग</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section-title">🔥 Biochar उत्पादन और प्रयोग</div>
+        <form id="form-biochar" autocomplete="off">
+          <div class="form-grid cols-4">
+            <div class="form-group">
+              <label class="form-label" for="bc-record-id">Record ID <span class="req">*</span></label>
+              <input type="text" id="bc-record-id" class="form-input" placeholder="BC-RDP-2025-01" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bc-farmer">किसान का नाम <span class="req">*</span></label>
+              <input type="text" id="bc-farmer" class="form-input" placeholder="किसान का नाम" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bc-date">तारीख</label>
+              <input type="date" id="bc-date" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bc-feedstock">Feedstock प्रकार <span class="req">*</span></label>
+              <select id="bc-feedstock" class="form-select" required>
+                <option value="">— चुनें —</option>
+                <option value="parali">पराली (Rice Straw)</option>
+                <option value="wheat_straw">गेहूं का भूसा</option>
+                <option value="wood">लकड़ी/टहनियाँ</option>
+                <option value="sugarcane">गन्ने का बगास</option>
+                <option value="bamboo">बाँस</option>
+                <option value="other">अन्य बायोमास</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-section-title" style="margin-top:4px;">📦 उत्पादन विवरण (Production)</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="bc-biomass-weight">बायोमास इनपुट वजन (kg) <span class="req">*</span></label>
+              <input type="number" id="bc-biomass-weight" class="form-input" placeholder="जैसे: 500" min="0" step="0.1" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bc-moisture">नमी (Moisture %)</label>
+              <input type="number" id="bc-moisture" class="form-input" placeholder="जैसे: 15" min="0" max="100" step="0.1">
+              <span class="form-hint">0–100% (सूखे बायोमास में कम)</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bc-output-weight">Biochar आउटपुट वजन (kg)</label>
+              <input type="number" id="bc-output-weight" class="form-input" placeholder="जैसे: 150" min="0" step="0.1">
+              <span class="form-hint">उत्पादित बायोचार का वजन</span>
+            </div>
+          </div>
+
+          <div class="form-section-title">🌍 खेत में प्रयोग (Application)</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="bc-application-weight">प्रयोग किया गया बायोचार (kg) <span class="req">*</span></label>
+              <input type="number" id="bc-application-weight" class="form-input" placeholder="जैसे: 120" min="0" step="0.1" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bc-field-area">खेत क्षेत्रफल (Bigha)</label>
+              <input type="number" id="bc-field-area" class="form-input" placeholder="जैसे: 2" min="0" step="0.1">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bc-gps">GPS (Lat, Long)</label>
+              <div style="display:flex;gap:6px;align-items:center;">
+                <input type="text" id="bc-gps" class="form-input" placeholder="30.1234, 78.9876" style="flex:1;">
+                <button type="button" class="btn-gps" onclick="captureGPS('bc-gps')">📍 Auto</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Biochar Estimate Widget -->
+          <div class="estimate-box" id="biochar-estimate-box">
+            <div class="estimate-icon">🌱</div>
+            <div class="estimate-body">
+              <div class="estimate-title">
+                Carbon Sequestration अनुमान
+                <span class="badge-indicative">⚠️ Indicative Only</span>
+              </div>
+              <div class="estimate-values">
+                <div class="estimate-kv">
+                  <span class="estimate-k">Carbon Stored</span>
+                  <span class="estimate-v" id="bc-est-carbon">—<span> kg C</span></span>
+                </div>
+                <div class="estimate-kv">
+                  <span class="estimate-k">CO₂ समतुल्य</span>
+                  <span class="estimate-v" id="bc-est-co2eq">—<span> kg CO₂e</span></span>
+                </div>
+                <div class="estimate-kv">
+                  <span class="estimate-k">Conversion Yield</span>
+                  <span class="estimate-v" id="bc-est-yield">—<span> %</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">💾 Biochar रिकॉर्ड सहेजें</button>
+            <button type="reset" class="btn-reset" onclick="resetBiocharEstimate()">🔄 फॉर्म साफ करें</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ===================== AGROFORESTRY ===================== -->
+      <div class="act-panel" id="panel-agro">
+        <div class="act-info-header">
+          <div class="act-info-icon">🌳</div>
+          <div class="act-info-body">
+            <div class="act-info-title">Agroforestry — कृषिवानिकी</div>
+            <div class="act-info-desc">
+              खेतों की मेड़ पर या खेत के अंदर पेड़ लगाना। यह छाया, फल, चारा, लकड़ी देता है और साथ ही वायुमंडलीय CO₂ को अवशोषित करता है। पहाड़ी क्षेत्रों में भूमि संरक्षण में भी मदद मिलती है। Survival Rate = जीवित पेड़ ÷ लगाए गए पेड़ × 100।
+            </div>
+            <div class="act-info-tags">
+              <span class="act-tag teal">🌳 Carbon Sequestration</span>
+              <span class="act-tag green">🍎 Multicropping</span>
+              <span class="act-tag blue">⛰️ Soil Conservation</span>
+              <span class="act-tag orange">📍 Geo-tagged</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section-title">🌱 पेड़ रोपण एंट्री</div>
+        <form id="form-agro" autocomplete="off">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="agro-record-id">Record ID <span class="req">*</span></label>
+              <input type="text" id="agro-record-id" class="form-input" placeholder="AGR-RDP-2025-01" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="agro-farmer">किसान का नाम <span class="req">*</span></label>
+              <input type="text" id="agro-farmer" class="form-input" placeholder="किसान का नाम" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="agro-planting-date">रोपण तारीख</label>
+              <input type="date" id="agro-planting-date" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="agro-species">पेड़ की प्रजाति <span class="req">*</span></label>
+              <select id="agro-species" class="form-select" required>
+                <option value="">— चुनें —</option>
+                <optgroup label="फलदार पेड़">
+                  <option value="walnut">अखरोट (Walnut)</option>
+                  <option value="apple">सेब (Apple)</option>
+                  <option value="apricot">खुबानी (Apricot)</option>
+                  <option value="plum">आलूबुखारा (Plum)</option>
+                  <option value="mango">आम (Mango)</option>
+                  <option value="amla">आंवला</option>
+                </optgroup>
+                <optgroup label="चारा/छाया पेड़">
+                  <option value="mulberry">शहतूत (Mulberry)</option>
+                  <option value="bamboo">बाँस (Bamboo)</option>
+                  <option value="poplar">पॉपलर</option>
+                  <option value="eucalyptus">नीलगिरी</option>
+                </optgroup>
+                <optgroup label="औषधीय">
+                  <option value="neem">नीम</option>
+                  <option value="tej_patta">तेजपत्ता</option>
+                  <option value="other">अन्य</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="agro-planted">लगाए गए पेड़ (संख्या) <span class="req">*</span></label>
+              <input type="number" id="agro-planted" class="form-input" placeholder="जैसे: 50" min="0" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="agro-surviving">जीवित पेड़ (Survival Count)</label>
+              <input type="number" id="agro-surviving" class="form-input" placeholder="जैसे: 45" min="0">
+              <span class="form-hint">अगर ताज़ा रोपण है तो लगाए = जीवित</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="agro-area">खेत/मेड़ क्षेत्रफल (Bigha)</label>
+              <input type="number" id="agro-area" class="form-input" placeholder="जैसे: 5" min="0" step="0.1">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="agro-placement">रोपण स्थान</label>
+              <select id="agro-placement" class="form-select">
+                <option value="">— चुनें —</option>
+                <option value="bund">मेड़ पर (Field Bund)</option>
+                <option value="intercrop">खेत के बीच</option>
+                <option value="border">सीमा पर (Border)</option>
+                <option value="terrace">सीढ़ीदार खेत</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="agro-geotag">Geotag (Lat, Long)</label>
+              <div style="display:flex;gap:6px;align-items:center;">
+                <input type="text" id="agro-geotag" class="form-input" placeholder="30.1234, 78.9876" style="flex:1;">
+                <button type="button" class="btn-gps" onclick="captureGPS('agro-geotag')">📍 Auto</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Agroforestry Estimate Widget -->
+          <div class="estimate-box" id="agro-estimate-box">
+            <div class="estimate-icon">🌳</div>
+            <div class="estimate-body">
+              <div class="estimate-title">
+                पेड़ Survival & Carbon अनुमान
+                <span class="badge-indicative">⚠️ Indicative Only</span>
+              </div>
+              <div class="estimate-values">
+                <div class="estimate-kv">
+                  <span class="estimate-k">Survival Rate</span>
+                  <span class="estimate-v" id="agro-est-survival">—<span> %</span></span>
+                </div>
+                <div class="estimate-kv">
+                  <span class="estimate-k">मृत पेड़ (Gap Fill ज़रूरी)</span>
+                  <span class="estimate-v" id="agro-est-dead">—<span> पेड़</span></span>
+                </div>
+                <div class="estimate-kv">
+                  <span class="estimate-k">अनुमानित Carbon (10yr)</span>
+                  <span class="estimate-v" id="agro-est-carbon">—<span> kg CO₂/yr</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">💾 रोपण रिकॉर्ड सहेजें</button>
+            <button type="reset" class="btn-reset" onclick="resetAgroEstimate()">🔄 फॉर्म साफ करें</button>
+          </div>
+        </form>
+      </div>
+
+    </div><!-- /activity-tab-content -->
+  </div><!-- /activity-tabs-wrapper -->
+
+  <!-- ============================================================
+       RECENT RECORDS TABLE
+       ============================================================ -->
+  <div class="records-section">
+    <div class="records-header">
+      <div class="records-header-left">
+        <span class="records-title">📋 हाल के रिकॉर्ड</span>
+        <span class="records-count" id="records-total-count">0 records</span>
+      </div>
+      <div class="records-filter">
+        <select id="records-filter-activity" title="गतिविधि फ़िल्टर">
+          <option value="all">सभी</option>
+          <option value="awd">AWD</option>
+          <option value="soc">SOC</option>
+          <option value="biochar">Biochar</option>
+          <option value="agro">Agroforestry</option>
+        </select>
+      </div>
+    </div>
+    <div class="table-scroll">
+      <table id="records-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>गतिविधि</th>
+            <th>किसान</th>
+            <th>ID / नाम</th>
+            <th>मुख्य मूल्य</th>
+            <th>अनुमान (Indicative)</th>
+            <th>तारीख</th>
+            <th>स्थिति</th>
+          </tr>
+        </thead>
+        <tbody id="records-tbody">
+          <!-- populated by JS -->
+        </tbody>
+      </table>
+    </div>
+    <div id="records-empty" class="empty-state">
+      <div class="empty-state-icon">📭</div>
+      <div class="empty-state-text">अभी कोई रिकॉर्ड नहीं। ऊपर फॉर्म भरकर पहला रिकॉर्ड जोड़ें।</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       DISCLAIMER
+       ============================================================ -->
+  <div class="disclaimer-box">
+    <div class="disclaimer-icon">⚠️</div>
+    <div class="disclaimer-text">
+      <strong>महत्वपूर्ण सूचना:</strong> इस पेज पर दिए गए सभी अनुमान (Carbon Stored, Methane Reduction, Survival Rate) केवल <strong>Indicative / सांकेतिक</strong> हैं और प्रारंभिक क्षेत्र-डेटा पर आधारित हैं।
+      ये मान किसी भी <strong>Carbon Credit</strong> या आधिकारिक रिपोर्ट के लिए उपयोग नहीं किए जाने चाहिए।
+      आधिकारिक मूल्यांकन के लिए एक स्वतंत्र सत्यापन परत (Verification Layer) आवश्यक है।
+      वर्तमान प्रणाली में NDVI औसत भी एक Blank/Demo State में है — Climate Logic को धीरे-धीरे और सावधानीपूर्वक जोड़ा जाएगा।
+    </div>
+  </div>
+
+</main>
+
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
+<!-- ============================================================
+     JS
+     ============================================================ -->
+<script>
+/* ============================================================
+   THEME TOGGLE
+   ============================================================ */
+const themeBtn = document.getElementById('btn-toggle-theme');
+const savedTheme = localStorage.getItem('agriTheme') || 'dark';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+themeBtn.addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('agriTheme', next);
+  themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+});
+
+/* ============================================================
+   ACTIVITY TABS
+   ============================================================ */
+const actTabBtns = document.querySelectorAll('.act-tab-btn');
+const actPanels  = document.querySelectorAll('.act-panel');
+
+actTabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const act = btn.dataset.act;
+    actTabBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+    actPanels.forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected','true');
+    document.getElementById('panel-' + act).classList.add('active');
+  });
+});
+
+/* ============================================================
+   DATA STORE (LocalStorage)
+   ============================================================ */
+const STORE_KEY = 'climate_records_v1';
+
+function loadRecords() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
+  catch(e) { return []; }
+}
+function saveRecords(recs) {
+  localStorage.setItem(STORE_KEY, JSON.stringify(recs));
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function showToast(msg, type='success') {
+  const tc = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.innerHTML = (type==='success' ? '✅ ' : '❌ ') + msg;
+  tc.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+/* ============================================================
+   GPS CAPTURE
+   ============================================================ */
+function captureGPS(fieldId) {
+  if (!navigator.geolocation) {
+    showToast('Geolocation इस ब्राउज़र में उपलब्ध नहीं है।', 'error'); return;
+  }
+  showToast('📍 GPS लोकेशन ढूंढी जा रही है...');
+  navigator.geolocation.getCurrentPosition(pos => {
+    const { latitude: lat, longitude: lng } = pos.coords;
+    document.getElementById(fieldId).value = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+    showToast(`📍 GPS: ${lat.toFixed(4)}, ${lng.toFixed(4)} — सफलतापूर्वक प्राप्त`);
+  }, err => {
+    showToast('GPS एक्सेस नहीं हो सकी। कृपया मैन्युअल दर्ज करें।', 'error');
+  });
+}
+
+/* ============================================================
+   KPI UPDATER
+   ============================================================ */
+function updateKPIs() {
+  const recs = loadRecords();
+  document.getElementById('kpi-total-records').textContent = recs.length;
+  document.getElementById('records-total-count').textContent = recs.length + ' records';
+
+  // Update tab counts
+  ['awd','soc','biochar','agro'].forEach(a => {
+    const c = recs.filter(r => r.activity === a).length;
+    document.getElementById('count-' + a).textContent = c;
+  });
+
+  // Carbon from Biochar
+  const totalCarbon = recs
+    .filter(r => r.activity === 'biochar' && r.est_carbon)
+    .reduce((s, r) => s + parseFloat(r.est_carbon || 0), 0);
+  document.getElementById('kpi-carbon').innerHTML =
+    (totalCarbon/1000).toFixed(2) + '<span style="font-size:14px;font-weight:400"> t</span>';
+  if (totalCarbon > 0) document.getElementById('kpi-trend-carbon').textContent = '↑ +' + totalCarbon.toFixed(0) + ' kg';
+
+  // Methane from AWD
+  const totalMethane = recs
+    .filter(r => r.activity === 'awd' && r.est_methane)
+    .reduce((s, r) => s + parseFloat(r.est_methane || 0), 0);
+  document.getElementById('kpi-methane').innerHTML =
+    totalMethane.toFixed(1) + '<span style="font-size:14px;font-weight:400"> kg</span>';
+  if (totalMethane > 0) document.getElementById('kpi-trend-methane').textContent = '↓ Reduced';
+
+  // Tree survival
+  const agroRecs = recs.filter(r => r.activity === 'agro' && r.planted && r.surviving);
+  if (agroRecs.length) {
+    const totPlanted  = agroRecs.reduce((s,r) => s + parseInt(r.planted||0), 0);
+    const totSurviving = agroRecs.reduce((s,r) => s + parseInt(r.surviving||0), 0);
+    const rate = totPlanted > 0 ? Math.round(totSurviving/totPlanted*100) : 0;
+    document.getElementById('kpi-tree-survival').innerHTML =
+      rate + '<span style="font-size:14px;font-weight:400">%</span>';
+    document.getElementById('kpi-trend-trees').textContent = totSurviving + '/' + totPlanted;
+  }
+}
+
+/* ============================================================
+   RECORDS TABLE RENDERER
+   ============================================================ */
+function renderTable(filterActivity = 'all') {
+  const recs = loadRecords().filter(r => filterActivity === 'all' || r.activity === filterActivity);
+  const tbody = document.getElementById('records-tbody');
+  const empty = document.getElementById('records-empty');
+  tbody.innerHTML = '';
+
+  if (recs.length === 0) {
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  const actLabels = { awd:'AWD', soc:'SOC', biochar:'Biochar', agro:'Agroforestry' };
+  const actIcons  = { awd:'💧', soc:'🌾', biochar:'🔥', agro:'🌳' };
+
+  recs.slice().reverse().forEach((r, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="td-primary">${recs.length - i}</td>
+      <td><span class="activity-pill ${r.activity}">${actIcons[r.activity]} ${actLabels[r.activity]}</span></td>
+      <td class="td-primary">${r.farmer || '—'}</td>
+      <td>${r.id || '—'}</td>
+      <td>${r.main_value || '—'}</td>
+      <td style="color:var(--teal);font-family:var(--font-en)">${r.estimate || '—'}</td>
+      <td>${r.date || '—'}</td>
+      <td><span class="status-pill pending">⏳ Pending</span></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+document.getElementById('records-filter-activity').addEventListener('change', e => {
+  renderTable(e.target.value);
+});
+
+/* ============================================================
+   AWD FORM — Estimate & Submit
+   ============================================================ */
+function calcAWDEstimate() {
+  const baseline = parseFloat(document.getElementById('awd-baseline-water').value) || 0;
+  const actual   = parseFloat(document.getElementById('awd-actual-water').value) || 0;
+  const area     = parseFloat(document.getElementById('awd-field-area').value) || 1;
+
+  if (baseline > 0 && actual > 0) {
+    const waterSaved = baseline - actual;
+    // Methane reduction proxy: ~30% reduction per 20% water saving
+    const savePct = waterSaved / baseline;
+    const methaneBase = area * 200; // ~200 kg CH4/bigha baseline (rough estimate)
+    const methaneReduced = methaneBase * savePct * 0.75;
+    const co2eq = methaneReduced * 25;
+
+    document.getElementById('awd-est-water').innerHTML   = waterSaved.toFixed(0) + '<span> mm</span>';
+    document.getElementById('awd-est-methane').innerHTML = methaneReduced.toFixed(1) + '<span> kg CH₄</span>';
+    document.getElementById('awd-est-co2').innerHTML     = co2eq.toFixed(0) + '<span> kg</span>';
+  } else {
+    document.getElementById('awd-est-water').innerHTML   = '—';
+    document.getElementById('awd-est-methane').innerHTML = '—';
+    document.getElementById('awd-est-co2').innerHTML     = '—';
+  }
+}
+function resetAWDEstimate() {
+  ['awd-est-water','awd-est-methane','awd-est-co2'].forEach(id => {
+    document.getElementById(id).innerHTML = '—';
+  });
+}
+
+['awd-baseline-water','awd-actual-water','awd-field-area'].forEach(id => {
+  document.getElementById(id).addEventListener('input', calcAWDEstimate);
+});
+
+document.getElementById('form-awd').addEventListener('submit', e => {
+  e.preventDefault();
+  const baseline = parseFloat(document.getElementById('awd-baseline-water').value) || 0;
+  const actual   = parseFloat(document.getElementById('awd-actual-water').value) || 0;
+  const savePct  = baseline > 0 ? ((baseline-actual)/baseline) : 0;
+  const area     = parseFloat(document.getElementById('awd-field-area').value) || 1;
+  const methaneReduced = area * 200 * savePct * 0.75;
+  const date     = document.getElementById('awd-last-date').value || new Date().toISOString().slice(0,10);
+
+  const rec = {
+    activity: 'awd',
+    id: document.getElementById('awd-field-id').value,
+    farmer: document.getElementById('awd-farmer').value,
+    main_value: `Cycle: ${document.getElementById('awd-irrigation-cycle').value || '—'} दिन`,
+    estimate: methaneReduced > 0 ? `↓${methaneReduced.toFixed(1)} kg CH₄` : '—',
+    est_methane: methaneReduced,
+    date: date,
+    stage: document.getElementById('awd-crop-stage').value,
+    saved_at: new Date().toISOString()
+  };
+
+  const recs = loadRecords();
+  recs.push(rec);
+  saveRecords(recs);
+  updateKPIs();
+  renderTable(document.getElementById('records-filter-activity').value);
+  showToast('AWD रिकॉर्ड सफलतापूर्वक सहेजा गया!');
+  e.target.reset();
+  resetAWDEstimate();
+});
+
+/* ============================================================
+   SOC FORM — Estimate & Submit
+   ============================================================ */
+function calcSOCEstimate() {
+  const lab      = parseFloat(document.getElementById('soc-lab-result').value);
+  const baseline = parseFloat(document.getElementById('soc-baseline').value);
+  const area     = parseFloat(document.getElementById('soc-field-area').value) || 1;
+
+  if (!isNaN(lab) && !isNaN(baseline)) {
+    const delta = lab - baseline;
+    // SOC delta to carbon: area factor, bulk density ~1.3 g/cm3, depth 15cm → per bigha (0.133 ha)
+    const carbonKg = delta * 1.3 * 1500 * 0.133 * area * 10; // very rough estimate
+    const status = delta > 0.1 ? '✅ सुधार' : delta < -0.1 ? '⚠️ गिरावट' : '➡️ स्थिर';
+    document.getElementById('soc-est-delta').innerHTML = (delta >= 0 ? '+' : '') + delta.toFixed(2) + '<span>%</span>';
+    document.getElementById('soc-est-status').textContent = status;
+    document.getElementById('soc-est-carbon').innerHTML = Math.abs(carbonKg).toFixed(0) + '<span> kg C</span>';
+  } else {
+    document.getElementById('soc-est-delta').innerHTML  = '—';
+    document.getElementById('soc-est-status').textContent = '—';
+    document.getElementById('soc-est-carbon').innerHTML = '—';
+  }
+}
+
+['soc-lab-result','soc-baseline','soc-field-area'].forEach(id => {
+  document.getElementById(id).addEventListener('input', calcSOCEstimate);
+});
+
+document.getElementById('form-soc').addEventListener('submit', e => {
+  e.preventDefault();
+  const lab  = parseFloat(document.getElementById('soc-lab-result').value) || 0;
+  const base = parseFloat(document.getElementById('soc-baseline').value) || 0;
+  const delta = lab - base;
+  const date = document.getElementById('soc-sample-date').value || new Date().toISOString().slice(0,10);
+
+  const rec = {
+    activity: 'soc',
+    id: document.getElementById('soc-sample-id').value,
+    farmer: document.getElementById('soc-farmer').value,
+    main_value: `SOC: ${lab.toFixed(2)}% (Δ ${delta >= 0 ? '+':''}${delta.toFixed(2)}%)`,
+    estimate: delta !== 0 ? `${delta >= 0 ? '↑' : '↓'} SOC ${Math.abs(delta).toFixed(2)}%` : 'स्थिर',
+    date: date,
+    manure_type: document.getElementById('soc-manure-type').value,
+    saved_at: new Date().toISOString()
+  };
+
+  const recs = loadRecords();
+  recs.push(rec);
+  saveRecords(recs);
+  updateKPIs();
+  renderTable(document.getElementById('records-filter-activity').value);
+  showToast('SOC नमूना रिकॉर्ड सहेजा गया!');
+  e.target.reset();
+  calcSOCEstimate();
+});
+
+/* ============================================================
+   BIOCHAR FORM — Estimate & Submit
+   ============================================================ */
+function calcBiocharEstimate() {
+  const appWeight  = parseFloat(document.getElementById('bc-application-weight').value);
+  const outWeight  = parseFloat(document.getElementById('bc-output-weight').value) || 0;
+  const inWeight   = parseFloat(document.getElementById('bc-biomass-weight').value) || 0;
+
+  if (!isNaN(appWeight) && appWeight > 0) {
+    const carbonKg = appWeight * 0.50;  // Main formula: Biochar × 0.50
+    const co2eq    = carbonKg * (44/12); // C to CO2 conversion
+    const yield_   = (inWeight > 0 && outWeight > 0) ? (outWeight/inWeight*100) : null;
+
+    document.getElementById('bc-est-carbon').innerHTML = carbonKg.toFixed(1) + '<span> kg C</span>';
+    document.getElementById('bc-est-co2eq').innerHTML  = co2eq.toFixed(1) + '<span> kg CO₂e</span>';
+    document.getElementById('bc-est-yield').innerHTML  = yield_ !== null ? yield_.toFixed(1) + '<span> %</span>' : '—';
+  } else {
+    resetBiocharEstimate();
+  }
+}
+function resetBiocharEstimate() {
+  ['bc-est-carbon','bc-est-co2eq','bc-est-yield'].forEach(id => {
+    document.getElementById(id).innerHTML = '—';
+  });
+}
+
+['bc-application-weight','bc-output-weight','bc-biomass-weight'].forEach(id => {
+  document.getElementById(id).addEventListener('input', calcBiocharEstimate);
+});
+
+document.getElementById('form-biochar').addEventListener('submit', e => {
+  e.preventDefault();
+  const appWeight = parseFloat(document.getElementById('bc-application-weight').value) || 0;
+  const carbonKg  = appWeight * 0.50;
+  const co2eq     = carbonKg * (44/12);
+  const date      = document.getElementById('bc-date').value || new Date().toISOString().slice(0,10);
+
+  const rec = {
+    activity: 'biochar',
+    id: document.getElementById('bc-record-id').value,
+    farmer: document.getElementById('bc-farmer').value,
+    main_value: `${appWeight} kg Biochar (${document.getElementById('bc-feedstock').options[document.getElementById('bc-feedstock').selectedIndex]?.text || '—'})`,
+    estimate: `≈ ${carbonKg.toFixed(1)} kg C stored`,
+    est_carbon: carbonKg,
+    est_co2eq: co2eq,
+    gps: document.getElementById('bc-gps').value,
+    date: date,
+    feedstock: document.getElementById('bc-feedstock').value,
+    saved_at: new Date().toISOString()
+  };
+
+  const recs = loadRecords();
+  recs.push(rec);
+  saveRecords(recs);
+  updateKPIs();
+  renderTable(document.getElementById('records-filter-activity').value);
+  showToast('Biochar रिकॉर्ड सफलतापूर्वक सहेजा गया!');
+  e.target.reset();
+  resetBiocharEstimate();
+});
+
+/* ============================================================
+   AGROFORESTRY FORM — Estimate & Submit
+   ============================================================ */
+function calcAgroEstimate() {
+  const planted   = parseInt(document.getElementById('agro-planted').value);
+  const surviving = parseInt(document.getElementById('agro-surviving').value);
+
+  if (!isNaN(planted) && planted > 0) {
+    const surv = isNaN(surviving) ? planted : surviving;
+    const rate  = Math.round(surv / planted * 100);
+    const dead  = planted - surv;
+    // Rough carbon estimate: avg ~20 kg CO2/tree/year for Himalayan species
+    const carbonPerYr = surv * 20;
+
+    document.getElementById('agro-est-survival').innerHTML = rate + '<span> %</span>';
+    document.getElementById('agro-est-dead').innerHTML = dead + '<span> पेड़</span>';
+    document.getElementById('agro-est-carbon').innerHTML = carbonPerYr + '<span> kg CO₂/yr</span>';
+  } else {
+    resetAgroEstimate();
+  }
+}
+function resetAgroEstimate() {
+  ['agro-est-survival','agro-est-dead','agro-est-carbon'].forEach(id => {
+    document.getElementById(id).innerHTML = '—';
+  });
+}
+
+['agro-planted','agro-surviving'].forEach(id => {
+  document.getElementById(id).addEventListener('input', calcAgroEstimate);
+});
+
+document.getElementById('form-agro').addEventListener('submit', e => {
+  e.preventDefault();
+  const planted   = parseInt(document.getElementById('agro-planted').value) || 0;
+  const surviving = parseInt(document.getElementById('agro-surviving').value) || planted;
+  const rate      = planted > 0 ? Math.round(surviving/planted*100) : 0;
+  const species   = document.getElementById('agro-species');
+  const date      = document.getElementById('agro-planting-date').value || new Date().toISOString().slice(0,10);
+
+  const rec = {
+    activity: 'agro',
+    id: document.getElementById('agro-record-id').value,
+    farmer: document.getElementById('agro-farmer').value,
+    planted: planted,
+    surviving: surviving,
+    main_value: `${planted} पेड़ लगाए — ${species.options[species.selectedIndex]?.text || '—'}`,
+    estimate: `Survival: ${rate}% (${surviving}/${planted})`,
+    geotag: document.getElementById('agro-geotag').value,
+    date: date,
+    species: document.getElementById('agro-species').value,
+    saved_at: new Date().toISOString()
+  };
+
+  const recs = loadRecords();
+  recs.push(rec);
+  saveRecords(recs);
+  updateKPIs();
+  renderTable(document.getElementById('records-filter-activity').value);
+  showToast('Agroforestry रोपण रिकॉर्ड सहेजा गया!');
+  e.target.reset();
+  resetAgroEstimate();
+});
+
+/* ============================================================
+   EXPORT CSV
+   ============================================================ */
+document.getElementById('btn-export').addEventListener('click', () => {
+  const recs = loadRecords();
+  if (!recs.length) { showToast('Export के लिए कोई रिकॉर्ड नहीं है।', 'error'); return; }
+
+  const headers = ['#','Activity','Farmer','ID','Main Value','Estimate','Date','Saved At'];
+  const rows = recs.map((r, i) => [
+    i+1, r.activity, r.farmer||'', r.id||'',
+    (r.main_value||'').replace(/,/g,' '),
+    (r.estimate||'').replace(/,/g,' '),
+    r.date||'', r.saved_at||''
+  ]);
+
+  const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `climate-actions-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('CSV Export हो रहा है...');
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  updateKPIs();
+  renderTable('all');
+
+  // Set today's date as default for date fields
+  const today = new Date().toISOString().slice(0,10);
+  ['awd-last-date','soc-sample-date','bc-date','agro-planting-date'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && !el.value) el.value = today;
+  });
+});
+</script>
+
+</body>
+</html>
