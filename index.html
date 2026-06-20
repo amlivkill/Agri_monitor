@@ -22,10 +22,11 @@
   <meta property="og:type" content="website">
 
   <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+  <link rel="stylesheet" href="js/vendor/leaflet.min.css">
+  <link rel="stylesheet" href="js/vendor/leaflet.draw.min.css">
+  <link rel="stylesheet" href="js/vendor/MarkerCluster.min.css">
+  <link rel="stylesheet" href="js/vendor/MarkerCluster.Default.min.css">
+  <link rel="preload" href="public/fonts/noto-sans-devanagari.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- App CSS -->
   <link rel="stylesheet" href="css/style.css">
@@ -957,33 +958,33 @@
      SCRIPTS — CDN Libraries
      ============================================================ -->
 <!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/vendor/supabase-js.min.js" defer></script>
 <!-- Leaflet -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
-<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="js/vendor/leaflet.min.js" defer></script>
+<script src="js/vendor/leaflet.draw.min.js" defer></script>
+<script src="js/vendor/leaflet.markercluster.min.js" defer></script>
 <!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="js/vendor/chart.min.js" defer></script>
 <!-- jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="js/vendor/jspdf.umd.min.js" defer></script>
 
 <!-- App Scripts — order matters! -->
-<script src="js/config.js"></script>
-<script src="js/dummyData.js"></script>
-<script src="js/offline.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/map.js"></script>
-<script src="js/layers.js"></script>
-<script src="js/ndvi.js"></script>
-<script src="js/charts.js"></script>
-<script src="js/farmers.js"></script>
-<script src="js/upload.js"></script>
-<script src="js/alerts.js"></script>
-<script src="js/clf.js"></script>
-<script src="js/report.js"></script>
-<script src="js/weather.js"></script>
-<script src="js/villages.js"></script>
-<script src="js/app.js"></script>
+<script src="js/config.js" defer></script>
+<script src="js/dummyData.js" defer></script>
+<script src="js/offline.js" defer></script>
+<script src="js/auth.js" defer></script>
+<script src="js/map.js" defer></script>
+<script src="js/layers.js" defer></script>
+<script src="js/ndvi.js" defer></script>
+<script src="js/charts.js" defer></script>
+<script src="js/farmers.js" defer></script>
+<script src="js/upload.js" defer></script>
+<script src="js/alerts.js" defer></script>
+<script src="js/clf.js" defer></script>
+<script src="js/report.js" defer></script>
+<script src="js/weather.js" defer></script>
+<script src="js/villages.js" defer></script>
+<script src="js/app.js" defer></script>
 
 </body>
 </html>

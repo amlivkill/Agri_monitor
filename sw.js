@@ -28,13 +28,18 @@ const STATIC_ASSETS = [
   '/js/dummyData.js',
   '/js/config.js',
   '/manifest.json',
-  // CDN assets — cache from network
-  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
-  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
-  'https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css',
-  'https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js',
-  'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js',
-  'https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap'
+  // Local Vendor Assets
+  '/js/vendor/leaflet.min.css',
+  '/js/vendor/leaflet.min.js',
+  '/js/vendor/leaflet.draw.min.css',
+  '/js/vendor/leaflet.draw.min.js',
+  '/js/vendor/MarkerCluster.min.css',
+  '/js/vendor/MarkerCluster.Default.min.css',
+  '/js/vendor/leaflet.markercluster.min.js',
+  '/js/vendor/chart.min.js',
+  '/js/vendor/supabase-js.min.js',
+  '/js/vendor/jspdf.umd.min.js',
+  '/public/fonts/noto-sans-devanagari.woff2'
 ];
 
 // Tile hosts — use cache-then-network for map tiles
@@ -106,21 +111,38 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(staticStrategy(event.request));
 });
 
+const CACHE_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days
+
 /**
  * Cache-first strategy for static assets
  * Falls back to network, then offline fallback
  */
 async function staticStrategy(request) {
-  const cachedResponse = await caches.match(request);
-  if (cachedResponse) return cachedResponse;
+  const cache = await caches.open(STATIC_CACHE);
+  const cached = await cache.match(request);
+  
+  if (cached) {
+    // Check age
+    const cacheTime = cached.headers.get('sw-fetch-time');
+    if (cacheTime && Date.now() - parseInt(cacheTime) < CACHE_MAX_AGE) {
+      return cached;
+    }
+  }
 
   try {
-    const networkResponse = await fetch(request);
-    if (networkResponse.ok) {
-      const cache = await caches.open(STATIC_CACHE);
-      cache.put(request, networkResponse.clone());
+    const response = await fetch(request);
+    if (response.ok) {
+      const respCopy = response.clone();
+      const respHeaders = new Headers(respCopy.headers);
+      respHeaders.set('sw-fetch-time', Date.now().toString());
+      const respWithTime = new Response(respCopy.body, {
+        status: respCopy.status,
+        statusText: respCopy.statusText,
+        headers: respHeaders,
+      });
+      cache.put(request, respWithTime);
     }
-    return networkResponse;
+    return response;
   } catch (err) {
     // Return offline page for navigation requests
     if (request.mode === 'navigate') {

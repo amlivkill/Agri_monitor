@@ -3,7 +3,13 @@
    Dark GIS Theme | Hindi-first | Mobile-first | CHANGE TechLab
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@font-face {
+  font-family: 'Noto Sans Devanagari';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('../public/fonts/noto-sans-devanagari.woff2') format('woff2');
+}
 
 /* ============================================================
    CSS VARIABLES — Dark Theme (default)
